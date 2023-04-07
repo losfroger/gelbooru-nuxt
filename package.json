@@ -24,6 +24,8 @@
     "vuetify": "^3.1.13"
   },
   "dependencies": {
+    "@pinia/nuxt": "^0.4.8",
+    "pinia": "^2.0.34",
     "vite-plugin-vuetify": "^1.0.2"
   }
 }

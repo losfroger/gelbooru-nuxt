@@ -29,6 +29,7 @@ module.exports = {
 
   rules: {
     semi: ['error', 'never'],
+    'vue/multi-word-component-names': 'off',
     'quotes': [2, 'single', { 'avoidEscape': true }],
     'tailwindcss/no-custom-classname': 'off'
   },

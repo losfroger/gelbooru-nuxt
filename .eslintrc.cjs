@@ -10,15 +10,19 @@ module.exports = {
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
-    'plugin:nuxt/recommended',
     'plugin:vue/vue3-recommended',
     'plugin:tailwindcss/recommended',
+    '@nuxt/eslint-config',
   ],
 
   settings: {
     'tailwindcss': {
       'config': 'tailwind.config.cjs'
     }
+  },
+
+  globals: {
+    $nuxt: true
   },
 
   parserOptions: {

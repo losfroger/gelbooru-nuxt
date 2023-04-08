@@ -1,4 +1,4 @@
-import { ThemeDefinition, createVuetify } from "vuetify";
+import { ThemeDefinition, createVuetify } from 'vuetify'
 
 import '@mdi/font/css/materialdesignicons.css'
 import 'vuetify/styles'
@@ -29,5 +29,5 @@ export default defineNuxtPlugin((app) => {
     },
   })
 
-  app.vueApp.use(vuetify);
+  app.vueApp.use(vuetify)
 })

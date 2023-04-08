@@ -1,0 +1,33 @@
+import axios_gelbooru from '~/server/axiosGelbooru'
+import { GelbooruPost } from '~/types/gelbooru'
+
+import convertPost from '~/server/convertPost'
+
+export default defineEventHandler(async (event) => {
+  try {
+    const query = getQuery(event)
+    const resGel = await axios_gelbooru.get('', {
+      params: {
+        page: 'dapi',
+        q: 'index',
+        s: 'post',
+        json: 1,
+        id: event.context.params?.id,
+        api_key: event.node.req.headers.apiKey,
+        user_id: event.node.req.headers.userId,
+      }
+    })
+
+    if (!('post' in resGel.data) || resGel.data.post.length < 1) {
+      setResponseStatus(event, 404, 'No posts were found with that criteria')
+      return
+    }
+
+    const auxPost = convertPost(resGel.data.post[0])
+
+    return auxPost
+  } catch (error) {
+    console.log(error)
+    throw error
+  }
+})

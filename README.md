@@ -1,6 +1,10 @@
-# Nuxt 3 Minimal Starter
+# Gelbooru Nuxt
+Gelbooru client using Nuxt, Vuetify, Tailwind and Pinia
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+## Features
+- SSR
+- Nice responsive design
+- User customization
 
 ## Setup
 

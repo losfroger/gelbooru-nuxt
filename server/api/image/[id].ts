@@ -1,6 +1,4 @@
 import axios_gelbooru from '~/server/axiosGelbooru'
-import { GelbooruPost } from '~/types/gelbooru'
-
 import convertPost from '~/server/convertPost'
 
 export default defineEventHandler(async (event) => {

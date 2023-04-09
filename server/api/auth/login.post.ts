@@ -18,5 +18,8 @@ export default defineEventHandler(async (event) => {
     return true
   }
 
-  return false
+  throw createError({
+    statusCode: 400,
+    statusMessage: 'User ID or api key missing'
+  })
 })

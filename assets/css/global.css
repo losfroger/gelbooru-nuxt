@@ -1,0 +1,10 @@
+
+.view-container {
+  @apply tw-w-full lg:tw-max-w-[75vw] md:tw-mx-12 2xl:tw-max-w-[150rem];
+}
+
+.v-tooltip .v-overlay__content {
+  background-color: black !important;
+  opacity: 0.8 !important;
+  color: white !important;
+}

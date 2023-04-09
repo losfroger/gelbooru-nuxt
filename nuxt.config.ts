@@ -21,4 +21,13 @@ export default defineNuxtConfig({
       ['defineStore', 'definePiniaStore'], // import { defineStore as definePiniaStore } from 'pinia'
     ],
   },
+  app: {
+    head: {
+      link: [
+        { rel: 'icon', type: 'image/svg+xml', href: '/gelbooru-logo.svg' }
+      ]
+    }
+  },
+
+  css: ['~/assets/css/global.css']
 })

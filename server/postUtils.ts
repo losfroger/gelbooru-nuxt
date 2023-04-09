@@ -21,8 +21,6 @@ export async function getPosts(apiKey: string, userId: string, params: GelbooruP
       }
     })
 
-    console.log('Response', resGel.data)
-
     resGel.data.post.forEach((post) => {
       post = convertPost(post)
     })

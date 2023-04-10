@@ -1,31 +1,42 @@
-import axios_gelbooru from '~/server/axiosGelbooru'
-import { GelbooruPost } from '~/types/gelbooru'
+import { GelbooruPostReq } from '~/types/gelbooru'
+import { getPosts } from '~/server/postUtils'
+import { UserCredentials } from '~/types/auth-types'
 
-import convertPost from '~/server/convertPost'
 
 export default defineEventHandler(async (event) => {
   try {
-    const query = getQuery(event)
-    const resGel = await axios_gelbooru.get('', {
-      params: {
-        page: 'dapi',
-        q: 'index',
-        s: 'post',
-        json: 1,
-        id: event.context.params?.id,
-        api_key: event.node.req.headers.apiKey,
-        user_id: event.node.req.headers.userId,
-      }
-    })
+    console.log(event.path)
 
-    if (!('post' in resGel.data) || resGel.data.post.length < 1) {
+
+    const query: GelbooruPostReq = getQuery(event)
+    query.limit = 1
+
+    // Get id
+    const auxId = parseInt(event.context.params?.id ?? '-1')
+    if (!auxId) {
+      setResponseStatus(event, 400, 'No id provided')
+      return
+    }
+    query.id = auxId
+
+    const auxCookies = getCookie(event, 'user-credentials')
+    if (!auxCookies) {
+      setResponseStatus(event, 400, 'User needs to be logged in')
+      return
+    }
+
+    const cookies: UserCredentials = JSON.parse(auxCookies)
+
+    const postsData = await getPosts(cookies.api_key, cookies.user_id, query)
+
+    if (!postsData) {
       setResponseStatus(event, 404, 'No posts were found with that criteria')
       return
     }
 
-    const auxPost = convertPost(resGel.data.post[0])
+    console.log('Res post details', postsData)
 
-    return auxPost
+    return postsData.post[0]
   } catch (error) {
     console.log(error)
     throw error

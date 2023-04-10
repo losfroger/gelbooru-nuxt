@@ -17,6 +17,7 @@ export async function getPosts(apiKey: string, userId: string, params: GelbooruP
         api_key: apiKey,
         user_id: userId,
         pid: params.pid,
+        id: params.id,
         tags: params.tags?.split(',')?.join(' '),
       }
     })

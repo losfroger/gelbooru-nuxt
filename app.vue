@@ -42,7 +42,7 @@
         <v-fade-transition>
           <div
             v-if="appStore.loading"
-            class="tw-fixed tw-left-1/2 tw-z-50 tw-mt-1 -tw-translate-x-1/2 tw-rounded-full tw-bg-black tw-bg-opacity-50 tw-p-2 tw-backdrop-blur-sm"
+            class="tw-fixed tw-left-1/2 tw-z-50 tw-mt-1 -tw-translate-x-1/2 tw-rounded-full tw-bg-black tw-bg-opacity-70 tw-p-3 tw-backdrop-blur-sm"
           >
             <v-progress-circular
               color="primary"

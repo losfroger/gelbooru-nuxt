@@ -1,0 +1,12 @@
+version: '3.9'
+
+services:
+  nuxt-app:
+    image: gelbooru-nuxt
+    build:
+      context: './'
+      dockerfile: 'Dockerfile'
+    environment:
+      PRODUCTION: 'true'
+    ports:
+      - 80:80

@@ -15,8 +15,6 @@ WORKDIR /usr/prod
 COPY ["package.json", "yarn.lock", "tsconfig.json", "./"]
 COPY --from=Build ["/usr/src/.output", "."]
 
-RUN yarn install
-
 ENV HOST=0.0.0.0
 ENV PORT=80
 

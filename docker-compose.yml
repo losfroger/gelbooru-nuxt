@@ -3,6 +3,7 @@ version: '3.9'
 services:
   nuxt-app:
     image: gelbooru-nuxt
+    restart: unless-stopped
     build:
       context: './'
       dockerfile: 'Dockerfile'

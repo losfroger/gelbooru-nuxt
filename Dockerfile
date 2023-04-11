@@ -12,7 +12,6 @@ RUN yarn run build
 FROM node:16-alpine as Run
 
 WORKDIR /usr/prod
-COPY ["package.json", "yarn.lock", "tsconfig.json", "./"]
 COPY --from=Build ["/usr/src/.output", "."]
 
 ENV HOST=0.0.0.0

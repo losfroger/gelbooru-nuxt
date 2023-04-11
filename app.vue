@@ -82,7 +82,8 @@ useHead({
 })
 
 const itemList = ref([
-  {text: 'Favorites', icon: 'mdi-heart', to: '/favorites'}
+  {text: 'Search', icon: 'mdi-magnify', to: '/search'},
+  {text: 'Favorites', icon: 'mdi-heart', to: '/favorites'},
 ])
 
 </script>

@@ -1,15 +1,15 @@
 import axios_gelbooru from '~/server/axiosGelbooru'
-import { GelbooruTag } from '~/types/gelbooru'
+import { GelbooruTag, GelbooruTagRes } from '~/types/gelbooru'
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async (event): Promise<GelbooruTagRes> => {
   try {
     const query = getQuery(event)
-    const resGel = await axios_gelbooru.get('', {
+    const resGel = await axios_gelbooru.get<GelbooruTagRes>('', {
       params: {
         page: 'dapi',
         q: 'index',
         s: 'tag',
-        limit: 10,
+        limit: 15,
         json: 1,
         api_key: event.node.req.headers.api_key,
         user_id: event.node.req.headers.user_id,

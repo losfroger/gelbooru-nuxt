@@ -1,13 +1,15 @@
+export interface GelbooruAttributes {
+  limit: number,
+  offset: number,
+  /**
+   * Number of total posts that meet the criteria
+  */
+  count: number,
+}
+
 export interface GelbooruPostRes {
-  '@attributes': {
-    limit: number,
-    offset: number,
-    /**
-     * Number of total posts that meet the criteria
-    */
-    count: number,
-  },
-  post: GelbooruPost[]
+  '@attributes': GelbooruAttributes,
+  post: GelbooruPost[],
 }
 
 export interface GelbooruPostReq {
@@ -182,6 +184,11 @@ export interface GelbooruPost {
    * (Not in the original response)
   */
   is_sound: boolean,
+}
+
+export interface GelbooruTagRes {
+  '@attributes': GelbooruAttributes,
+  tag: GelbooruTag[],
 }
 
 export interface GelbooruTag {

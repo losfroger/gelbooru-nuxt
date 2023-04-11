@@ -1,6 +1,6 @@
 
 .view-container {
-  @apply tw-w-full lg:tw-max-w-[75vw] md:tw-mx-12 2xl:tw-max-w-[150rem];
+  @apply tw-w-full lg:tw-max-w-[1400px] md:tw-mx-8 2xl:tw-max-w-[150rem];
 }
 
 .v-tooltip .v-overlay__content {

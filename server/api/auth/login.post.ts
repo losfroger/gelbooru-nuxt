@@ -8,10 +8,12 @@ export default defineEventHandler(async (event) => {
 
   if (body.api_key && body.user_id) {
 
+    const auxExpireDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+
     setCookie(event, 'user-credentials', JSON.stringify({
       api_key: body.api_key,
       user_id: body.user_id,
-    }), { httpOnly: true })
+    }), { httpOnly: true, expires: auxExpireDate })
 
     setCookie(event, 'user-id', body.user_id)
 

@@ -63,6 +63,7 @@
             v-if="authStore.logged_in_computed"
             class="tw-text-center tw-text-success"
           >
+            <v-divider class="tw-my-2" />
             Logged in correctly!
           </div>
         </v-expand-transition>

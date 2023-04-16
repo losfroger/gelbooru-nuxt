@@ -1,14 +1,17 @@
 import { defineStore } from 'pinia'
 import { watch, reactive, computed } from 'vue'
+import { useAppStore } from '~/stores/appStore'
 
-interface settingsInt {
+interface UserSettings {
   hideNsfwImages: boolean,
   filteredTags: string[],
 }
 
+let firstLoad = false
+
 export const useSettingsStore = defineStore('settings', () => {
 
-  const settings = reactive<settingsInt>({
+  const settings = reactive<UserSettings>({
     hideNsfwImages: false,
     filteredTags: ['loli', 'age_difference', 'bestiality', 'futanari']
   })
@@ -19,31 +22,26 @@ export const useSettingsStore = defineStore('settings', () => {
   watch(settings, onSettingsChange)
 
   function onSettingsChange(newValue: typeof settings) {
-    console.log('Saving settings!', JSON.stringify({ ...newValue }))
-    localStorage.setItem('settings', JSON.stringify({ ...newValue }))
-  }
+    console.log('Saving settings!', firstLoad)
 
-  function loadSettings() {
-    const aux = localStorage.getItem('settings')
-
-    if (!aux) {
-      return
+    if (firstLoad) {
+      const appStore = useAppStore()
+      appStore.addNotification({ text: 'Settings saved!' })
     }
 
-    const auxJson = JSON.parse(aux)
-
-    for (const setting of Object.keys(auxJson)) {
-      if (setting in settings) {
-        settings[setting as keyof typeof settings] = auxJson[setting]
-      }
-    }
+    firstLoad = true
   }
-
 
   return {
     settings,
     filteredTagsWithMinus,
 
-    loadSettings,
+    //loadSettings,
+  }
+}, {
+  persist: {
+    storage: persistedState.cookiesWithOptions({
+      maxAge: 50 * 365 * 24 * 60 * 60
+    }),
   }
 })

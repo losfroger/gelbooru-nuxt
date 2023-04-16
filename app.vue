@@ -9,7 +9,6 @@
         <v-list-item
           v-for="(item, i) in itemList"
           :key="i"
-          :value="item"
           :disabled="!authStore.logged_in_computed"
           active-color="primary"
           :to="item.to"
@@ -20,19 +19,22 @@
 
           <v-list-item-title> {{ item.text }} </v-list-item-title>
         </v-list-item>
+        <v-list-item
+          :key="itemList.length"
+          :disabled="!authStore.logged_in_computed"
+          active-color="primary"
+          to="/settings"
+        >
+          <template #prepend>
+            <v-icon icon="mdi-cog" />
+          </template>
+
+          <v-list-item-title> Settings </v-list-item-title>
+        </v-list-item>
       </v-list>
       <template #append>
         <div v-if="authStore.logged_in_computed">
-          <v-list-item
-            active-color="primary"
-            to="/settings"
-          >
-            <template #prepend>
-              <v-icon icon="mdi-cog" />
-            </template>
-
-            <v-list-item-title> Settings </v-list-item-title>
-          </v-list-item>
+          <v-list nav />
         </div>
       </template>
     </v-navigation-drawer>
@@ -50,6 +52,7 @@
             />
           </div>
         </v-fade-transition>
+        <AppNotificationsAlerts class="tw-fixed tw-bottom-2 tw-right-2" />
       </ClientOnly>
       <v-container
         fluid
@@ -71,7 +74,7 @@ const settingsStore = useSettingsStore()
 const appStore = useAppStore()
 
 if (process.client) {
-  settingsStore.loadSettings()
+  //settingsStore.loadSettings()
 }
 
 

@@ -6,6 +6,7 @@ export default defineNuxtConfig({
   build: { transpile: ['vuetify'] },
   modules: [
     '@pinia/nuxt',
+    '@pinia-plugin-persistedstate/nuxt',
     '@nuxtjs/tailwindcss',
     '@nuxt/devtools',
     async (options, nuxt) => {

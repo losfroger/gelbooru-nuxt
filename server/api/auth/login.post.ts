@@ -8,14 +8,14 @@ export default defineEventHandler(async (event) => {
 
   if (body.api_key && body.user_id) {
 
-    const auxExpireDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+    const auxMaxAge = 7 * 24 * 60 * 60
 
     setCookie(event, 'user-credentials', JSON.stringify({
       api_key: body.api_key,
       user_id: body.user_id,
-    }), { httpOnly: true, expires: auxExpireDate })
+    }), { httpOnly: true, maxAge: auxMaxAge })
 
-    setCookie(event, 'user-id', body.user_id)
+    setCookie(event, 'user-id', body.user_id, { httpOnly: true, maxAge: auxMaxAge })
 
     return true
   }

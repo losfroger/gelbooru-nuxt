@@ -19,22 +19,24 @@
 
           <v-list-item-title> {{ item.text }} </v-list-item-title>
         </v-list-item>
-        <v-list-item
-          :key="itemList.length"
-          :disabled="!authStore.logged_in_computed"
-          active-color="primary"
-          to="/settings"
-        >
-          <template #prepend>
-            <v-icon icon="mdi-cog" />
-          </template>
-
-          <v-list-item-title> Settings </v-list-item-title>
-        </v-list-item>
+        <v-spacer />
       </v-list>
       <template #append>
         <div v-if="authStore.logged_in_computed">
-          <v-list nav />
+          <v-divider />
+          <v-list nav>
+            <v-list-item
+              :disabled="!authStore.logged_in_computed"
+              active-color="primary"
+              to="/settings"
+            >
+              <template #prepend>
+                <v-icon icon="mdi-cog" />
+              </template>
+
+              <v-list-item-title> Settings </v-list-item-title>
+            </v-list-item>
+          </v-list>
         </div>
       </template>
     </v-navigation-drawer>
@@ -72,11 +74,6 @@ import { useAppStore } from '~/stores/appStore'
 const authStore = useAuthStore()
 const settingsStore = useSettingsStore()
 const appStore = useAppStore()
-
-if (process.client) {
-  //settingsStore.loadSettings()
-}
-
 
 useHead({
   titleTemplate: (titleChunk) => {

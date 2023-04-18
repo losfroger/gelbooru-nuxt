@@ -191,6 +191,39 @@ export interface GelbooruTagRes {
   tag: GelbooruTag[],
 }
 
+export interface GelbooruTagReq {
+  /**
+  * The tag's id in the database. This is useful to grab a specific tag if you already know this value.
+  */
+  id?: number,
+  /**
+   * How many tags you want to retrieve. There is a default limit of 100 per request.
+  */
+  limit?: number,
+  /**
+   * Grab tags whose ID is greater than this value.
+  */
+  after_id?: number,
+  /**
+   * Find tag information based on this value.
+   */
+  name?: string,
+  /**
+   * Separated by spaces, get multiple results to tags you specify if it exists. (schoolgirl moon cat)
+   */
+  names?: string,
+  /**
+   * A wildcard search for your query using LIKE. Use _ for single character wildcards or % for multi-character wildcards. (%choolgirl% would act as *choolgirl* wildcard search.)
+   */
+  name_pattern?: string,
+  order?: 'ASC' | 'DESC',
+  orderby?: 'date' | 'count' | 'name'
+}
+
+// REGEX Tags
+export const NegativeQueryRegex = new RegExp(/-(.+)/)
+export const FuzzyQueryRegex = new RegExp(/(.+)~+/)
+
 export interface GelbooruTag {
   /**
    * Tag id

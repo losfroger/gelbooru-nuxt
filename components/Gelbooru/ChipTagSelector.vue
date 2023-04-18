@@ -6,6 +6,7 @@
 </template>
 
 <script setup lang="ts">
+import { FuzzyQueryRegex, NegativeQueryRegex } from '~/types/gelbooru'
 
 const props = defineProps({
   text: {
@@ -18,12 +19,12 @@ const colorTag = computed(() => {
   console.log('Computed', props.text)
 
   // Is negative
-  if (/-(.+)/.test(props.text)) {
+  if (NegativeQueryRegex.test(props.text)) {
     console.log('Negative', props.text)
     return 'red'
   }
   // Is fuzzy
-  else if (/(.+)~+/.test(props.text)) {
+  else if (FuzzyQueryRegex.test(props.text)) {
     console.log('Fuzzy', props.text)
     return 'indigo'
   }

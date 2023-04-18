@@ -30,8 +30,10 @@ export default defineEventHandler(async (event) => {
     const postsData = await getPosts(cookies.api_key, cookies.user_id, query)
 
     if (!postsData) {
-      setResponseStatus(event, 404, 'No posts were found with that criteria')
-      return
+      throw createError({
+        statusCode: 400,
+        statusMessage: 'No posts were found with that criteria'
+      })
     }
 
     console.log('Res post details', postsData)

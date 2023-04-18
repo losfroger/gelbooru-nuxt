@@ -16,8 +16,6 @@ const props = defineProps({
 })
 
 const colorTag = computed(() => {
-  console.log('Computed', props.text)
-
   // Is negative
   if (NegativeQueryRegex.test(props.text)) {
     console.log('Negative', props.text)

@@ -186,6 +186,19 @@ export interface GelbooruPost {
   is_sound: boolean,
 }
 
+
+export const DefaultFilteredTags = [
+  'loli',
+  'age_difference',
+  'bestiality',
+  'futanari',
+  'blood',
+  'amputee',
+  'bruise',
+  'pee',
+  'asphyxiation',
+]
+
 export interface GelbooruTagRes {
   '@attributes': GelbooruAttributes,
   tag: GelbooruTag[],

@@ -1,8 +1,9 @@
 import { defineStore } from 'pinia'
 import { watch, reactive, computed } from 'vue'
 import { useAppStore } from '~/stores/appStore'
+import { DefaultFilteredTags } from '~/types/gelbooru'
 
-interface UserSettings {
+export interface UserSettings {
   hideNsfwImages: boolean,
   filteredTags: string[],
 }
@@ -13,7 +14,7 @@ export const useSettingsStore = defineStore('settings', () => {
 
   const settings = reactive<UserSettings>({
     hideNsfwImages: false,
-    filteredTags: ['loli', 'age_difference', 'bestiality', 'futanari']
+    filteredTags: DefaultFilteredTags,
   })
 
   const filteredTagsWithMinus = computed(() => settings.filteredTags.map((tag) => `-${tag}`))

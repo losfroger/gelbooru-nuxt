@@ -48,7 +48,15 @@ import { FetchError } from 'ofetch'
 import { useAppStore } from '~/stores/appStore'
 const appStore = useAppStore()
 
+const emit = defineEmits<{
+  (e: 'update:modelValue', newVal: string[]): void
+}>()
+
 const propsTagSelector = defineProps({
+  modelValue: {
+    type: Array as PropType<string[]>,
+    default: (): string[] => []
+  },
   hideDefaultItems: {
     type: Boolean,
     default: false,
@@ -58,6 +66,14 @@ const propsTagSelector = defineProps({
 
 // List of selected items
 const selected = ref<string[]>([])
+
+/*
+  V-MODEL
+*/
+watch(selected, (newVal) => emit('update:modelValue', newVal))
+watch(() => propsTagSelector.modelValue, (newVal) => selected.value = newVal)
+
+
 const numberFormatter = Intl.NumberFormat('en', {notation: 'compact'})
 // Default items that can be selected
 const defaultItems = ref<(GelbooruTag)[]>([

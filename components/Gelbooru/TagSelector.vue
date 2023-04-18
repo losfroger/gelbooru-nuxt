@@ -15,8 +15,6 @@
     multiple
     clearable
     clear-icon="mdi-close-circle-outline"
-    hint="Please enter a search term."
-    persistent-hint
     item-title="name"
     item-value="name"
     @keydown.delete="onDelete"
@@ -65,7 +63,7 @@ const propsTagSelector = defineProps({
 
 
 // List of selected items
-const selected = ref<string[]>([])
+const selected = ref<string[]>(propsTagSelector.modelValue)
 
 /*
   V-MODEL

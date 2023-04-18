@@ -42,6 +42,11 @@
 
 <script setup lang="ts">
 import { GelbooruTag } from '~/types/gelbooru'
+import { FetchError } from 'ofetch'
+
+import { useAppStore } from '~/stores/appStore'
+
+const appStore = useAppStore()
 
 const selected = ref<string[]>([])
 const numberFormatter = Intl.NumberFormat('en', {notation: 'compact'})
@@ -284,20 +289,29 @@ watch(search, (newVal, oldValue) => {
   $fetch('/api/tag', {
     signal: aborter.value.signal,
     params: {
-      name_pattern: `%${searchAux}%`
+      name_pattern: searchAux
     }
   })
   .then((res) => {
-    console.log('Res tags', res)
+    console.debug('Res tags', res)
     loading.value = false
     searchItems.value = res.tag
+  })
+  .catch((err: FetchError) => {
+    if (err.statusCode) {
+      loading.value = false
+      appStore.addNotification({
+        color: 'info',
+        text: err.statusMessage
+      })
+    }
   })
 })
 
 function onDelete() {
-  console.log('Backspace!')
+  console.debug('Backspace!')
   if (search.value == '') {
-    console.log('Removing last!')
+    console.debug('Removing last!')
     selected.value = selected.value.slice(0, -1)
   }
 

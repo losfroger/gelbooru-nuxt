@@ -45,11 +45,20 @@ import { GelbooruTag } from '~/types/gelbooru'
 import { FetchError } from 'ofetch'
 
 import { useAppStore } from '~/stores/appStore'
-
 const appStore = useAppStore()
 
+const propsTagSelector = defineProps({
+  hideDefaultItems: {
+    type: Boolean,
+    default: false,
+  }
+})
+
+
+// List of selected items
 const selected = ref<string[]>([])
 const numberFormatter = Intl.NumberFormat('en', {notation: 'compact'})
+// Default items that can be selected
 const defaultItems = ref<(GelbooruTag)[]>([
   {
     id: -1,
@@ -252,8 +261,17 @@ const defaultItems = ref<(GelbooruTag)[]>([
     type_string: 'Sorting by updated - descending',
   },
 ])
+// Tags that have been found through search
 const searchItems = ref<Array<GelbooruTag>>([])
-const selectableItems = computed(() => searchItems.value.concat(defaultItems.value))
+
+// Items show on dropdown
+const selectableItems = computed(() => {
+  if (propsTagSelector.hideDefaultItems) {
+    return searchItems.value
+  } else {
+    return searchItems.value.concat(defaultItems.value)
+  }
+})
 
 
 const search = ref('')

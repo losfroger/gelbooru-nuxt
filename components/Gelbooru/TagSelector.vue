@@ -2,6 +2,7 @@
   <v-autocomplete
     v-model="selected"
     v-model:search="search"
+    v-bind="$attrs"
     :items="selectableItems"
     :loading="loading"
     type="search"

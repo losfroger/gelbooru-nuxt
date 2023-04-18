@@ -3,7 +3,7 @@
     <template #prepend>
       <v-btn
         v-if="$vuetify.display.mdAndDown"
-        icon="mdi-menu"
+        :icon="appStore.toggleMenu ? 'mdi-close' : 'mdi-menu'"
         @click="appStore.toggleMenu = !appStore.toggleMenu"
       />
       <nuxt-link to="/">

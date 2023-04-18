@@ -8,7 +8,7 @@ export interface NotificationInterface {
 }
 
 export const useAppStore = defineStore('appStore', () => {
-  const toggleMenu = ref(true)
+  const toggleMenu = ref(false)
   const loading = ref(false)
 
   const notification = ref<NotificationInterface[]>([])

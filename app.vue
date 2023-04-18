@@ -2,6 +2,7 @@
   <v-app>
     <AppSiteBar />
     <v-navigation-drawer
+      v-model="appStore.toggleMenu"
       expand-on-hover
       :rail="$vuetify.display.lgAndUp"
     >

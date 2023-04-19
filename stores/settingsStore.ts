@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import { watch, reactive, computed } from 'vue'
 import { useAppStore } from '~/stores/appStore'
 import { DefaultFilteredTags } from '~/types/gelbooru'
 
@@ -10,19 +9,24 @@ export interface UserSettings {
 
 let firstLoad = false
 
+export const defaultUserSettings: UserSettings = {
+  hideNsfwImages: false,
+  filteredTags: DefaultFilteredTags,
+}
+
 export const useSettingsStore = defineStore('settings', () => {
 
-  const settings = reactive<UserSettings>({
+  const settings = ref<UserSettings>({
     hideNsfwImages: false,
     filteredTags: DefaultFilteredTags,
   })
 
-  const filteredTagsWithMinus = computed(() => settings.filteredTags.map((tag) => `-${tag}`))
+  const filteredTagsWithMinus = computed(() => settings.value.filteredTags.map((tag) => `-${tag}`))
 
   // When settins change, save them to localstorage
   watch(settings, onSettingsChange)
 
-  function onSettingsChange(newValue: typeof settings) {
+  function onSettingsChange() {
     console.log('Saving settings!', firstLoad)
 
     if (firstLoad) {
@@ -33,11 +37,14 @@ export const useSettingsStore = defineStore('settings', () => {
     firstLoad = true
   }
 
+  function resetSettings() {
+    settings.value = defaultUserSettings
+  }
+
   return {
     settings,
     filteredTagsWithMinus,
-
-    //loadSettings,
+    resetSettings
   }
 }, {
   persist: {

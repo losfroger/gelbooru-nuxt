@@ -26,7 +26,7 @@
           persistent-hint
         />
       </v-card-text>
-      <v-card-actions class="tw-flex tw-flex-col tw-items-start tw-gap-2 md:tw-flex-row">
+      <v-card-actions class="tw-flex tw-flex-col tw-items-start tw-gap-2 md:tw-flex-row md:tw-items-center">
         <v-fade-transition>
           <div
             v-if="changes"
@@ -36,27 +36,34 @@
             Changes have been made, please save to avoid losing them.
           </div>
         </v-fade-transition>
-        <v-btn
-          color="primary"
-          class="md:tw-ml-auto"
-          @click="saveSettings"
-        >
-          Save
-        </v-btn>
+        <div class="tw-flex tw-flex-row tw-gap-2 md:tw-ml-auto">
+          <v-btn
+            color="grey"
+            @click="resetSettings"
+          >
+            Reset
+          </v-btn>
+          <v-btn
+            color="primary"
+            @click="saveSettings"
+          >
+            Save
+          </v-btn>
+        </div>
       </v-card-actions>
     </v-card>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useSettingsStore, type UserSettings } from '~/stores/settingsStore'
+import { defaultUserSettings, useSettingsStore, type UserSettings } from '~/stores/settingsStore'
 
 useHead({
   title: 'Settings'
 })
 
 const settingsStore = useSettingsStore()
-const auxSettings = ref<UserSettings>(Object.assign({},settingsStore.settings))
+const auxSettings = ref<UserSettings>({...settingsStore.settings})
 const changes = ref(false)
 
 watch(auxSettings, () => {
@@ -67,6 +74,11 @@ function saveSettings() {
   settingsStore.settings.filteredTags = auxSettings.value.filteredTags
   settingsStore.settings.hideNsfwImages = auxSettings.value.hideNsfwImages
 
+  changes.value = false
+}
+
+function resetSettings() {
+  auxSettings.value = {...defaultUserSettings}
   changes.value = false
 }
 

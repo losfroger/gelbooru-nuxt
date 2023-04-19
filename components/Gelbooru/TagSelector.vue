@@ -18,6 +18,8 @@
     item-title="name"
     item-value="name"
     @keydown.delete="onDelete"
+    @keydown.enter.prevent="onSearchAutocompleteKeyEnter"
+    @blur="emit('update:modelValue', selected)"
   >
     <template #chip="{ props, item }">
       <GelbooruChipTagSelector
@@ -68,11 +70,10 @@ const selected = ref<string[]>(propsTagSelector.modelValue)
 /*
   V-MODEL
 */
-watch(selected, (newVal) => emit('update:modelValue', newVal))
 watch(() => propsTagSelector.modelValue, (newVal) => selected.value = newVal)
 
-
 const numberFormatter = Intl.NumberFormat('en', {notation: 'compact'})
+
 // Default items that can be selected
 const defaultItems = ref<(GelbooruTag)[]>([
   {
@@ -128,6 +129,22 @@ const defaultItems = ref<(GelbooruTag)[]>([
     count: -1,
     type: -1,
     ambiguous: 0,
+    name: 'rating:sensitive',
+    type_string: 'Rating sensitive',
+  },
+  {
+    id: -1,
+    count: -1,
+    type: -1,
+    ambiguous: 0,
+    name: '-rating:sensitive',
+    type_string: 'Rating sensitive - remove',
+  },
+  {
+    id: -1,
+    count: -1,
+    type: -1,
+    ambiguous: 0,
     name: 'rating:explicit',
     type_string: 'Rating explicit',
   },
@@ -138,142 +155,6 @@ const defaultItems = ref<(GelbooruTag)[]>([
     ambiguous: 0,
     name: '-rating:explicit',
     type_string: 'Rating explicit - remove',
-  },
-  {
-    id: -1,
-    count: -1,
-    type: -1,
-    ambiguous: 0,
-    name: 'sort:random',
-    type_string: 'Sort randomly',
-  },
-  {
-    id: -1,
-    count: -1,
-    type: -1,
-    ambiguous: 0,
-    name: 'sort:id',
-    type_string: 'Sorting by id',
-  },
-  {
-    id: -1,
-    count: -1,
-    type: -1,
-    ambiguous: 0,
-    name: 'sort:id:desc',
-    type_string: 'Sorting by id - descending',
-  },
-  {
-    id: -1,
-    count: -1,
-    type: -1,
-    ambiguous: 0,
-    name: 'sort:score',
-    type_string: 'Sorting by score',
-  },
-  {
-    id: -1,
-    count: -1,
-    type: -1,
-    ambiguous: 0,
-    name: 'sort:score:desc',
-    type_string: 'Sorting by score - descending',
-  },
-  {
-    id: -1,
-    count: -1,
-    type: -1,
-    ambiguous: 0,
-    name: 'sort:rating',
-    type_string: 'Sorting by rating',
-  },
-  {
-    id: -1,
-    count: -1,
-    type: -1,
-    ambiguous: 0,
-    name: 'sort:rating:desc',
-    type_string: 'Sorting by rating - descending',
-  },
-  {
-    id: -1,
-    count: -1,
-    type: -1,
-    ambiguous: 0,
-    name: 'sort:user',
-    type_string: 'Sorting by user',
-  },
-  {
-    id: -1,
-    count: -1,
-    type: -1,
-    ambiguous: 0,
-    name: 'sort:user:desc',
-    type_string: 'Sorting by user - descending',
-  },
-  {
-    id: -1,
-    count: -1,
-    type: -1,
-    ambiguous: 0,
-    name: 'sort:height',
-    type_string: 'Sorting by height',
-  },
-  {
-    id: -1,
-    count: -1,
-    type: -1,
-    ambiguous: 0,
-    name: 'sort:height:desc',
-    type_string: 'Sorting by height - descending',
-  },
-  {
-    id: -1,
-    count: -1,
-    type: -1,
-    ambiguous: 0,
-    name: 'sort:width',
-    type_string: 'Sorting by width',
-  },
-  {
-    id: -1,
-    count: -1,
-    type: -1,
-    ambiguous: 0,
-    name: 'sort:width:desc',
-    type_string: 'Sorting by width - descending',
-  },
-  {
-    id: -1,
-    count: -1,
-    type: -1,
-    ambiguous: 0,
-    name: 'sort:source',
-    type_string: 'Sorting by source',
-  },
-  {
-    id: -1,
-    count: -1,
-    type: -1,
-    ambiguous: 0,
-    name: 'sort:source:desc',
-    type_string: 'Sorting by source - descending',
-  },
-  {
-    id: -1,
-    count: -1,
-    type: -1,
-    ambiguous: 0,
-    name: 'sort:updated ',
-    type_string: 'Sorting by updated',
-  },
-  {
-    id: -1,
-    count: -1,
-    type: -1,
-    ambiguous: 0,
-    name: 'sort:updated:desc',
-    type_string: 'Sorting by updated - descending',
   },
 ])
 // Tags that have been found through search
@@ -291,6 +172,7 @@ const selectableItems = computed(() => {
 
 const search = ref('')
 const loading = ref(false)
+const timer = ref<NodeJS.Timeout | undefined>(undefined)
 const aborter = ref<AbortController | undefined>(undefined)
 
 const commaRegex = new RegExp(/.*,$/)
@@ -315,30 +197,38 @@ watch(search, (newVal, oldValue) => {
     return
   }
 
-  aborter.value = new AbortController()
-  loading.value = true
+  if (timer.value) {
+    clearTimeout(timer.value)
+    timer.value = undefined
+  }
 
-  const searchAux = search.value.replaceAll(' ', '_')
-  $fetch('/api/tag', {
-    signal: aborter.value.signal,
-    params: {
-      name_pattern: searchAux
-    }
-  })
-  .then((res) => {
-    console.debug('Res tags', res)
-    loading.value = false
-    searchItems.value = res.tag
-  })
-  .catch((err: FetchError) => {
-    if (err.statusCode) {
+  loading.value = true
+  timer.value = setTimeout(() => {
+    aborter.value = new AbortController()
+
+    const searchAux = search.value.replaceAll(' ', '_')
+    $fetch('/api/tag', {
+      signal: aborter.value.signal,
+      params: {
+        name_pattern: searchAux
+      }
+    })
+    .then((res) => {
+      console.debug('Res tags', res)
       loading.value = false
-      appStore.addNotification({
-        color: 'info',
-        text: err.statusMessage
-      })
-    }
-  })
+      searchItems.value = res.tag
+    })
+    .catch((err: FetchError) => {
+      if (err.statusCode) {
+        loading.value = false
+        appStore.addNotification({
+          color: 'info',
+          text: err.statusMessage
+        })
+      }
+    })
+  }, 500)
+
 })
 
 function onDelete() {
@@ -347,7 +237,12 @@ function onDelete() {
     console.debug('Removing last!')
     selected.value = selected.value.slice(0, -1)
   }
+}
 
+function onSearchAutocompleteKeyEnter() {
+  if (document.activeElement) {
+    (document.activeElement as HTMLElement).blur()
+  }
 }
 
 </script>

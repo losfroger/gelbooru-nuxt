@@ -62,7 +62,7 @@ watch(() => propsSortBy.sortBy, (newVal) => {
 })
 
 function calculateText() {
-  return `sort:${propsSortBy.sortBy}${propsSortBy.descending ? ':desc' : '' }`
+  return `sort:${propsSortBy.sortBy}${propsSortBy.descending ? '' : ':asc' }`
 }
 
 emit('update:modelValue', calculateText())

@@ -24,7 +24,7 @@ export const useSettingsStore = defineStore('settings', () => {
   const filteredTagsWithMinus = computed(() => settings.value.filteredTags.map((tag) => `-${tag}`))
 
   // When settins change, save them to localstorage
-  watch(settings, onSettingsChange)
+  watch(settings, onSettingsChange, { deep: true })
 
   function onSettingsChange() {
     console.log('Saving settings!', firstLoad)

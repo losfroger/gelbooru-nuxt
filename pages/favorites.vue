@@ -113,11 +113,11 @@ watch(() => [tags, currentPage], () => {
   const query: string[] = []
 
   if (currentPage.value) {
-    query.push(`page=${currentPage.value}`)
+    query.push(`page=${encodeURIComponent(currentPage.value)}`)
   }
 
   if (tags.value) {
-    query.push(`tags=${tags.value}`)
+    query.push(`tags=${encodeURIComponent(tags.value)}`)
   }
 
   router.push(`/favorites?${query.join('&')}`)

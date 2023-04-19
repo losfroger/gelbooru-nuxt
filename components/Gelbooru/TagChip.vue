@@ -4,7 +4,7 @@
     variant="tonal"
     color="secondary"
     class="tag-chip"
-    :to="`/search-results?tags=${propGelbooruTagChip.tag},sort:score`"
+    :to="`/search-results?tags=${encodeURIComponent(propGelbooruTagChip.tag)},sort:score`"
   >
     <span class="tw-py-1 tw-capitalize">
       {{ propGelbooruTagChip.tag.replaceAll('_', ' ') }}

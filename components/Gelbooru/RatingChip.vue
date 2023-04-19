@@ -2,6 +2,7 @@
   <v-chip
     :color="color"
     v-bind="$attrs"
+    :to="`/search-results?tags=rating:${encodeURIComponent(propsGelbooruRatingChip.rating)},sort:score`"
   >
     <span class="tw-capitalize">
       {{ propsGelbooruRatingChip.rating }}

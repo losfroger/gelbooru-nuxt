@@ -136,7 +136,16 @@ useHead({
   title: 'Details'
 })
 
-const { data: post, error  } = await useFetch<GelbooruPost>(`/api/post/${route.params.postId}`)
+const { data: post, error  } = await useFetch<GelbooruPost>(`/api/post/${route.params.postId}`, {
+  parseResponse: (res) => {
+    const aux: GelbooruPost = JSON.parse(res)
+    if (aux.created_at_date) {
+      aux.created_at_date = new Date(aux.created_at_date)
+    }
+
+    return aux
+  }
+})
 
 const isVideoFile = computed(() => {
   return /.(mp4|mov|avi|mkv|flv)$/.test(post.value?.file_url ?? '')

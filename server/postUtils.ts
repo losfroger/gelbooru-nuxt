@@ -1,12 +1,28 @@
-import { GelbooruPost, GelbooruPostReq, GelbooruPostRes } from '~/types/gelbooru'
+import { DefaultFilteredTags, GelbooruPost, GelbooruPostReq, GelbooruPostRes } from '~/types/gelbooru'
 
 import axios_gelbooru from '~/server/axiosGelbooru'
 import he from 'he'
+import { UserSettings } from '~/stores/settingsStore'
 
-export async function getPosts(apiKey: string, userId: string, params: GelbooruPostReq) {
+export async function getPosts(apiKey: string, userId: string, params: GelbooruPostReq, userSettingsString: string | undefined) {
   try {
     console.log(params)
 
+    let auxTags = ''
+    if ((params.limit ?? 25) > 1) {
+      let filteredTags = DefaultFilteredTags
+      if (userSettingsString) {
+        const userSettings: { settings: UserSettings } = JSON.parse(userSettingsString)
+        filteredTags = userSettings.settings.filteredTags
+      }
+
+      auxTags = filteredTags
+        .map((tag) => `-${tag}`)
+        .concat(params.tags?.split(',') ?? [])
+        .join(' ')
+    }
+
+    console.log('Get posts', auxTags)
     const resGel = await axios_gelbooru.get<GelbooruPostRes>('', {
       params: {
         page: 'dapi',
@@ -18,7 +34,7 @@ export async function getPosts(apiKey: string, userId: string, params: GelbooruP
         user_id: userId,
         pid: params.pid,
         id: params.id,
-        tags: params.tags?.split(',')?.join(' '),
+        tags: auxTags,
       }
     })
 

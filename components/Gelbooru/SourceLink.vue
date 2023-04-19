@@ -86,7 +86,7 @@ const typeSource = computed(() => {
 </script>
 
 <style scoped>
-::v-deep .v-btn__content {
+:deep(.v-btn__content){
   display: grid;/* or inline-block */
   max-width: 100%;
 }

@@ -23,7 +23,7 @@
         <v-spacer />
       </v-list>
       <template #append>
-        <div v-if="authStore.logged_in_computed">
+        <div>
           <v-divider />
           <v-list nav>
             <v-list-item
@@ -83,7 +83,7 @@ useHead({
 })
 
 const itemList = ref([
-  {text: 'Search', icon: 'mdi-magnify', to: '/search'},
+  {text: 'Search', icon: 'mdi-magnify', to: '/'},
   {text: 'Favorites', icon: 'mdi-heart', to: '/favorites?page=1&tags=sort:score'},
 ])
 

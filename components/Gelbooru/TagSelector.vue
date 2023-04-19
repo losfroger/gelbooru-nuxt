@@ -19,7 +19,7 @@
     item-value="name"
     @keydown.delete="onDelete"
     @keydown.enter.prevent="onSearchAutocompleteKeyEnter"
-    @blur="emit('update:modelValue', selected)"
+    @blur="onBlur"
   >
     <template #chip="{ props, item }">
       <GelbooruChipTagSelector
@@ -191,7 +191,7 @@ watch(search, (newVal, oldValue) => {
     aborter.value.abort()
   }
 
-  if (!newVal) {
+  if (newVal.length < 1) {
     searchItems.value = []
     loading.value = false
     return
@@ -244,6 +244,12 @@ function onSearchAutocompleteKeyEnter() {
     (document.activeElement as HTMLElement).blur()
   }
 }
+
+function onBlur() {
+  console.log('Blur')
+  emit('update:modelValue', selected.value)
+}
+
 
 </script>
 

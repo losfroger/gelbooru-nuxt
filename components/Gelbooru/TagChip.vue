@@ -3,9 +3,11 @@
     v-bind="$attrs"
     variant="tonal"
     color="secondary"
+    class="tag-chip"
+    :to="`/search-results?tags=${propGelbooruTagChip.tag},sort:score`"
   >
-    <span class="tw-capitalize">
-      {{ propGelbooruTagChip.tag }}
+    <span class="tw-py-1 tw-capitalize">
+      {{ propGelbooruTagChip.tag.replaceAll('_', ' ') }}
     </span>
     <v-tooltip
       v-model="open_tooltip"
@@ -102,5 +104,11 @@ watch(open_tooltip, async (newValue) => {
   height: 1.3em; /* Fallback for non-webkit, line-height * 2 */
   line-height: 1.3em;
 }
+.tag-chip {
+  white-space: pre-line !important;
+  height: auto !important;
+}
+
+
 
 </style>

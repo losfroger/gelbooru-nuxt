@@ -132,8 +132,12 @@ import { useSettingsStore } from '~/stores/settingsStore'
 const route = useRoute()
 const settingStore = useSettingsStore()
 
+definePageMeta({
+  middleware: 'auth-middleware'
+})
+
 useHead({
-  title: 'Details'
+  title: 'Post Details'
 })
 
 const { data: post, error  } = await useFetch<GelbooruPost>(`/api/post/${route.params.postId}`, {

@@ -8,7 +8,7 @@ export default defineNuxtRouteMiddleware((to, from) => {
 
     if (user_creds.value?.api_key && user_creds.value?.user_id) {
       console.log('Yes! login!')
-      return navigateTo('/favorites')
+      return navigateTo('/')
     }
   }
 })

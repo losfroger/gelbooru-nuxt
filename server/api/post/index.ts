@@ -1,26 +1,37 @@
 import { getPosts } from '~/server/postUtils'
 import { UserCredentials } from '~/types/auth-types'
+import { GelbooruPostReq } from '~/types/gelbooru'
 
 
 export default defineEventHandler(async (event) => {
-  try {
-    console.log(event.path)
+  console.log(event.path)
 
-    const query = getQuery(event)
-    const cookies: UserCredentials = JSON.parse(getCookie(event, 'user-credentials') ?? '')
+  const query: GelbooruPostReq = getQuery(event)
 
-    console.log('Cookies!')
-
-    const postsData = await getPosts(cookies.api_key, cookies.user_id, query)
-
-    if (!postsData) {
-      setResponseStatus(event, 404, 'No posts were found with that criteria')
-      return
-    }
-
-    return postsData
-  } catch (error) {
-    console.log(error)
-    throw error
+  const userCredentialsCookie = getCookie(event, 'user-credentials')
+  if (!userCredentialsCookie) {
+    throw createError({
+      statusCode: 403,
+      statusMessage: 'User needs to be logged in'
+    })
   }
+  const userCredentials: UserCredentials = JSON.parse(userCredentialsCookie)
+
+  const userSettingsCookie = getCookie(event, 'settings')
+
+  const postsData = await getPosts(
+    userCredentials.api_key,
+    userCredentials.user_id,
+    query,
+    userSettingsCookie,
+  )
+
+  if (!postsData) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: 'No posts were found with that criteria'
+    })
+  }
+
+  return postsData
 })

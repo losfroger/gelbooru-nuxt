@@ -71,6 +71,8 @@ watch(auxSettings, () => {
 }, {deep: true})
 
 function saveSettings() {
+  console.log('Saved settings!')
+
   settingsStore.settings.filteredTags = auxSettings.value.filteredTags
   settingsStore.settings.hideNsfwImages = auxSettings.value.hideNsfwImages
 

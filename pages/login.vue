@@ -129,8 +129,9 @@ async function onSubmit() {
   loadingForm.value = true
 
   authStore.login(form.value.api_key, form.value.user_id)
-  .then(() => {
-    router.push('/favorites')
+  .then(async () => {
+    await new Promise(r => setTimeout(r, 1500))
+    router.push('/')
   })
   .catch((err) => {
     console.log('Error', err)

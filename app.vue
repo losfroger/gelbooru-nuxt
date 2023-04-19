@@ -55,7 +55,7 @@
             />
           </div>
         </v-fade-transition>
-        <AppNotificationsAlerts class="tw-fixed tw-bottom-2 tw-right-2" />
+        <AppNotificationsAlerts class="tw-fixed tw-bottom-2 tw-right-2 tw-z-50" />
       </ClientOnly>
       <v-container
         fluid
@@ -84,7 +84,7 @@ useHead({
 
 const itemList = ref([
   {text: 'Search', icon: 'mdi-magnify', to: '/search'},
-  {text: 'Favorites', icon: 'mdi-heart', to: '/favorites'},
+  {text: 'Favorites', icon: 'mdi-heart', to: '/favorites?page=1&tags=sort:score'},
 ])
 
 </script>

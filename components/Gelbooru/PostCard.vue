@@ -1,6 +1,6 @@
 <template>
   <v-card class="tw-flex tw-w-full tw-flex-row md:tw-flex-col">
-    <div class="tw-relative tw-aspect-square tw-w-full tw-max-w-[40vw] tw-overflow-clip tw-shadow-xl">
+    <div class="tw-relative tw-aspect-square tw-w-full tw-overflow-clip tw-shadow-xl md:tw-max-w-[40vw]">
       <v-img
         aspect-ratio="1"
         cover
@@ -61,7 +61,7 @@
         />
       </div>
     </div>
-    <div class="tw-w-full tw-px-4 tw-pb-4">
+    <div class="tw-w-9/12 tw-px-4 tw-pb-4 md:tw-w-full">
       <div class="tw-flex tw-flex-col tw-gap-1 tw-pt-1 md:tw-gap-0">
         <div class=" tw-flex tw-flex-col tw-flex-wrap tw-justify-center tw-gap-1 md:tw-flex-row md:tw-items-center md:tw-justify-start">
           <v-card-title class="= tw-p-0">

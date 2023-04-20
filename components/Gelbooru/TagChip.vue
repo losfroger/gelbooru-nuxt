@@ -10,6 +10,7 @@
       {{ propGelbooruTagChip.tag.replaceAll('_', ' ') }}
     </span>
     <v-tooltip
+      v-if="propGelbooruTagChip.disableTooltip"
       v-model="open_tooltip"
       activator="parent"
       location="top"
@@ -51,7 +52,12 @@ const tagStore = useTagStore()
 const propGelbooruTagChip = defineProps({
   tag: {
     type: String,
-    default: ''
+    default: '',
+    required: true,
+  },
+  disableTooltip: {
+    type: Boolean,
+    default: false
   }
 })
 

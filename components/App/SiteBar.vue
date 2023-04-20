@@ -39,7 +39,7 @@
                 v-if="authStore.logged_in_computed"
                 id="user-menu"
                 key="2"
-                icon="mdi-account"
+                icon="mdi-account-badge"
                 v-bind="props"
               />
             </v-fade-transition>

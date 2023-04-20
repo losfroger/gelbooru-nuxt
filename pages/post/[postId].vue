@@ -69,13 +69,11 @@
             class="tw-block tw-h-min tw-w-full"
           >
             <v-img
-              max-height="88vh"
               width="100%"
-              height="100%"
               :lazy-src="post?.preview_url"
               :src="post?.preview_url"
               :class="{
-                'tw-aspect-video tw-drop-shadow-xl tw-transition-all': true,
+                'tw-aspect-video tw-h-full tw-max-h-[75vh] tw-drop-shadow-xl tw-transition-all md:tw-max-h-[85vh]': true,
                 'tw-blur-2xl hover:tw-blur-none': settingStore.settings.hideNsfwImages && isNsfw
               }"
             >
@@ -96,13 +94,14 @@
           class="tw-flex tw-flex-col tw-items-center tw-gap-4"
         >
           <v-img
-            :max-height="loadFullImage ? '90vh' : '85vh'"
             width="100%"
             :lazy-src="post?.preview_url"
             :src="loadFullImage ? `/api/image/full/${post?.id}` : `/api/image/${post?.id}`"
             :class="{
               'tw-drop-shadow-xl tw-transition-all': true,
-              'tw-blur-2xl hover:tw-blur-none': settingStore.settings.hideNsfwImages && isNsfw
+              'tw-blur-2xl hover:tw-blur-none': settingStore.settings.hideNsfwImages && isNsfw,
+              'tw-max-h-[80vh] md:tw-max-h-[90vh]': loadFullImage,
+              'tw-max-h-[75vh] md:tw-max-h-[85vh]': !loadFullImage,
             }"
           >
             <template #placeholder>

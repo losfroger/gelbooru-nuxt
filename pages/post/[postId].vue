@@ -58,7 +58,7 @@
           </div>
         </div>
       </div>
-      <div class="tw-overflow-clip">
+      <div class="tw-row-start-1 tw-overflow-clip md:tw-row-start-auto">
         <div
           v-if="isVideoFile"
           class="tw-flex tw-h-full tw-w-full tw-flex-col tw-justify-start"
@@ -111,7 +111,7 @@
         <div class="post-sidebar tw-rounded-md tw-bg-neutral-900 tw-p-4 tw-shadow-md">
           <div
             v-if="post?.fetched_tags"
-            class="tw-flex tw-grid tw-grid-cols-2 tw-gap-4 md:tw-grid-cols-1"
+            class="tw-grid tw-grid-cols-2 tw-gap-4 md:tw-grid-cols-1"
           >
             <div v-if="tagsByCategory && tagsByCategory.artist.length > 0">
               <h5>

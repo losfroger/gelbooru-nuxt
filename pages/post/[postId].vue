@@ -116,9 +116,9 @@
           <v-expand-transition>
             <v-btn
               v-if="post?.file_url && post?.sample_url && !loadFullImage"
+              prepend-icon="mdi-image-refresh-outline"
               color="secondary"
               size="small"
-              prepend-icon="mdi-image-refresh-outline"
               @click="loadFullImage = true"
             >
               Load full image
@@ -130,9 +130,12 @@
         <div class="post-sidebar tw-rounded-md tw-bg-neutral-900 tw-p-4 tw-shadow-md">
           <div
             v-if="post?.fetched_tags"
-            class="tw-grid tw-grid-cols-2 tw-gap-4 md:tw-grid-cols-1"
+            class="tags-wrapper tw-flex tw-flex-wrap tw-gap-4"
           >
-            <div v-if="tagsByCategory && tagsByCategory.artist.length > 0">
+            <div
+              v-if="tagsByCategory && tagsByCategory.artist.length > 0"
+              class="dynamic-category"
+            >
               <h5>
                 <v-icon
                   icon="mdi-brush-outline"
@@ -150,7 +153,10 @@
                 />
               </div>
             </div>
-            <div v-if="tagsByCategory && tagsByCategory.character.length > 0">
+            <div
+              v-if="tagsByCategory && tagsByCategory.character.length > 0"
+              class="dynamic-category"
+            >
               <h5>
                 <v-icon
                   icon="mdi-account-outline"
@@ -168,7 +174,10 @@
                 />
               </div>
             </div>
-            <div v-if="tagsByCategory && tagsByCategory.copyright.length > 0">
+            <div
+              v-if="tagsByCategory && tagsByCategory.copyright.length > 0"
+              class="dynamic-category"
+            >
               <h5>
                 <v-icon
                   icon="mdi-copyright"
@@ -186,7 +195,10 @@
                 />
               </div>
             </div>
-            <div v-if="tagsByCategory && tagsByCategory.metadata.length > 0">
+            <div
+              v-if="tagsByCategory && tagsByCategory.metadata.length > 0"
+              class="dynamic-category"
+            >
               <h5>
                 <v-icon
                   icon="mdi-shape-outline"
@@ -206,7 +218,7 @@
             </div>
             <div
               v-if="tagsByCategory && tagsByCategory.general.length > 0"
-              class="tw-col-span-2 md:tw-col-span-1"
+              class="tw-col-span-2 tw-w-full md:tw-col-span-1"
             >
               <h5>
                 <v-icon
@@ -226,7 +238,7 @@
             </div>
             <div
               v-if="tagsByCategory && tagsByCategory.deprecated.length > 0"
-              class="tw-col-span-2 md:tw-col-span-1"
+              class="tw-col-span-2 tw-w-full md:tw-col-span-1"
             >
               <h5>Deprecated</h5>
               <div class="tw-flex tw-flex-row tw-flex-wrap tw-gap-3 md:tw-gap-1">
@@ -358,4 +370,9 @@ li {
   width: 100%;
   height: 2px;
 }
+
+.dynamic-category {
+  @apply tw-w-1/3 tw-flex-grow md:tw-w-full;
+}
+
 </style>

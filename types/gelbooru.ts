@@ -237,7 +237,7 @@ export interface GelbooruTagReq {
 }
 
 // REGEX Tags
-export const NegativeQueryRegex = new RegExp(/-(.+)/)
+export const NegativeQueryRegex = new RegExp(/^-(.+)/)
 export const FuzzyQueryRegex = new RegExp(/(.+)~+/)
 
 export interface GelbooruTag {

@@ -59,10 +59,30 @@
       </ClientOnly>
       <v-container
         fluid
-        class="tw-flex tw-min-h-[90vh] tw-flex-col tw-items-center tw-pb-20"
+        class="tw-flex tw-min-h-[91vh] tw-flex-col tw-items-center tw-pb-24"
       >
         <NuxtPage />
       </v-container>
+      <v-footer class="tw-flex tw-flex-col tw-gap-4 tw-bg-neutral-950 tw-p-8 tw-shadow-md">
+        <v-btn
+          icon
+          variant="text"
+          href="https://github.com/losfroger/gelbooru-nuxt"
+          target="_blank"
+        >
+          <v-icon icon="mdi-github" />
+          <v-tooltip
+            location="top center"
+            activator="parent"
+          >
+            See source code
+          </v-tooltip>
+        </v-btn>
+        <v-divider class="tw-w-full tw-border-opacity-70" />
+        <p class="text-body-2 tw-text-center">
+          This site is an unofficial third party client for Gelbooru.
+        </p>
+      </v-footer>
     </v-main>
   </v-app>
 </template>

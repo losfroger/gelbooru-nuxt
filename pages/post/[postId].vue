@@ -153,7 +153,7 @@
             <div v-if="tagsByCategory && tagsByCategory.character.length > 0">
               <h5>
                 <v-icon
-                  icon="mdi-account-edit-outline"
+                  icon="mdi-account-outline"
                   start
                   class="tw-mb-1 tw-opacity-50"
                 />

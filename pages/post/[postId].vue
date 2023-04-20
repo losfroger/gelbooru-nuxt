@@ -136,7 +136,7 @@
             <div v-if="tagsByCategory && tagsByCategory.artist.length > 0">
               <h5>
                 <v-icon
-                  icon="mdi-brush"
+                  icon="mdi-brush-outline"
                   start
                   class="tw-mb-1 tw-opacity-50"
                 />
@@ -154,7 +154,7 @@
             <div v-if="tagsByCategory && tagsByCategory.character.length > 0">
               <h5>
                 <v-icon
-                  icon="mdi-account"
+                  icon="mdi-account-edit-outline"
                   start
                   class="tw-mb-1 tw-opacity-50"
                 />
@@ -190,7 +190,7 @@
             <div v-if="tagsByCategory && tagsByCategory.metadata.length > 0">
               <h5>
                 <v-icon
-                  icon="mdi-drawing"
+                  icon="mdi-shape-outline"
                   start
                   class="tw-mb-1 tw-opacity-50"
                 />
@@ -211,7 +211,7 @@
             >
               <h5>
                 <v-icon
-                  icon="mdi-tag"
+                  icon="mdi-tag-outline"
                   start
                   class="tw-mb-1 tw-opacity-50"
                 />
@@ -241,6 +241,7 @@
               </div>
             </div>
           </div>
+          <!--Fallback-->
           <div v-else>
             <h5>Tags</h5>
             <div class="tw-flex tw-flex-row tw-flex-wrap tw-gap-3 md:tw-gap-1">

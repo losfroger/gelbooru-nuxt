@@ -12,6 +12,7 @@
     <v-tooltip
       v-if="propGelbooruTagChip.disableTooltip"
       v-model="open_tooltip"
+      :disabled="propGelbooruTagChip.disableTooltip"
       activator="parent"
       location="top"
       open-delay="1000"

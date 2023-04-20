@@ -186,6 +186,9 @@ export interface GelbooruPost {
   is_sound: boolean,
 }
 
+export interface GelbooruPostWithTags extends GelbooruPost {
+  fetched_tags?: GelbooruTag[]
+}
 
 export const DefaultFilteredTags = [
   'loli',

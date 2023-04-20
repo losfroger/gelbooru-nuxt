@@ -1,9 +1,9 @@
-import { GelbooruPostReq } from '~/types/gelbooru'
+import { GelbooruPostReq, GelbooruPostWithTags } from '~/types/gelbooru'
 import { getPosts } from '~/server/postUtils'
 import { UserCredentials } from '~/types/auth-types'
 
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async (event): Promise<GelbooruPostWithTags> => {
   try {
     console.log(event.path)
 
@@ -14,20 +14,31 @@ export default defineEventHandler(async (event) => {
     // Get id
     const auxId = parseInt(event.context.params?.id ?? '-1')
     if (!auxId) {
-      setResponseStatus(event, 400, 'No id provided')
-      return
+      throw createError({
+        statusCode: 400,
+        statusMessage: 'No id provided'
+      })
     }
     query.id = auxId
 
     const auxCookies = getCookie(event, 'user-credentials')
     if (!auxCookies) {
-      setResponseStatus(event, 400, 'User needs to be logged in')
-      return
+      throw createError({
+        statusCode: 403,
+        statusMessage: 'User needs to be logged in'
+      })
     }
 
     const cookies: UserCredentials = JSON.parse(auxCookies)
 
-    const postsData = await getPosts(cookies.api_key, cookies.user_id, query)
+    const userSettingsCookie = getCookie(event, 'settings')
+
+    const postsData = await getPosts(
+      cookies.api_key,
+      cookies.user_id,
+      query,
+      userSettingsCookie,
+    )
 
     if (!postsData) {
       throw createError({
@@ -36,9 +47,25 @@ export default defineEventHandler(async (event) => {
       })
     }
 
-    console.log('Res post details', postsData)
+    const postDetails = postsData.post[0]
 
-    return postsData.post[0]
+    try {
+      const tags = await $fetch('/api/tag', {
+        params: {
+          limit: 100,
+          names: postDetails.tags
+        }
+      })
+      console.log('Res post details', postsData)
+
+      console.log('Test', tags)
+
+      return { ...postDetails, fetched_tags: tags?.tag }
+    } catch (error) {
+
+      return postDetails
+    }
+
   } catch (error) {
     console.log(error)
     throw error

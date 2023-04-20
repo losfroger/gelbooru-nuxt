@@ -39,12 +39,13 @@ export default defineEventHandler(async (event) => {
       page: 'dapi',
       q: 'index',
       s: 'tag',
-      limit: 15,
+      limit: tagQuery.limit ?? 15,
       json: 1,
       api_key: event.node.req.headers.api_key,
       user_id: event.node.req.headers.user_id,
       name_pattern: tagQuery.name_pattern,
       name: tagQuery.name,
+      names: tagQuery.names,
       orderby: tagQuery.orderby ?? 'count'
     }
   })

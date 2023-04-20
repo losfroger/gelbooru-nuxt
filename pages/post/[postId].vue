@@ -108,8 +108,114 @@
         </div>
       </div>
       <div>
-        <div class="post-sidebar tw-flex tw-flex-col tw-items-start tw-gap-4 tw-rounded-md tw-bg-neutral-900 tw-p-4 tw-shadow-md">
-          <div>
+        <div class="post-sidebar tw-rounded-md tw-bg-neutral-900 tw-p-4 tw-shadow-md">
+          <div
+            v-if="post?.fetched_tags"
+            class="tw-flex tw-flex-col tw-gap-4"
+          >
+            <div v-if="tagsByCategory && tagsByCategory.artist.length > 0">
+              <h5>
+                <v-icon
+                  icon="mdi-brush"
+                  start
+                  class="tw-mb-1 tw-opacity-50"
+                />
+                Artist
+              </h5>
+              <div class="tw-flex tw-flex-row tw-flex-wrap tw-gap-3 md:tw-gap-1">
+                <GelbooruTagChip
+                  v-for="tag in tagsByCategory.artist"
+                  :key="tag.id"
+                  :tag="tag.name"
+                  color="red-darken-3"
+                />
+              </div>
+            </div>
+            <div v-if="tagsByCategory && tagsByCategory.character.length > 0">
+              <h5>
+                <v-icon
+                  icon="mdi-account"
+                  start
+                  class="tw-mb-1 tw-opacity-50"
+                />
+                Character
+              </h5>
+              <div class="tw-flex tw-flex-row tw-flex-wrap tw-gap-3 md:tw-gap-1">
+                <GelbooruTagChip
+                  v-for="tag in tagsByCategory.character"
+                  :key="tag.id"
+                  color="green"
+                  :tag="tag.name"
+                />
+              </div>
+            </div>
+            <div v-if="tagsByCategory && tagsByCategory.copyright.length > 0">
+              <h5>
+                <v-icon
+                  icon="mdi-copyright"
+                  start
+                  class="tw-mb-1 tw-opacity-50"
+                />
+                Copyright
+              </h5>
+              <div class="tw-flex tw-flex-row tw-flex-wrap tw-gap-3 md:tw-gap-1">
+                <GelbooruTagChip
+                  v-for="tag in tagsByCategory.copyright"
+                  :key="tag.id"
+                  color="purple"
+                  :tag="tag.name"
+                />
+              </div>
+            </div>
+            <div v-if="tagsByCategory && tagsByCategory.metadata.length > 0">
+              <h5>
+                <v-icon
+                  icon="mdi-drawing"
+                  start
+                  class="tw-mb-1 tw-opacity-50"
+                />
+                Metadata
+              </h5>
+              <div class="tw-flex tw-flex-row tw-flex-wrap tw-gap-3 md:tw-gap-1">
+                <GelbooruTagChip
+                  v-for="tag in tagsByCategory.metadata"
+                  :key="tag.id"
+                  color="yellow"
+                  :tag="tag.name"
+                />
+              </div>
+            </div>
+            <div v-if="tagsByCategory && tagsByCategory.general.length > 0">
+              <h5>
+                <v-icon
+                  icon="mdi-tag"
+                  start
+                  class="tw-mb-1 tw-opacity-50"
+                />
+                Tag
+              </h5>
+              <div class="tw-flex tw-flex-row tw-flex-wrap tw-gap-3 md:tw-gap-1">
+                <GelbooruTagChip
+                  v-for="tag in tagsByCategory.general"
+                  :key="tag.id"
+                  :tag="tag.name"
+                />
+              </div>
+            </div>
+            <div v-if="tagsByCategory && tagsByCategory.deprecated.length > 0">
+              <h5>Deprecated</h5>
+              <div class="tw-flex tw-flex-row tw-flex-wrap tw-gap-3 md:tw-gap-1">
+                <GelbooruTagChip
+                  v-for="tag in tagsByCategory.deprecated"
+                  :key="tag.id"
+                  :tag="tag.name"
+                  color="grey"
+                  class="tw-line-through"
+                />
+              </div>
+            </div>
+          </div>
+          <div v-else>
             <h5>Tags</h5>
             <div class="tw-flex tw-flex-row tw-flex-wrap tw-gap-3 md:tw-gap-1">
               <GelbooruTagChip
@@ -126,7 +232,7 @@
 </template>
 
 <script setup lang="ts">
-import { GelbooruPost } from '~/types/gelbooru'
+import { GelbooruPostWithTags, GelbooruTag } from '~/types/gelbooru'
 import { useSettingsStore } from '~/stores/settingsStore'
 
 const route = useRoute()
@@ -140,9 +246,9 @@ useHead({
   title: 'Post Details'
 })
 
-const { data: post, error  } = await useFetch<GelbooruPost>(`/api/post/${route.params.postId}`, {
+const { data: post, error  } = await useFetch<GelbooruPostWithTags>(`/api/post/${route.params.postId}`, {
   parseResponse: (res) => {
-    const aux: GelbooruPost = JSON.parse(res)
+    const aux: GelbooruPostWithTags = JSON.parse(res)
     if (aux.created_at_date) {
       aux.created_at_date = new Date(aux.created_at_date)
     }
@@ -158,17 +264,66 @@ const isVideoFile = computed(() => {
 const sfwRatings = ['General', 'general', 'safe', 'Safe']
 const isNsfw = computed(() => !sfwRatings.includes(post.value?.rating ?? ''))
 
+interface TagsByCategory {
+  general: GelbooruTag[],
+  artist: GelbooruTag[],
+  copyright: GelbooruTag[],
+  character: GelbooruTag[],
+  metadata: GelbooruTag[],
+  deprecated: GelbooruTag[],
+  unknown: GelbooruTag[],
+}
+
+const tagsByCategory = computed(
+  () => post.value?.fetched_tags?.reduce<TagsByCategory>(
+    (accumulator: TagsByCategory, tag) => {
+      switch (tag.type) {
+      //general
+        case 0:
+          accumulator.general.push(tag)
+          break
+        //artist
+        case 1:
+          accumulator.artist.push(tag)
+          break
+        //copyright
+        case 3:
+          accumulator.copyright.push(tag)
+          break
+        //character
+        case 4:
+          accumulator.character.push(tag)
+          break
+        //metadata
+        case 5:
+          accumulator.metadata.push(tag)
+          break
+        //deprecated
+        case 6:
+          accumulator.deprecated.push(tag)
+          break
+        //not identified
+        default:
+          accumulator.unknown.push(tag)
+          break
+      }
+      return accumulator
+    },
+  { artist: [], character: [], copyright: [], deprecated: [], general: [], metadata: [], unknown: []} as TagsByCategory,
+  )
+)
+
 </script>
 
 <style scoped>
 li {
   @apply tw-list-none;
 }
-.post-sidebar > div > h5 {
+.post-sidebar h5 {
   @apply tw-w-full tw-mb-4;
 }
 
-.post-sidebar > div > h5::after {
+.post-sidebar h5::after {
   @apply tw-bg-neutral-800 tw-rounded-full;
   content: "";
   float: left;

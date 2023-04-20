@@ -114,7 +114,7 @@
               </div>
             </template>
           </v-img>
-          <v-fade-transition>
+          <v-expand-transition>
             <v-btn
               v-if="post?.file_url && post?.sample_url && !loadFullImage"
               color="secondary"
@@ -124,7 +124,7 @@
             >
               Load full image
             </v-btn>
-          </v-fade-transition>
+          </v-expand-transition>
         </div>
       </div>
       <div>

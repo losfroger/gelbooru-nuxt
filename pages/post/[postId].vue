@@ -104,7 +104,16 @@
               'tw-drop-shadow-xl tw-transition-all': true,
               'tw-blur-2xl hover:tw-blur-none': settingStore.settings.hideNsfwImages && isNsfw
             }"
-          />
+          >
+            <template #placeholder>
+              <div class="d-flex align-center justify-center fill-height">
+                <v-progress-circular
+                  color="accent"
+                  indeterminate
+                />
+              </div>
+            </template>
+          </v-img>
         </div>
       </div>
       <div>

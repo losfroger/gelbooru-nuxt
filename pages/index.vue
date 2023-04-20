@@ -1,9 +1,15 @@
 <template>
   <div class="view-container tw-mt-[15vh] tw-flex tw-flex-col tw-gap-2">
     <div class="hero-gelbooru tw-relative tw-flex tw-flex-col tw-items-center">
-      <h1 class="tw-text-center tw-text-5xl">
-        Gelbooru
-      </h1>
+      <a
+        href="https://gelbooru.com/index.php"
+        target="_blank"
+        class="tw-text-white tw-no-underline tw-transition-colors hover:tw-text-primary"
+      >
+        <h1 class="tw-text-center tw-text-5xl">
+          Gelbooru
+        </h1>
+      </a>
       <ClientOnly>
         <v-fade-transition leave-absolute>
           <div

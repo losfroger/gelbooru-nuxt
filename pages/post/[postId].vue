@@ -93,13 +93,13 @@
         </div>
         <div
           v-else
-          class="tw-flex tw-flex-col tw-items-center tw-gap-2"
+          class="tw-flex tw-flex-col tw-items-center tw-gap-4"
         >
           <v-img
-            max-height="88vh"
+            :max-height="loadFullImage ? '90vh' : '85vh'"
             width="100%"
             :lazy-src="post?.preview_url"
-            :src="`/api/image/${post?.id}`"
+            :src="loadFullImage ? `/api/image/full/${post?.id}` : `/api/image/${post?.id}`"
             :class="{
               'tw-drop-shadow-xl tw-transition-all': true,
               'tw-blur-2xl hover:tw-blur-none': settingStore.settings.hideNsfwImages && isNsfw
@@ -114,6 +114,17 @@
               </div>
             </template>
           </v-img>
+          <v-fade-transition>
+            <v-btn
+              v-if="post?.file_url && post?.sample_url && !loadFullImage"
+              color="secondary"
+              size="small"
+              prepend-icon="mdi-image-refresh-outline"
+              @click="loadFullImage = true"
+            >
+              Load full image
+            </v-btn>
+          </v-fade-transition>
         </div>
       </div>
       <div>
@@ -278,6 +289,8 @@ const isVideoFile = computed(() => {
 
 const sfwRatings = ['General', 'general', 'safe', 'Safe']
 const isNsfw = computed(() => !sfwRatings.includes(post.value?.rating ?? ''))
+
+const loadFullImage = ref(false)
 
 interface TagsByCategory {
   general: GelbooruTag[],

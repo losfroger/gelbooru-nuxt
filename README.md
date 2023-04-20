@@ -42,11 +42,17 @@ docker compose build
 
 # run
 docker compose up -d
+
+# one line
+docker compose up -d --build
 ```
 
 ## 📷 Screenshots
+### Home page
 ![Home page](screenshots-readme/ScreenshotA.png)
 
+### Search results page
 ![Search results page](screenshots-readme/ScreenshotB.png)
 
+### Post details page
 ![Post details](screenshots-readme/ScreenshotC.png)

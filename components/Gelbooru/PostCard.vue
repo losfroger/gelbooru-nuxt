@@ -109,7 +109,6 @@
             :key="i"
             :tag="tag"
             size="x-small"
-            disable-tooltip
           />
           <v-chip
             v-if="propsPostCard.post.tags_array.length > 3"

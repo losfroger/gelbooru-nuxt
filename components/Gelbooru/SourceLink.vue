@@ -1,6 +1,9 @@
 <template>
   <div>
-    <span v-if="typeSource.invalid">
+    <span
+      v-if="typeSource.invalid"
+      class="tw-break-words"
+    >
       {{ typeSource.text }}
     </span>
     <v-btn

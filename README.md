@@ -1,12 +1,13 @@
 # Gelbooru Nuxt
-Gelbooru client using Nuxt, Vuetify, Tailwind and Pinia
+Unofficial Gelbooru client using Nuxt, Vuetify, Tailwind and Pinia.
 
-## Features
-- SSR
-- Nice responsive design
-- User customization
+## ✔ Features
+- 🚀 SSR
+- 🖌 Material design
+- 📱 Mobile friendly
+- ⚙ User customization
 
-## Setup
+## 👩‍💻 Setup Dev
 
 Make sure to install the dependencies:
 
@@ -21,7 +22,7 @@ npm install
 pnpm install
 ```
 
-## Development Server
+### Development Server
 
 Start the development server on `http://localhost:3000`
 
@@ -29,18 +30,13 @@ Start the development server on `http://localhost:3000`
 npm run dev
 ```
 
-## Production
+## 🚀 Production (Docker)
 
-Build the application for production:
-
+With docker compose:
 ```bash
-npm run build
+# build image
+docker compose build
+
+# run
+docker compose up -d
 ```
-
-Locally preview production build:
-
-```bash
-npm run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.

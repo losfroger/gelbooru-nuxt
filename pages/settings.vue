@@ -12,9 +12,11 @@
       <v-card-text class="tw-pb-8">
         <v-switch
           v-model="auxSettings.hideNsfwImages"
-          label="Hide NSFW images"
-          color="primary"
           inset
+          label="Blur NSFW images"
+          color="primary"
+          hint="Will blur NSFW images until hovered over."
+          persistent-hint
         />
         <GelbooruTagSelector
           v-model="auxSettings.filteredTags"

@@ -9,6 +9,12 @@
     <span class="tw-py-1 tw-capitalize">
       {{ propGelbooruTagChip.tag.replaceAll('_', ' ') }}
     </span>
+    <span
+      v-if="propGelbooruTagChip.count"
+      class="tw-ml-1 tw-normal-case"
+    >
+      - {{ numberFormatter.format(propGelbooruTagChip.count) }}
+    </span>
   </v-chip>
 </template>
 
@@ -20,8 +26,13 @@ const propGelbooruTagChip = defineProps({
     default: '',
     required: true,
   },
+  count: {
+    type: Number,
+    default: 0,
+  }
 })
 
+const numberFormatter = Intl.NumberFormat('en', {notation: 'compact'})
 
 </script>
 

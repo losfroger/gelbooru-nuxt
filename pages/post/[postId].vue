@@ -149,6 +149,7 @@
                   v-for="tag in tagsByCategory.artist"
                   :key="tag.id"
                   :tag="tag.name"
+                  :count="tag.count"
                   color="red-darken-3"
                 />
               </div>
@@ -171,6 +172,7 @@
                   :key="tag.id"
                   color="green"
                   :tag="tag.name"
+                  :count="tag.count"
                 />
               </div>
             </div>
@@ -192,6 +194,7 @@
                   :key="tag.id"
                   color="purple"
                   :tag="tag.name"
+                  :count="tag.count"
                 />
               </div>
             </div>
@@ -213,6 +216,7 @@
                   :key="tag.id"
                   color="yellow"
                   :tag="tag.name"
+                  :count="tag.count"
                 />
               </div>
             </div>
@@ -233,6 +237,7 @@
                   v-for="tag in tagsByCategory.general"
                   :key="tag.id"
                   :tag="tag.name"
+                  :count="tag.count"
                 />
               </div>
             </div>
@@ -246,6 +251,7 @@
                   v-for="tag in tagsByCategory.deprecated"
                   :key="tag.id"
                   :tag="tag.name"
+                  :count="tag.count"
                   color="grey"
                   class="tw-line-through"
                 />

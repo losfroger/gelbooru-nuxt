@@ -52,7 +52,10 @@ function onContextMenu(e: MouseEvent) {
   if (!propGelbooruTagChip.fullTag) {
     return
   }
+
   e.preventDefault()
+  e.stopPropagation()
+  e.stopImmediatePropagation()
 
   menuX.value = e.x
   menuY.value = e.y

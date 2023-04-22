@@ -107,7 +107,7 @@
           <GelbooruTagChip
             v-for="(tag, i) in propsPostCard.post.tags_array.slice(0, 3)"
             :key="i"
-            :tag="tag"
+            :simple-tag="tag"
             size="x-small"
           />
           <v-chip

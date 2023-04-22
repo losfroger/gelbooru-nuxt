@@ -148,8 +148,8 @@
                 <GelbooruTagChip
                   v-for="tag in tagsByCategory.artist"
                   :key="tag.id"
-                  :tag="tag.name"
-                  :count="tag.count"
+                  :simple-tag="tag.name"
+                  :full-tag="tag"
                   color="red-darken-3"
                 />
               </div>
@@ -171,8 +171,8 @@
                   v-for="tag in tagsByCategory.character"
                   :key="tag.id"
                   color="green"
-                  :tag="tag.name"
-                  :count="tag.count"
+                  :simple-tag="tag.name"
+                  :full-tag="tag"
                 />
               </div>
             </div>
@@ -193,8 +193,8 @@
                   v-for="tag in tagsByCategory.copyright"
                   :key="tag.id"
                   color="purple"
-                  :tag="tag.name"
-                  :count="tag.count"
+                  :simple-tag="tag.name"
+                  :full-tag="tag"
                 />
               </div>
             </div>
@@ -215,8 +215,8 @@
                   v-for="tag in tagsByCategory.metadata"
                   :key="tag.id"
                   color="yellow"
-                  :tag="tag.name"
-                  :count="tag.count"
+                  :simple-tag="tag.name"
+                  :full-tag="tag"
                 />
               </div>
             </div>
@@ -236,8 +236,8 @@
                 <GelbooruTagChip
                   v-for="tag in tagsByCategory.general"
                   :key="tag.id"
-                  :tag="tag.name"
-                  :count="tag.count"
+                  :simple-tag="tag.name"
+                  :full-tag="tag"
                 />
               </div>
             </div>
@@ -250,8 +250,8 @@
                 <GelbooruTagChip
                   v-for="tag in tagsByCategory.deprecated"
                   :key="tag.id"
-                  :tag="tag.name"
-                  :count="tag.count"
+                  :simple-tag="tag.name"
+                  :full-tag="tag"
                   color="grey"
                   class="tw-line-through"
                 />

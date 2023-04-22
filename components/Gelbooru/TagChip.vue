@@ -4,33 +4,61 @@
     variant="tonal"
     color="secondary"
     class="tag-chip"
-    :to="`/search-results?tags=${encodeURIComponent(propGelbooruTagChip.tag)},sort:score`"
+    :to="`/search-results?tags=${encodeURIComponent(propGelbooruTagChip.simpleTag)},sort:score`"
+    @contextmenu="onContextMenu"
   >
     <span class="tw-py-1 tw-capitalize">
-      {{ `${tag.replaceAll('_', ' ')}${count ? ` - ${numberFormatter.format(count)}` : ''}` }}
+      {{ `${simpleTag.replaceAll('_', ' ')}${fullTag ? ` - ${numberFormatter.format(fullTag.count)}` : ''}` }}
     </span>
+    <v-menu
+      v-if="fullTag"
+      v-model="showMenu"
+      activator="parent"
+    >
+      <v-list density="compact">
+        <v-list-item
+          :href="`https://gelbooru.com/index.php?page=wiki&s=list&search=${fullTag?.name}`"
+          target="_blank"
+        >
+          <v-list-item-title>Wiki</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
   </v-chip>
 </template>
 
 <script setup lang="ts">
+import { GelbooruTag } from '~/types/gelbooru'
+
 
 const propGelbooruTagChip = defineProps({
-  tag: {
+  simpleTag: {
     type: String,
     default: '',
-    required: true,
   },
-  count: {
-    type: Number,
-    default: 0,
+  fullTag: {
+    type: Object as PropType<GelbooruTag>,
+    default: undefined,
   }
 })
 
 const numberFormatter = Intl.NumberFormat('en', {notation: 'compact'})
 
-const tagText = computed(() => {
+const showMenu = ref(false)
+const menuX = ref(0)
+const menuY = ref(0)
 
-})
+function onContextMenu(e: MouseEvent) {
+  if (!propGelbooruTagChip.fullTag) {
+    return
+  }
+  e.preventDefault()
+
+  menuX.value = e.x
+  menuY.value = e.y
+
+  showMenu.value = true
+}
 
 </script>
 

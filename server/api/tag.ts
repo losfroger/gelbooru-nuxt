@@ -47,7 +47,7 @@ export default defineEventHandler(async (event) => {
       name: tagQuery.name,
       names: tagQuery.names,
       orderby: tagQuery.orderby ?? 'count',
-      order: tagQuery.order ?? 'ASC'
+      order: tagQuery.order ?? 'DESC'
     }
   })
 

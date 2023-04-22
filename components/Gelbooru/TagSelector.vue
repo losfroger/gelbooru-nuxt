@@ -20,6 +20,7 @@
     @keydown.delete="onDelete"
     @keydown.enter.prevent="onSearchAutocompleteKeyEnter"
     @blur="onBlur"
+    @update:model-value="search = ''"
   >
     <template #chip="{ props, item }">
       <GelbooruChipTagSelector

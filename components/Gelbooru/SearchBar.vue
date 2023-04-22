@@ -6,9 +6,7 @@
       hide-details
     />
     <GelbooruSortBySelect
-      v-model="sortByText"
-      v-model:sort-by="sortBy"
-      v-model:descending="descending"
+      v-model="sortBy"
       class="tw-gap-2 md:tw-w-3/12"
     />
   </div>
@@ -32,8 +30,7 @@ const propsSearchBar = defineProps({
 
 const tags = ref<string[]>([])
 
-const sortByText = ref('')
-const sortBy = ref('score')
+const sortBy = ref('sort:score')
 const descending = ref(true)
 
 // Parse tags at start, converting the tag string into the different types
@@ -48,13 +45,13 @@ watch(() => propsSearchBar.modelValue, (newValue, oldValue) => {
 })
 
 // Update modelvalue when changing tags or the sort by text
-watch(() => [tags, sortByText], (newVal, oldVal) => {
+watch(() => [tags, sortBy], (newVal, oldVal) => {
   if (newVal == oldVal) {
     return
   }
 
   const auxSearch = [...tags.value]
-  auxSearch.push(sortByText.value)
+  auxSearch.push(sortBy.value)
 
   emit('update:modelValue', auxSearch.join(','))
 }, { deep: true })
@@ -70,10 +67,7 @@ function parseTags() {
   const auxTags: string[] = []
   auxTagsArray.forEach((tag) => {
     if (tag.includes('sort')) {
-      const sortRegex = new RegExp(/(?<=sort:)(.*)/)
-
-      sortBy.value = sortRegex.exec(tag)?.[0].replaceAll(':asc', '') ?? 'score'
-      descending.value = !tag.includes('asc')
+      sortBy.value = tag
     } else {
       auxTags.push(tag)
     }

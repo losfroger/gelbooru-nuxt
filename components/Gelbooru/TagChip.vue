@@ -7,13 +7,7 @@
     :to="`/search-results?tags=${encodeURIComponent(propGelbooruTagChip.tag)},sort:score`"
   >
     <span class="tw-py-1 tw-capitalize">
-      {{ propGelbooruTagChip.tag.replaceAll('_', ' ') }}
-    </span>
-    <span
-      v-if="propGelbooruTagChip.count"
-      class="tw-ml-1 tw-normal-case"
-    >
-      - {{ numberFormatter.format(propGelbooruTagChip.count) }}
+      {{ `${tag.replaceAll('_', ' ')}${count ? ` - ${numberFormatter.format(count)}` : ''}` }}
     </span>
   </v-chip>
 </template>
@@ -33,6 +27,10 @@ const propGelbooruTagChip = defineProps({
 })
 
 const numberFormatter = Intl.NumberFormat('en', {notation: 'compact'})
+
+const tagText = computed(() => {
+
+})
 
 </script>
 

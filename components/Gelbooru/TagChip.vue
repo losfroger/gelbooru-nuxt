@@ -13,7 +13,6 @@
     <v-menu
       v-if="fullTag && $vuetify.display.mdAndUp"
       v-model="showMenu"
-      activator="parent"
     >
       <v-list density="compact">
         <v-list-item

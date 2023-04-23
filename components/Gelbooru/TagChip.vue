@@ -5,13 +5,13 @@
     color="secondary"
     class="tag-chip"
     :to="`/search-results?tags=${encodeURIComponent(propGelbooruTagChip.simpleTag)},sort:score`"
-    @contextmenu="onContextMenu"
+    @contextmenu.prevent="onContextMenu"
   >
     <span class="tw-py-1 tw-capitalize">
       {{ `${simpleTag.replaceAll('_', ' ')}${fullTag ? ` - ${numberFormatter.format(fullTag.count)}` : ''}` }}
     </span>
     <v-menu
-      v-if="fullTag"
+      v-if="fullTag && $vuetify.display.mdAndUp"
       v-model="showMenu"
       activator="parent"
     >
@@ -45,24 +45,14 @@ const propGelbooruTagChip = defineProps({
 const numberFormatter = Intl.NumberFormat('en', {notation: 'compact'})
 
 const showMenu = ref(false)
-const menuX = ref(0)
-const menuY = ref(0)
 
 function onContextMenu(e: MouseEvent) {
   if (!propGelbooruTagChip.fullTag) {
     return
   }
-
-  e.preventDefault()
-  e.stopPropagation()
-  e.stopImmediatePropagation()
-
-  menuX.value = e.x
-  menuY.value = e.y
-
   showMenu.value = true
+  return false
 }
-
 </script>
 
 <style scoped>
@@ -87,6 +77,10 @@ function onContextMenu(e: MouseEvent) {
 .tag-chip {
   white-space: pre-line !important;
   height: auto !important;
+
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none !important;
 }
 
 

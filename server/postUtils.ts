@@ -55,7 +55,8 @@ const videoTags = ['animated', 'video']
 export function convertPost(post: GelbooruPost) {
   post.created_at_date = new Date(post.created_at)
 
-  post.tags_array = he.decode(post.tags).split(' ')
+  post.tags = he.decode(post.tags)
+  post.tags_array = post.tags.split(' ')
   post.source_array = post.source.split('|').map((src) => src.trim())
 
   post.has_note_bool = post.has_notes === 'true'

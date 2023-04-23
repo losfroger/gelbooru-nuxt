@@ -1,6 +1,8 @@
 import axios_gelbooru from '~/server/axiosGelbooru'
 import { GelbooruTag, GelbooruTagRes, GelbooruTagReq, NegativeQueryRegex, FuzzyQueryRegex } from '~/types/gelbooru'
 
+import he from 'he'
+
 export default defineEventHandler(async (event) => {
   const tagQuery: GelbooruTagReq = getQuery(event)
 
@@ -61,6 +63,7 @@ export default defineEventHandler(async (event) => {
   }
 
   resGel.data.tag.forEach((tag: GelbooruTag) => {
+    tag.name = he.decode(tag.name)
     switch (tag.type) {
       case 0:
         tag.type_string = 'general'

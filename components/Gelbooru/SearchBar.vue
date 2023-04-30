@@ -1,14 +1,74 @@
 <template>
-  <div class="search-bar tw-flex tw-flex-col tw-justify-center tw-gap-2 md:tw-flex-row md:tw-items-end">
-    <GelbooruTagSelector
-      v-model="tags"
-      class="md:tw-w-9/12"
-      hide-details
-    />
-    <GelbooruSortBySelect
-      v-model="sortBy"
-      class="tw-gap-2 md:tw-w-3/12"
-    />
+  <div>
+    <form
+      @submit.prevent="onSearchSubmit"
+    >
+      <div class="search-bar tw-flex tw-flex-col tw-justify-center tw-gap-2 md:tw-flex-row md:tw-items-center">
+        <div class="tw-flex tw-w-full tw-flex-row tw-items-end tw-gap-2">
+          <v-menu
+            v-model="showFilterMenu"
+            location="bottom left"
+            offset="8"
+            transition="slide-y-transition"
+            :close-on-content-click="false"
+          >
+            <template #activator="{ props }">
+              <v-btn
+                variant="text"
+                icon="mdi-filter"
+                v-bind="props"
+                :size="$vuetify.display.mobile ? 'small' : 'default'"
+              />
+            </template>
+            <v-card
+              width="80vw"
+              max-width="500px"
+              elevation="24"
+              class="tw-flex tw-flex-col "
+            >
+              <v-card-title>
+                Filters
+              </v-card-title>
+              <v-card-text>
+                <GelbooruSortBySelect
+                  v-model="sortBy"
+                  class="tw-gap-2"
+                  density="comfortable"
+                />
+              </v-card-text>
+              <v-divider />
+              <v-card-actions>
+                <v-btn
+                  type="submit"
+                  color="primary"
+                  @click="onSearchSubmit(); showFilterMenu = false;"
+                >
+                  Apply
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-menu>
+
+          <GelbooruTagSelector
+            v-model="tags"
+            :hint="searchResultsText"
+            hide-details
+            @keyup.enter.prevent="onSearchSubmit"
+          />
+        </div>
+        <v-btn
+          type="submit"
+          color="primary"
+          class="tw-ml-auto tw-hidden md:tw-block"
+          :size="$vuetify.display.mobile ? 'default' : 'large'"
+        >
+          Search
+        </v-btn>
+      </div>
+    </form>
+    <div class="text-caption tw-ml-12 md:tw-ml-14">
+      {{ searchResultsText }}
+    </div>
   </div>
 </template>
 
@@ -25,13 +85,17 @@ const propsSearchBar = defineProps({
   modelValue: {
     type: String,
     default: ''
+  },
+  searchResults: {
+    type: Number,
+    default: 0,
   }
 })
 
 const tags = ref<string[]>([])
 
+const showFilterMenu = ref(false)
 const sortBy = ref('sort:score')
-const descending = ref(true)
 
 // Parse tags at start, converting the tag string into the different types
 parseTags()
@@ -44,17 +108,15 @@ watch(() => propsSearchBar.modelValue, (newValue, oldValue) => {
   }
 })
 
-// Update modelvalue when changing tags or the sort by text
-watch(() => [tags, sortBy], (newVal, oldVal) => {
-  if (newVal == oldVal) {
-    return
-  }
-
+// Update modelvalue when search submit
+function onSearchSubmit() {
   const auxSearch = [...tags.value]
   auxSearch.push(sortBy.value)
 
+  console.log('New search!', auxSearch)
+
   emit('update:modelValue', auxSearch.join(','))
-}, { deep: true })
+}
 
 // Tag parser
 function parseTags() {
@@ -74,6 +136,8 @@ function parseTags() {
   })
   tags.value = auxTags
 }
+
+const searchResultsText = computed(() => `${propsSearchBar.searchResults.toLocaleString()} posts` )
 
 </script>
 

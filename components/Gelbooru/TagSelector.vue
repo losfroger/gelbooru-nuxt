@@ -6,7 +6,8 @@
     :items="selectableItems"
     :loading="loading"
     type="search"
-    label="Search"
+    label="Tags"
+    placeholder="Ex: blue_sky cloud 1girl"
     color="primary"
     prepend-inner-icon="mdi-magnify"
     chips
@@ -17,9 +18,9 @@
     clear-icon="mdi-close-circle-outline"
     item-title="name"
     item-value="name"
+    hide-details="auto"
     @keydown.delete="onDelete"
-    @keydown.enter.prevent="onSearchAutocompleteKeyEnter"
-    @blur="onBlur"
+    @keyup.enter="onSearchAutocompleteKeyEnter"
     @update:model-value="search = ''"
   >
     <template #chip="{ props, item }">
@@ -239,6 +240,8 @@ function onDelete() {
     selected.value = selected.value.slice(0, -1)
   }
 }
+
+watch(selected, (newVal) => emit('update:modelValue', newVal))
 
 function onSearchAutocompleteKeyEnter() {
   if (document.activeElement) {

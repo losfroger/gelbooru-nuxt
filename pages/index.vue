@@ -1,12 +1,12 @@
 <template>
-  <div class="view-container tw-mt-[15vh] tw-flex tw-flex-col tw-gap-2">
+  <div class="view-container tw-mt-3 tw-flex tw-flex-col tw-gap-2 md:tw-mt-[15vh]">
     <div class="hero-gelbooru tw-relative tw-flex tw-flex-col tw-items-center">
       <a
         href="https://gelbooru.com/index.php"
         target="_blank"
         class="tw-text-white tw-no-underline tw-transition-colors hover:tw-text-primary"
       >
-        <h1 class="tw-text-center tw-text-5xl">
+        <h1 class="tw-mb-1 tw-text-center tw-text-5xl">
           Gelbooru
         </h1>
       </a>
@@ -45,15 +45,27 @@
       </ClientOnly>
     </div>
     <ClientOnly>
-      <GelbooruTagSelector
-        v-model="tags"
-        :disabled="!authStore.logged_in_computed"
-        class="tw-mx-auto tw-w-full tw-max-w-3xl"
-        :hint="!authStore.logged_in_computed ? 'Please login to use the search functions' : ''"
-        :persistent-hint="!authStore.logged_in_computed"
-      />
+      <v-form @submit.prevent="submitSearch">
+        <div class="tw-flex tw-flex-row tw-items-center tw-justify-center tw-gap-2 md:tw-gap-1">
+          <GelbooruTagSelector
+            v-model="tags"
+            :disabled="!authStore.logged_in_computed"
+            class="tw-w-full tw-max-w-3xl"
+            :hint="!authStore.logged_in_computed ? 'Please login to use the search functions' : ''"
+            :persistent-hint="!authStore.logged_in_computed"
+            density="comfortable"
+          />
+          <v-btn
+            color="primary"
+            :size="$vuetify.display.mobile ? 'default' : 'large'"
+            type="submit"
+          >
+            Search
+          </v-btn>
+        </div>
+      </v-form>
     </ClientOnly>
-    <div class="links-hero tw-flex tw-flex-row tw-flex-wrap tw-items-center tw-justify-center tw-gap-4">
+    <div class="links-hero tw-mt-4 tw-flex tw-flex-row tw-flex-wrap tw-items-center tw-justify-center tw-gap-4">
       <a
         href="https://gelbooru.com/index.php?page=comment&s=list"
         target="_blank"
@@ -116,16 +128,17 @@ onUnmounted(() => {
 const tags = ref<string[]>([])
 const router = useRouter()
 
-watch(tags, () => {
-  console.log('WTF Tags')
+function submitSearch() {
+
+  const auxTags = tags.value.concat('sort:score')
 
   router.push({
     path: 'search-results',
     query: {
-      tags: `${tags.value},sort:score`
+      tags: `${auxTags.join(',')}`
     }
   })
-}, { deep: true })
+}
 
 </script>
 

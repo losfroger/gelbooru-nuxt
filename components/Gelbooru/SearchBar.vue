@@ -4,11 +4,11 @@
       @submit.prevent="onSearchSubmit"
     >
       <div class="search-bar tw-flex tw-flex-col tw-justify-center tw-gap-2 md:tw-flex-row md:tw-items-center">
-        <div class="tw-flex tw-w-full tw-flex-row tw-items-end tw-gap-2">
+        <div class="tw-flex tw-w-full tw-flex-row tw-items-center tw-gap-2">
           <v-menu
             v-model="showFilterMenu"
             location="bottom left"
-            offset="8"
+            offset="12"
             transition="slide-y-transition"
             :close-on-content-click="false"
           >
@@ -29,7 +29,7 @@
               <v-card-title>
                 Filters
               </v-card-title>
-              <v-card-text>
+              <v-card-text class="tw-flex tw-flex-col tw-gap-4">
                 <GelbooruSortBySelect
                   v-model="sortBy"
                   class="tw-gap-2"

@@ -1,5 +1,22 @@
 <template>
-  <div class="tw-flex tw-flex-col-reverse md:tw-flex-col">
+  <div class="tw-flex tw-flex-col">
+    <div class="tw-flex tw-flex-row tw-items-center">
+      <v-select
+        v-model="sortBy"
+        :items="items"
+        label="Sort by"
+        color="primary"
+        :error-messages="error"
+        hide-details
+      />
+      <v-btn
+        variant="text"
+        :class="{'tw-rotate-180': !descending}"
+        icon="mdi-arrow-down"
+        :disabled="(sortBy == 'random')"
+        @click="descending = !descending"
+      />
+    </div>
     <v-expand-transition>
       <v-text-field
         v-if="sortBy == 'random'"
@@ -20,23 +37,6 @@
         @blur="updateRandomSeed"
       />
     </v-expand-transition>
-    <div class="tw-flex tw-flex-row tw-items-center">
-      <v-select
-        v-model="sortBy"
-        :items="items"
-        label="Sort by"
-        color="primary"
-        :error-messages="error"
-        hide-details
-      />
-      <v-btn
-        variant="text"
-        :class="{'tw-rotate-180': !descending}"
-        icon="mdi-arrow-down"
-        :disabled="(sortBy == 'random')"
-        @click="descending = !descending"
-      />
-    </div>
   </div>
 </template>
 

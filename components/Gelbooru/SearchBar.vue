@@ -35,6 +35,7 @@
                   class="tw-gap-2"
                   density="comfortable"
                 />
+                <GelbooruScoreFilterSelector v-model="scoreFilter" />
               </v-card-text>
               <v-divider />
               <v-card-actions>
@@ -44,6 +45,15 @@
                   @click="onSearchSubmit(); showFilterMenu = false;"
                 >
                   Apply
+                </v-btn>
+                <v-spacer />
+                <v-btn
+                  size="small"
+                  color="accent"
+                  href="https://gelbooru.com/index.php?page=wiki&s=view&id=26263"
+                  target="_blank"
+                >
+                  Help
                 </v-btn>
               </v-card-actions>
             </v-card>
@@ -96,6 +106,7 @@ const tags = ref<string[]>([])
 
 const showFilterMenu = ref(false)
 const sortBy = ref('sort:score')
+const scoreFilter = ref('')
 
 // Parse tags at start, converting the tag string into the different types
 parseTags()
@@ -113,6 +124,10 @@ function onSearchSubmit() {
   const auxSearch = [...tags.value]
   auxSearch.push(sortBy.value)
 
+  if (scoreFilter.value) {
+    auxSearch.push(scoreFilter.value)
+  }
+
   console.log('New search!', auxSearch)
 
   emit('update:modelValue', auxSearch.join(','))
@@ -128,8 +143,10 @@ function parseTags() {
 
   const auxTags: string[] = []
   auxTagsArray.forEach((tag) => {
-    if (tag.includes('sort')) {
+    if (tag.includes('sort:')) {
       sortBy.value = tag
+    } else if (tag.includes('score:')) {
+      scoreFilter.value = tag
     } else {
       auxTags.push(tag)
     }

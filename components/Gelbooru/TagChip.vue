@@ -4,8 +4,9 @@
     variant="tonal"
     color="secondary"
     class="tag-chip"
+    :to="$vuetify.display.mobile ? '' : `/search-results?tags=${encodeURIComponent(propGelbooruTagChip.simpleTag)},sort:score`"
     @contextmenu.prevent="onContextMenu"
-    @click="changePage"
+    @click.prevent="changePage"
   >
     <span class="tw-py-1 tw-capitalize">
       {{ `${simpleTag.replaceAll('_', ' ')}${fullTag ? ` - ${numberFormatter.format(fullTag.count)}` : ''}` }}
@@ -80,7 +81,6 @@ function onContextMenu(e: MouseEvent) {
   if (!propGelbooruTagChip.fullTag) {
     return
   }
-  console.log('WTF')
   showMenu.value = true
 }
 </script>

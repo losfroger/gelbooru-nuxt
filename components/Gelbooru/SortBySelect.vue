@@ -1,6 +1,6 @@
 <template>
   <div class="tw-flex tw-flex-col">
-    <div class="tw-flex tw-flex-row tw-items-center">
+    <div class="tw-flex tw-flex-row tw-items-center tw-gap-2">
       <v-select
         v-model="sortBy"
         :items="items"

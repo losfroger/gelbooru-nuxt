@@ -26,9 +26,19 @@
               elevation="24"
               class="tw-flex tw-flex-col "
             >
-              <v-card-title>
+              <v-card-title class="tw-flex tw-flex-row tw-items-center">
                 Filters
+                <v-spacer />
+                <v-btn
+                  variant="text"
+                  size="small"
+                  color="accent"
+                  href="https://gelbooru.com/index.php?page=wiki&s=view&id=26263"
+                  target="_blank"
+                  icon="mdi-help-circle-outline"
+                />
               </v-card-title>
+              <v-divider />
               <v-card-text class="tw-flex tw-flex-col tw-gap-4">
                 <GelbooruSortBySelect
                   v-model="sortBy"
@@ -37,23 +47,14 @@
                 />
                 <GelbooruScoreFilterSelector v-model="scoreFilter" />
               </v-card-text>
-              <v-divider />
               <v-card-actions>
+                <v-spacer />
                 <v-btn
                   type="submit"
                   color="primary"
                   @click="onSearchSubmit(); showFilterMenu = false;"
                 >
                   Apply
-                </v-btn>
-                <v-spacer />
-                <v-btn
-                  size="small"
-                  color="accent"
-                  href="https://gelbooru.com/index.php?page=wiki&s=view&id=26263"
-                  target="_blank"
-                >
-                  Help
                 </v-btn>
               </v-card-actions>
             </v-card>

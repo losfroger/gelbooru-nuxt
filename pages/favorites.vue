@@ -1,18 +1,10 @@
 <template>
   <div class="view-container tw-grid tw-grid-cols-1">
     <div>
-      <div>
-        <GelbooruSearchBar
-          v-model="tags"
-          :search-results="data ? data['@attributes'].count : 0"
-        />
-        <div
-          v-if="error"
-          class="text-caption tw-mr-auto tw-mt-1"
-        >
-          0 posts
-        </div>
-      </div>
+      <GelbooruSearchBar
+        v-model="tags"
+        :search-results="data ? data['@attributes'].count : 0"
+      />
       <div
         v-if="error"
         class="tw-flex tw-flex-col tw-items-center tw-gap-4 tw-py-16"

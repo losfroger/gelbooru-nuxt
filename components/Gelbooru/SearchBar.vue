@@ -4,65 +4,74 @@
       @submit.prevent="onSearchSubmit"
     >
       <div class="search-bar tw-flex tw-flex-col tw-justify-center tw-gap-2 md:tw-flex-row md:tw-items-center">
-        <div class="tw-flex tw-w-full tw-flex-row tw-items-center tw-gap-2">
-          <v-menu
-            v-model="showFilterMenu"
-            location="bottom left"
-            offset="12"
-            transition="slide-y-transition"
-            :close-on-content-click="false"
+        <v-menu
+          v-model="showFilterMenu"
+          location="bottom left"
+          offset="12"
+          transition="slide-y-transition"
+          :close-on-content-click="false"
+        >
+          <template #activator="{ props }">
+            <v-btn
+              v-if="$vuetify.display.mobile"
+              variant="text"
+              v-bind="props"
+              prepend-icon="mdi-filter"
+              class="tw-mr-auto"
+              :size="$vuetify.display.mobile ? 'small' : 'default'"
+            >
+              <span>Filters</span>
+            </v-btn>
+            <v-btn
+              v-else
+              variant="text"
+              v-bind="props"
+              icon="mdi-filter"
+              :size="$vuetify.display.mobile ? 'small' : 'default'"
+            />
+          </template>
+          <v-card
+            width="80vw"
+            max-width="500px"
+            elevation="24"
+            class="tw-flex tw-flex-col "
           >
-            <template #activator="{ props }">
+            <v-card-title class="tw-flex tw-flex-row tw-items-center">
+              Filters
+              <v-spacer />
               <v-btn
                 variant="text"
-                icon="mdi-filter"
-                v-bind="props"
-                :size="$vuetify.display.mobile ? 'small' : 'default'"
+                size="small"
+                color="accent"
+                href="https://gelbooru.com/index.php?page=wiki&s=view&id=26263"
+                target="_blank"
+                icon="mdi-help-circle-outline"
               />
-            </template>
-            <v-card
-              width="80vw"
-              max-width="500px"
-              elevation="24"
-              class="tw-flex tw-flex-col "
-            >
-              <v-card-title class="tw-flex tw-flex-row tw-items-center">
-                Filters
-                <v-spacer />
-                <v-btn
-                  variant="text"
-                  size="small"
-                  color="accent"
-                  href="https://gelbooru.com/index.php?page=wiki&s=view&id=26263"
-                  target="_blank"
-                  icon="mdi-help-circle-outline"
-                />
-              </v-card-title>
-              <v-divider />
-              <v-card-text class="tw-flex tw-flex-col tw-gap-4">
-                <GelbooruSortBySelect
-                  v-model="sortBy"
-                  class="tw-gap-2"
-                  density="comfortable"
-                />
-                <GelbooruScoreFilterSelector v-model="scoreFilter" />
-              </v-card-text>
-              <v-card-actions>
-                <v-spacer />
-                <v-btn
-                  type="submit"
-                  color="primary"
-                  @click="onSearchSubmit(); showFilterMenu = false;"
-                >
-                  Apply
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-menu>
-
+            </v-card-title>
+            <v-divider />
+            <v-card-text class="tw-flex tw-flex-col tw-gap-4">
+              <GelbooruSortBySelect
+                v-model="sortBy"
+                class="tw-gap-2"
+                density="comfortable"
+              />
+              <GelbooruScoreFilterSelector v-model="scoreFilter" />
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer />
+              <v-btn
+                type="submit"
+                color="primary"
+                @click="onSearchSubmit(); showFilterMenu = false;"
+              >
+                Apply
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-menu>
+        <div class="tw-flex tw-w-full tw-flex-row tw-items-center tw-gap-2">
           <GelbooruTagSelector
             v-model="tags"
-            :hint="searchResultsText"
             hide-details
             @keyup.enter.prevent="onSearchSubmit"
           />
@@ -77,7 +86,7 @@
         </v-btn>
       </div>
     </form>
-    <div class="text-caption tw-ml-12 md:tw-ml-14">
+    <div class="text-caption v-messages md:tw-ml-14">
       {{ searchResultsText }}
     </div>
   </div>

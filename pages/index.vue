@@ -14,7 +14,7 @@
         <v-fade-transition leave-absolute>
           <div
             v-if="firstLoad"
-            class="tw-grid tw-aspect-[68/150] tw-h-auto tw-w-[12vw] tw-max-w-[60px] tw-grid-cols-1 tw-items-center tw-justify-center"
+            class="tw-grid tw-aspect-[68/150] tw-h-auto tw-w-[10vw] tw-max-w-[60px] tw-grid-cols-1 tw-items-center tw-justify-center md:tw-w-[12vw]"
           >
             <v-progress-circular
               indeterminate
@@ -36,7 +36,7 @@
               >
                 <img
                   :src="`/counter/${num}.gif`"
-                  class="tw-h-auto tw-w-[12vw] tw-max-w-[60px] tw-object-contain"
+                  class="tw-h-auto  tw-w-[10vw] tw-max-w-[60px] tw-object-contain md:tw-w-[12vw]"
                 >
               </div>
             </v-slide-y-reverse-transition>

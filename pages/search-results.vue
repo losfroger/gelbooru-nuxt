@@ -27,7 +27,7 @@
       </div>
       <div
         v-else-if="data"
-        class="tw-mt-8 tw-grid tw-grid-cols-1 tw-gap-4 sm:tw-grid-cols-2 md:tw-grid-cols-4 lg:tw-grid-cols-5 2xl:tw-grid-cols-10"
+        class="tw-mt-8 tw-grid tw-grid-cols-1 tw-gap-4 sm:tw-grid-cols-2 md:tw-grid-cols-4 lg:tw-grid-cols-5 2xl:tw-grid-cols-8"
       >
         <v-slide-y-reverse-transition group>
           <GelbooruPostCard

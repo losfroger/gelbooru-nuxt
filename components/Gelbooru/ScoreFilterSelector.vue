@@ -10,6 +10,7 @@
         label="Range"
         color="primary"
         class="tw-w-1/3"
+        hide-details
       />
       <v-text-field
         v-model="score"
@@ -19,8 +20,7 @@
         type="number"
         pattern="\d*"
         clearable
-        hint="If empty, posts won't be filtered by score"
-        persistent-hint
+        hide-details
         @input="() => {
           // Only allow positive integer numbers
           score = score.replace(/[^0-9.]/g, '')
@@ -28,6 +28,9 @@
           score = isFinite(parseInt(score)) ? Math.max(1, parseInt(score)).toString() : ''
         }"
       />
+    </div>
+    <div class="v-messages">
+      If empty, posts won't be filtered by score
     </div>
   </div>
 </template>

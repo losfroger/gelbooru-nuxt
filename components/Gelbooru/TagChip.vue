@@ -4,22 +4,44 @@
     variant="tonal"
     color="secondary"
     class="tag-chip"
-    :to="`/search-results?tags=${encodeURIComponent(propGelbooruTagChip.simpleTag)},sort:score`"
     @contextmenu.prevent="onContextMenu"
+    @click="changePage"
   >
     <span class="tw-py-1 tw-capitalize">
       {{ `${simpleTag.replaceAll('_', ' ')}${fullTag ? ` - ${numberFormatter.format(fullTag.count)}` : ''}` }}
     </span>
     <v-menu
-      v-if="fullTag && $vuetify.display.mdAndUp"
       v-model="showMenu"
+      location="bottom"
+      activator="parent"
+      :open-on-click="false"
     >
       <v-list density="compact">
         <v-list-item
           :href="`https://gelbooru.com/index.php?page=wiki&s=list&search=${fullTag?.name}`"
           target="_blank"
         >
-          <v-list-item-title>Wiki</v-list-item-title>
+          <v-list-item-title class="tw-flex tw-flex-row tw-items-center">
+            <v-icon
+              start
+              icon="mdi-book-outline"
+              size="small"
+            />
+            Wiki
+          </v-list-item-title>
+        </v-list-item>
+        <v-list-item
+          :href="`/search-results?tags=${encodeURIComponent(propGelbooruTagChip.simpleTag)},sort:score`"
+          target="_blank"
+        >
+          <v-list-item-title class="tw-flex tw-flex-row tw-items-center">
+            <v-icon
+              start
+              icon="mdi-open-in-new"
+              size="small"
+            />
+            Open in new tab
+          </v-list-item-title>
         </v-list-item>
       </v-list>
     </v-menu>
@@ -41,16 +63,22 @@ const propGelbooruTagChip = defineProps({
   }
 })
 
+const router = useRouter()
+
 const numberFormatter = Intl.NumberFormat('en', {notation: 'compact'})
 
 const showMenu = ref(false)
+
+function changePage() {
+  router.push(`/search-results?tags=${encodeURIComponent(propGelbooruTagChip.simpleTag)},sort:score`)
+}
 
 function onContextMenu(e: MouseEvent) {
   if (!propGelbooruTagChip.fullTag) {
     return
   }
+  console.log('WTF')
   showMenu.value = true
-  return false
 }
 </script>
 

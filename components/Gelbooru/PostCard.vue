@@ -104,7 +104,7 @@
             class=""
             :rating="propsPostCard.post.rating"
           />
-          <GelbooruTagChip
+          <GelbooruSimpleTagChip
             v-for="(tag, i) in propsPostCard.post.tags_array.slice(0, 3)"
             :key="i"
             :simple-tag="tag"

@@ -11,21 +11,19 @@
       class="tw-grid tw-grid-cols-1 tw-gap-12 md:tw-grid-cols-[1fr_2fr_1fr] md:tw-gap-2 lg:tw-grid-cols-[1fr_3fr_1fr] lg:tw-gap-8"
     >
       <div>
-        <div class="post-sidebar tw-grid tw-grid-cols-2 tw-gap-4 tw-rounded-md tw-bg-neutral-900 tw-p-4 tw-shadow-md">
-          <div
-            :class="{
-              'md:tw-col-span-2 2xl:tw-col-span-1': true,
-              'tw-col-span-2': !post?.source
-            }"
-          >
+        <div class="post-sidebar tw-flex tw-flex-wrap tw-gap-4 tw-rounded-md tw-bg-neutral-900 tw-p-4 tw-shadow-md">
+          <div class="dynamic-category-split">
             <h5>Rating</h5>
             <GelbooruRatingChip :rating="post?.rating" />
           </div>
-          <div class="md:tw-col-span-2 2xl:tw-col-span-1">
-            <h5 v-if="post?.source">
+          <div
+            v-if="post?.source"
+            class="dynamic-category-split"
+          >
+            <h5>
               Source
             </h5>
-            <ul v-if="post?.source">
+            <ul>
               <li
                 v-for="(src, i) in post.source_array"
                 :key="i"
@@ -37,7 +35,7 @@
               </li>
             </ul>
           </div>
-          <div class="tw-col-span-2">
+          <div class="tw-w-full">
             <h5>Statistics</h5>
             <div class="tw-flex tw-flex-col tw-items-start">
               <div><GelbooruUserLink :user="{creator_id: post?.creator_id ?? 0, owner: post?.owner ?? ''}" /></div>
@@ -375,6 +373,10 @@ li {
   float: left;
   width: 100%;
   height: 2px;
+}
+
+.dynamic-category-split {
+  @apply tw-w-1/3 tw-flex-grow;
 }
 
 .dynamic-category {

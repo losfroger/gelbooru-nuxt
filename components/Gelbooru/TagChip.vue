@@ -16,7 +16,10 @@
       activator="parent"
       :open-on-click="false"
     >
-      <v-list density="compact">
+      <v-list
+        density="compact"
+        @mouseleave="showMenu = false"
+      >
         <v-list-item
           :href="`https://gelbooru.com/index.php?page=wiki&s=list&search=${fullTag?.name}`"
           target="_blank"

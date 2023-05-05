@@ -16,6 +16,7 @@
     multiple
     clearable
     clear-icon="mdi-close-circle-outline"
+    persistent-clear
     item-title="name"
     item-value="name"
     hide-details="auto"

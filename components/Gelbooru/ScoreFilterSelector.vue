@@ -20,6 +20,8 @@
         type="number"
         pattern="\d*"
         clearable
+        clear-icon="mdi-close-circle-outline"
+        persistent-clear
         hide-details
         @input="() => {
           // Only allow positive integer numbers

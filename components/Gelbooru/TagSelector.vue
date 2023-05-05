@@ -19,6 +19,9 @@
     item-title="name"
     item-value="name"
     hide-details="auto"
+    :menu-props="{
+      maxHeight: $vuetify.display.mobile ? '180px' : '300px'
+    }"
     @keydown.delete="onDelete"
     @keyup.enter="onSearchAutocompleteKeyEnter"
     @update:model-value="search = ''"

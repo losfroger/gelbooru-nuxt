@@ -33,7 +33,7 @@
         <v-pagination
           v-model="currentPage"
           class="tw-col-span-full tw-mt-8 md:tw-mx-8"
-          color="primary"
+          active-color="primary"
           rounded="circle"
           :length="pageCount"
           :show-first-last-page="$vuetify.display.mdAndUp"

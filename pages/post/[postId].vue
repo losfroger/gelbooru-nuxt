@@ -53,6 +53,27 @@
             >
               View on Gelbooru
             </v-btn>
+            <div class="icons-wrapper tw-mt-4 tw-flex tw-w-full tw-grow tw-flex-row tw-flex-wrap tw-justify-start tw-gap-2 md:tw-justify-evenly ">
+              <v-icon
+                size="18"
+                :color="post?.has_note_bool ? 'accent' : 'grey-darken-1'"
+                :title="post?.has_note_bool ? 'Has notes' : ''"
+                icon="mdi-note-outline"
+              />
+              <v-icon
+                size="18"
+                :color="post?.has_comments_bool ? 'accent' : 'grey-darken-1'"
+                :title="post?.has_comments_bool ? 'Has comments' : ''"
+                icon="mdi-comment-outline"
+              />
+
+              <v-icon
+                size="18"
+                :color="post?.has_children_bool ? 'accent' : 'grey-darken-1'"
+                :title="post?.has_children_bool ? 'has_children' : ''"
+                icon="mdi-file-tree"
+              />
+            </div>
           </div>
         </div>
       </div>

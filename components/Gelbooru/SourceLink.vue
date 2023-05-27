@@ -79,7 +79,7 @@ const typeSource = computed(() => {
     }
   } catch (error) {
     return {
-      text: propsSrcLink.source,
+      text: propsSrcLink.source.slice(0, 30),
       invalid: true,
     }
   }

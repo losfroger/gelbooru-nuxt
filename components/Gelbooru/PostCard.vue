@@ -23,6 +23,36 @@
           />
         </ClientOnly>
       </NuxtLink>
+      <div class="tw-absolute tw-right-0 tw-top-0 tw-flex tw-flex-row tw-flex-wrap tw-items-center tw-p-1 tw-drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">
+        <div>
+          <v-icon
+            v-if="femaleIcon"
+            :size="$vuetify.display.mdAndUp ? 'default' : 'small'"
+            color="secondary"
+            :icon="femaleIcon.icon"
+          />
+          <v-icon
+            v-if="femaleIcon && femaleIcon.multiple"
+            :size="$vuetify.display.mdAndUp ? 'small' : 'x-small'"
+            color="secondary"
+            icon="mdi-plus"
+          />
+        </div>
+        <div>
+          <v-icon
+            v-if="maleIcon"
+            :size="$vuetify.display.mdAndUp ? 'default' : 'small'"
+            color="secondary"
+            :icon="maleIcon.icon"
+          />
+          <v-icon
+            v-if="maleIcon && maleIcon.multiple"
+            :size="$vuetify.display.mdAndUp ? 'small' : 'x-small'"
+            color="secondary"
+            icon="mdi-plus"
+          />
+        </div>
+      </div>
       <div class="tw-absolute tw-top-0 tw-flex tw-flex-row tw-flex-wrap tw-p-1 tw-drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">
         <v-icon
           v-if="isGifFile"
@@ -180,6 +210,59 @@ const propsPostCard = defineProps({
 
 const sfwRatings = ['General', 'general', 'safe', 'Safe']
 const isNsfw = computed(() => !sfwRatings.includes(propsPostCard.post.rating))
+
+const multipleFemaleTags = ['3girls', '4girls', '5girls', '6+girls', 'harem']
+const femaleIcon = computed(() => {
+  if (propsPostCard.post.tags_array.includes('1girl') && propsPostCard.post.tags_array.includes('1boy')) {
+    return {
+      icon: 'mdi-human-male-female',
+      multiple: false
+    }
+  }
+  if (propsPostCard.post.tags_array.includes('1girl')) {
+    return {
+      icon: 'mdi-human-female',
+      multiple: false
+    }
+  } else if (propsPostCard.post.tags_array.includes('2girls')) {
+    return {
+      icon: 'mdi-human-female-female',
+      multiple: false
+    }
+  } else if (multipleFemaleTags.some(tag => propsPostCard.post.tags_array.includes(tag))) {
+    return {
+      icon: 'mdi-human-female-female',
+      multiple: true
+    }
+  }
+
+  return undefined
+})
+
+const multipleMaleTags = ['3boys', '4boys', '5boys', '6+boys', 'male_harem']
+const maleIcon = computed(() => {
+  if (propsPostCard.post.tags_array.includes('1girl') && propsPostCard.post.tags_array.includes('1boy')) {
+    return undefined
+  }
+  if (propsPostCard.post.tags_array.includes('1boy')) {
+    return {
+      icon: 'mdi-human-male',
+      multiple: false
+    }
+  } else if (propsPostCard.post.tags_array.includes('2boys')) {
+    return {
+      icon: 'mdi-human-male-male',
+      multiple: false
+    }
+  } else if (multipleMaleTags.some(tag => propsPostCard.post.tags_array.includes(tag))) {
+    return {
+      icon: 'mdi-human-male-male',
+      multiple: true
+    }
+  }
+
+  return undefined
+})
 
 const isGifFile = computed(() => {
   return /.(gif)$/.test(propsPostCard.post.file_url)

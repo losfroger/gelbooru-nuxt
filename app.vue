@@ -11,7 +11,7 @@
           v-for="(item, i) in itemList"
           :key="i"
           :disabled="!authStore.logged_in_computed"
-          active-color="primary"
+          color="primary"
           :to="item.to"
         >
           <template #prepend>
@@ -28,7 +28,7 @@
           <v-list nav>
             <v-list-item
               :disabled="!authStore.logged_in_computed"
-              active-color="primary"
+              color="primary"
               to="/settings"
             >
               <template #prepend>

@@ -47,6 +47,7 @@
 <script setup lang="ts">
 import { GelbooruPostRes } from '~/types/gelbooru'
 import { useAppStore } from '~/stores/appStore'
+import { join } from 'path';
 
 const route = useRoute()
 const router = useRouter()
@@ -55,10 +56,6 @@ const appStore = useAppStore()
 
 definePageMeta({
   middleware: 'auth-middleware'
-})
-
-useHead({
-  title: 'Favorites'
 })
 
 /*
@@ -133,6 +130,24 @@ const { data, error } = await useFetch<GelbooruPostRes>('/api/post/favorites', {
 })
 
 firstLoad.value = true
+
+useHead({
+  title: () => {
+    const aux = ['Favorites', `Page ${currentPage.value}`]
+    if (tags.value) {
+      const auxTags = tags.value
+          .split(',')
+          .filter((x) => !x.includes('sort:') && !x.includes('score:'))
+          .join(', ')
+
+      if (auxTags) {
+        aux.push(auxTags)
+      }
+    }
+
+    return aux.join(' | ')
+  }
+})
 
 </script>
 

@@ -57,10 +57,6 @@ definePageMeta({
   middleware: 'auth-middleware'
 })
 
-useHead({
-  title: 'Search results'
-})
-
 /*
   PAGINATION THINGS
 */
@@ -133,6 +129,24 @@ const { data, error } = await useFetch<GelbooruPostRes>('/api/post', {
 })
 
 firstLoad.value = true
+
+useHead({
+  title: () => {
+    const aux = ['Search results', `Page ${currentPage.value}`]
+    if (tags.value) {
+      const auxTags = tags.value
+          .split(',')
+          .filter((x) => !x.includes('sort:') && !x.includes('score:'))
+          .join(', ')
+
+      if (auxTags) {
+        aux.push(auxTags)
+      }
+    }
+
+    return aux.join(' | ')
+  }
+})
 
 </script>
 

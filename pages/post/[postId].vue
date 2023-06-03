@@ -305,10 +305,6 @@ definePageMeta({
   middleware: 'auth-middleware'
 })
 
-useHead({
-  title: 'Post Details'
-})
-
 const { data: post, error  } = await useFetch<GelbooruPostWithTags>(`/api/post/${route.params.postId}`, {
   parseResponse: (res) => {
     const aux: GelbooruPostWithTags = JSON.parse(res)
@@ -377,6 +373,48 @@ const tagsByCategory = computed(
   { artist: [], character: [], copyright: [], deprecated: [], general: [], metadata: [], unknown: []} as TagsByCategory,
   )
 )
+
+useHead({
+  title: () => {
+    const aux = ['Post details']
+
+    if (tagsByCategory.value?.artist && tagsByCategory.value?.artist.length > 0) {
+      aux.push(
+        tagsByCategory.value?.artist
+          .map((tag) => tag.name)
+          .join(', ')
+      )
+    }
+
+    if (tagsByCategory.value?.character && tagsByCategory.value?.character.length > 0) {
+      aux.push(
+        tagsByCategory.value?.character
+          .map((tag) => tag.name)
+          .join(', ')
+      )
+    }
+
+    if (tagsByCategory.value?.copyright && tagsByCategory.value?.copyright.length > 0) {
+      aux.push(
+        tagsByCategory.value?.copyright
+          .map((tag) => tag.name)
+          .join(', ')
+      )
+    }
+
+    if (tagsByCategory.value?.general && tagsByCategory.value?.general.length > 0) {
+      aux.push(
+        tagsByCategory.value?.general
+          .map((tag) => tag.name)
+          .slice(0, 15)
+          .join(', ')
+      )
+    }
+
+    return aux.join(' | ')
+  }
+})
+
 
 </script>
 

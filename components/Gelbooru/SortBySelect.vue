@@ -63,7 +63,6 @@ const items = ref([
   {title: 'User', value: 'user'},
   {title: 'Height', value: 'height'},
   {title: 'Width', value: 'width'},
-  {title: 'Parent', value: 'parent'},
   {title: 'Source', value: 'source'},
 ])
 

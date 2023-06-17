@@ -97,6 +97,9 @@ const settingsStore = useSettingsStore()
 const appStore = useAppStore()
 
 useHead({
+  htmlAttrs: {
+    lang: 'es',
+  },
   titleTemplate: (titleChunk) => {
     return titleChunk ? `${titleChunk} - Gelbooru` : 'Gelbooru'
   }

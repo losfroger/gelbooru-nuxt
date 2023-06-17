@@ -14,7 +14,7 @@
         <v-fade-transition leave-absolute>
           <v-progress-circular
             v-if="pending"
-            class="tw-absolute tw-top-1/2 tw-left-1/2 -tw-translate-x-1/2 -tw-translate-y-1/2"
+            class="tw-absolute tw-left-1/2 tw-top-1/2 -tw-translate-x-1/2 -tw-translate-y-1/2"
             indeterminate
             color="accent"
           />
@@ -100,7 +100,7 @@ const {data: postCount, refresh, pending} = useFetch('/api/post/count')
 
 const autoRefreshCount = setInterval(() => {
   refresh()
-}, 10 * 1000)
+}, 30 * 1000)
 
 onUnmounted(() => {
   clearInterval(autoRefreshCount)

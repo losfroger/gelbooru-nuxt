@@ -4,8 +4,8 @@
       <NuxtImg
         class="tw-absolute tw-top-0 tw-aspect-square tw-h-full tw-w-full tw-object-cover tw-opacity-40 tw-blur-lg"
         :src="propsPostCard.post.preview_url"
-        preload
         aria-hidden="true"
+        loading="lazy"
       />
       <NuxtLink
         :to="`/post/${propsPostCard.post.id}`"
@@ -18,7 +18,7 @@
           }"
           :alt="`Post image-${propsPostCard.post.id}-${propsPostCard.post.rating}-${propsPostCard.post.tags_array.slice(0, 5)}`"
           fit="contain"
-          preload
+          loading="lazy"
         />
       </NuxtLink>
       <div class="tw-absolute tw-right-0 tw-top-0 tw-flex tw-flex-row tw-flex-wrap tw-items-center tw-p-1 tw-drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">

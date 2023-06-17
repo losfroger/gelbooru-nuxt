@@ -1,27 +1,25 @@
 <template>
   <v-card class="tw-flex tw-w-full tw-flex-row md:tw-flex-col">
     <div class="tw-relative tw-aspect-square tw-w-full tw-overflow-clip tw-shadow-xl md:tw-max-w-[40vw]">
-      <v-img
-        aspect-ratio="1"
-        cover
+      <NuxtImg
+        class="tw-absolute tw-top-0 tw-aspect-square tw-h-full tw-w-full tw-object-cover tw-opacity-40 tw-blur-lg"
         :src="propsPostCard.post.preview_url"
-        class="tw-absolute tw-top-0 tw-h-full tw-w-full tw-opacity-40 tw-blur-lg"
-        alt=""
+        preload
+        aria-hidden="true"
       />
       <NuxtLink
         :to="`/post/${propsPostCard.post.id}`"
       >
-        <ClientOnly>
-          <v-img
-            aspect-ratio="1"
-            :src="propsPostCard.post.preview_url"
-            :class="{
-              'tw-absolute tw-top-0 tw-h-full tw-w-full tw-shadow-sm tw-transition-all': true,
-              'tw-blur-md hover:tw-blur-none': settingStore.settings.hideNsfwImages && isNsfw
-            }"
-            alt=""
-          />
-        </ClientOnly>
+        <NuxtImg
+          :src="propsPostCard.post.preview_url"
+          :class="{
+            'tw-absolute tw-top-0 tw-aspect-square tw-h-full tw-w-full tw-object-contain tw-shadow-sm tw-transition-all': true,
+            'tw-blur-md hover:tw-blur-none': settingStore.settings.hideNsfwImages && isNsfw
+          }"
+          :alt="`Post image-${propsPostCard.post.id}-${propsPostCard.post.rating}-${propsPostCard.post.tags_array.slice(0, 5)}`"
+          fit="contain"
+          preload
+        />
       </NuxtLink>
       <div class="tw-absolute tw-right-0 tw-top-0 tw-flex tw-flex-row tw-flex-wrap tw-items-center tw-p-1 tw-drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">
         <div>

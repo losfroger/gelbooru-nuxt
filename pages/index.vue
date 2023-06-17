@@ -28,6 +28,7 @@
               v-for="(num, id) in postCount?.toString()"
               :key="`${num}-${id}`"
               :src="`/counter/${num}.gif`"
+              :alt="num"
               sizes="sm:40px md:60px"
               class="tw-h-auto tw-object-contain"
               preload

@@ -50,6 +50,7 @@
         <v-btn
           color="primary"
           :size="$vuetify.display.mobile ? 'default' : 'large'"
+          :class="{'tw-mb-5': !authStore.logged_in_computed}"
           type="submit"
         >
           Search

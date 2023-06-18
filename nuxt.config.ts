@@ -3,6 +3,9 @@ import vuetify from 'vite-plugin-vuetify'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  nitro: {
+    compressPublicAssets: true,
+  },
   build: { transpile: ['vuetify'] },
   modules: [
     '@pinia/nuxt',

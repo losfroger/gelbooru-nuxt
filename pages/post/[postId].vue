@@ -27,6 +27,7 @@
               <li
                 v-for="(src, i) in post.source_array"
                 :key="i"
+                class="my-1"
               >
                 <GelbooruSourceLink
                   size="small"
@@ -77,11 +78,8 @@
           </div>
         </div>
       </div>
-      <div class="tw-row-start-1 tw-overflow-clip md:tw-row-start-auto">
-        <div
-          v-if="isVideoFile"
-          class="tw-flex tw-h-full tw-w-full tw-flex-col tw-justify-start"
-        >
+      <div class="tw-isolate tw-row-start-1 tw-flex tw-flex-col tw-overflow-clip md:tw-row-start-auto">
+        <div v-if="isVideoFile">
           <a
             :href="post?.file_url"
             target="_blank"
@@ -117,10 +115,10 @@
             :lazy-src="post?.preview_url"
             :src="loadFullImage ? `/api/image/full/${post?.id}` : `/api/image/${post?.id}`"
             :class="{
-              'tw-drop-shadow-xl tw-transition-all': true,
+              'tw-relative tw-drop-shadow-xl tw-transition-all': true,
+              'tw-max-h-[70vh] md:tw-max-h-[80vh]': post?.has_comments_bool,
+              'tw-max-h-[75vh] md:tw-max-h-[88vh]': !post?.has_comments_bool,
               'tw-blur-2xl hover:tw-blur-none': settingStore.settings.hideNsfwImages && isNsfw,
-              'tw-max-h-[80vh] md:tw-max-h-[90vh]': loadFullImage,
-              'tw-max-h-[75vh] md:tw-max-h-[85vh]': !loadFullImage,
             }"
           >
             <template #placeholder>
@@ -131,19 +129,28 @@
                 />
               </div>
             </template>
+            <v-expand-transition>
+              <v-btn
+                v-if="post?.file_url && post?.sample_url && !loadFullImage"
+                class="tw-absolute tw-bottom-2 tw-left-1/2 -tw-translate-x-1/2"
+                prepend-icon="mdi-image-refresh-outline"
+                color="secondary"
+                size="small"
+                @click="loadFullImage = true"
+              >
+                Load full image
+              </v-btn>
+            </v-expand-transition>
           </v-img>
-          <v-expand-transition>
-            <v-btn
-              v-if="post?.file_url && post?.sample_url && !loadFullImage"
-              prepend-icon="mdi-image-refresh-outline"
-              color="secondary"
-              size="small"
-              @click="loadFullImage = true"
-            >
-              Load full image
-            </v-btn>
-          </v-expand-transition>
         </div>
+
+        <ClientOnly>
+          <GelbooruPostComments
+            v-if="post?.has_comments_bool"
+            class="tw-z-10 tw-mx-auto tw-mt-3 tw-w-full tw-max-w-2xl"
+            :post-id="$route.params.postId.toString()"
+          />
+        </ClientOnly>
       </div>
       <div>
         <div class="post-sidebar tw-rounded-md tw-bg-neutral-900 tw-p-4 tw-shadow-md">
@@ -315,6 +322,8 @@ const { data: post, error  } = await useFetch<GelbooruPostWithTags>(`/api/post/$
     return aux
   }
 })
+
+const showComments = ref(false)
 
 const isVideoFile = computed(() => {
   return /.(mp4|mov|avi|mkv|flv)$/.test(post.value?.file_url ?? '')

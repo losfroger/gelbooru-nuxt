@@ -272,3 +272,12 @@ export interface GelbooruUser {
   owner: string,
   creator_id: number,
 }
+
+export interface GelbooruComment {
+  created_at: Date,
+  post_id: number,
+  body: string,
+  creator: number,
+  id: number,
+  creator_id?: number,
+}

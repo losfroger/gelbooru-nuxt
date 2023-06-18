@@ -47,7 +47,6 @@
 <script setup lang="ts">
 import { GelbooruPostRes } from '~/types/gelbooru'
 import { useAppStore } from '~/stores/appStore'
-import { join } from 'path';
 
 const route = useRoute()
 const router = useRouter()

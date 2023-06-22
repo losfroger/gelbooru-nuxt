@@ -35,6 +35,18 @@
           </v-list-item-title>
         </v-list-item>
         <v-list-item
+          :to="`/favorites?page=1&tags=${encodeURIComponent(propGelbooruTagChip.simpleTag)},sort:score`"
+        >
+          <v-list-item-title class="tw-flex tw-flex-row tw-items-center">
+            <v-icon
+              start
+              icon="mdi-star-outline"
+              size="small"
+            />
+            Search in favorites
+          </v-list-item-title>
+        </v-list-item>
+        <v-list-item
           :href="`/search-results?tags=${encodeURIComponent(propGelbooruTagChip.simpleTag)},sort:score`"
           target="_blank"
         >

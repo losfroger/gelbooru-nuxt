@@ -43,6 +43,13 @@ export default defineEventHandler(async (event): Promise<GelbooruComment[]> => {
       return ''
     })
 
+    if (resGel.includes('success="false"')) {
+      throw createError({
+        statusCode: 503,
+        statusMessage: 'Comments couldn\'t be loaded'
+      })
+    }
+
     const xmlComments: XmlComments = await parseStringPromise(
       resGel
         .replace('<?xml version="1.0" encoding="UTF-8"?>', '')

@@ -23,7 +23,7 @@
     "eslint": "^8.37.0",
     "eslint-plugin-tailwindcss": "^3.11.0",
     "eslint-plugin-vue": "^9.10.0",
-    "nuxt": "^3.3.3",
+    "nuxt": "^3.6.1",
     "sass": "^1.61.0",
     "typescript": "^5.0.3",
     "vuetify": "^3.1.15"

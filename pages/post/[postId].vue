@@ -36,7 +36,7 @@
               </li>
             </ul>
           </div>
-          <div class="tw-w-full">
+          <div class="tw-flex tw-w-full tw-flex-col">
             <h5>Statistics</h5>
             <div class="tw-flex tw-flex-col tw-items-start">
               <div><GelbooruUserLink :user="{creator_id: post?.creator_id ?? 0, owner: post?.owner ?? ''}" /></div>
@@ -45,16 +45,28 @@
               <div>Size: {{ post?.width }}x{{ post?.height }}</div>
               <div>Score: {{ post?.score.toLocaleString() }}</div>
             </div>
-            <v-btn
-              color="primary"
-              class="tw-mt-4"
-              append-icon="mdi-open-in-new"
-              :href="`https://gelbooru.com/index.php?page=post&s=view&id=${post?.id}`"
-              target="_blank"
-            >
-              View on Gelbooru
-            </v-btn>
-            <div class="icons-wrapper tw-mt-4 tw-flex tw-w-full tw-grow tw-flex-row tw-flex-wrap tw-justify-start tw-gap-2 md:tw-justify-evenly ">
+            <div class="tw-my-4 tw-flex tw-flex-col tw-gap-2">
+              <v-btn
+                color="primary"
+                variant="tonal"
+                append-icon="mdi-open-in-new"
+                :href="`https://gelbooru.com/index.php?page=post&s=view&id=${post?.id}`"
+                target="_blank"
+              >
+                View on Gelbooru
+              </v-btn>
+              <v-btn
+                v-if="!isVideoFile"
+                color="secondary"
+                variant="tonal"
+                append-icon="mdi-image-outline"
+                :href="post?.file_url ? `/api/image/full/${post?.id}` : `/api/image/${post?.id}`"
+                target="_blank"
+              >
+                View full image
+              </v-btn>
+            </div>
+            <div class="icons-wrapper tw-mt-4 tw-flex tw-w-full tw-grow tw-flex-row tw-flex-wrap tw-justify-center tw-gap-2 md:tw-justify-evenly ">
               <v-icon
                 size="18"
                 :color="post?.has_note_bool ? 'accent' : 'grey-darken-1'"

@@ -7,7 +7,12 @@
             {{ comments?.length }}
           </span>
         </v-expand-x-transition>
-        Comment<span v-if="pending || moreThanOneComment">s</span>
+        <span v-if="!!error">
+          {{ error?.statusMessage }}
+        </span>
+        <span v-else>
+          Comment<span v-if="pending || moreThanOneComment">s</span>
+        </span>
       </h4>
       <v-btn
         :class="{'tw-ml-auto tw-transition-all': true, 'tw-rotate-180': showComments}"
@@ -15,6 +20,7 @@
         variant="text"
         size="small"
         :loading="pending"
+        :disabled="!!error"
         @click="showComments = !showComments"
       />
     </div>
@@ -45,7 +51,7 @@ const propsComments = defineProps({
 })
 
 const showComments = ref(false)
-const {data: comments, pending} = useFetch<GelbooruComment[]>(`/api/comments/${propsComments.postId}`, {
+const {data: comments, pending, error} = useFetch<GelbooruComment[]>(`/api/comments/${propsComments.postId}`, {
   server: false,
 })
 

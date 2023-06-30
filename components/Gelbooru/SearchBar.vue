@@ -13,12 +13,12 @@
         >
           <template #activator="{ props }">
             <v-btn
-              v-if="$vuetify.display.mobile"
+              v-if="$vuetify.display.smAndDown"
               variant="text"
               v-bind="props"
               prepend-icon="mdi-filter"
               class="tw-mr-auto"
-              :size="$vuetify.display.mobile ? 'small' : 'default'"
+              :size="$vuetify.display.smAndDown ? 'small' : 'default'"
             >
               <span>Filters</span>
             </v-btn>
@@ -27,7 +27,7 @@
               variant="text"
               v-bind="props"
               icon="mdi-filter"
-              :size="$vuetify.display.mobile ? 'small' : 'default'"
+              :size="$vuetify.display.smAndDown ? 'small' : 'default'"
             />
           </template>
           <v-card

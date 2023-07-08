@@ -20,6 +20,7 @@ export default defineEventHandler(async (event): Promise<GelbooruPostWithTags> =
       })
     }
     query.id = auxId
+    query.pid = 0
 
     const auxCookies = getCookie(event, 'user-credentials')
     if (!auxCookies) {
@@ -31,13 +32,12 @@ export default defineEventHandler(async (event): Promise<GelbooruPostWithTags> =
 
     const cookies: UserCredentials = JSON.parse(auxCookies)
 
-    const userSettingsCookie = getCookie(event, 'settings')
-
     const postsData = await getPosts(
       cookies.api_key,
       cookies.user_id,
       query,
-      userSettingsCookie,
+      undefined,
+      true
     )
 
     if (!postsData) {
@@ -59,8 +59,6 @@ export default defineEventHandler(async (event): Promise<GelbooruPostWithTags> =
         }
       })
       console.log('Res post details', postsData)
-
-      console.log('Test', tags)
 
       return { ...postDetails, fetched_tags: tags?.tag }
     } catch (error) {

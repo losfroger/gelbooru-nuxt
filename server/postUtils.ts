@@ -4,7 +4,7 @@ import axios_gelbooru from '~/server/axiosGelbooru'
 import he from 'he'
 import { UserSettings } from '~/stores/settingsStore'
 
-export async function getPosts(apiKey: string, userId: string, params: GelbooruPostReq, userSettingsString: string | undefined) {
+export async function getPosts(apiKey: string, userId: string, params: GelbooruPostReq, userSettingsString: string | undefined, noTags = false) {
   try {
     console.log(params)
 
@@ -20,10 +20,12 @@ export async function getPosts(apiKey: string, userId: string, params: GelbooruP
       auxPostLimits = userSettings.settings.numberPostsPerPage ? userSettings.settings.numberPostsPerPage : 25
     }
 
-    auxTags = filteredTags
-      .map((tag) => `-${tag}`)
-      .concat(params.tags?.split(',') ?? [])
-      .join(' ')
+    if (!noTags) {
+      auxTags = filteredTags
+        .map((tag) => `-${tag}`)
+        .concat(params.tags?.split(',') ?? [])
+        .join(' ')
+    }
 
     console.log('Get posts', auxTags)
     const resGel = await axios_gelbooru.get<GelbooruPostRes>('', {

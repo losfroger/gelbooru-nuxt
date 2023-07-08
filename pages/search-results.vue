@@ -113,7 +113,6 @@ const { data, error } = await useFetch<GelbooruPostRes>('/api/post', {
   query: {
     pid,
     tags,
-    limit: 50,
   },
   onRequest: () => {
     if (process.client && firstLoad.value) {

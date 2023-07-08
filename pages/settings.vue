@@ -9,7 +9,7 @@
         My settings
       </v-card-title>
       <v-divider class="tw-my-4" />
-      <v-card-text class="tw-pb-8">
+      <v-card-text class="tw-flex tw-flex-col tw-gap-10 tw-pb-8">
         <v-switch
           v-model="auxSettings.hideNsfwImages"
           inset
@@ -26,6 +26,23 @@
           hide-default-items
           hint="Any post containing a blacklisted tag will be ignored."
           persistent-hint
+        />
+        <v-text-field
+          v-model="auxSettings.numberPostsPerPage"
+          label="Number of posts per page"
+          color="primary"
+          type="number"
+          inputmode="numeric"
+          pattern="[0-9]*"
+          required
+          min="1"
+          step="1"
+          @input="(e: Event) => {
+            // Only allow positive integer numbers
+            let aux = auxSettings.numberPostsPerPage.toString().replace(/[^0-9.]/g, '')
+            aux = aux.replace(/(\..*)\./g, '$1')
+            auxSettings.numberPostsPerPage = isFinite(parseInt(aux)) ? Math.max(1, parseInt(aux)) : 1
+          }"
         />
       </v-card-text>
       <v-card-actions class="tw-flex tw-flex-col tw-items-start tw-gap-2 md:tw-flex-row md:tw-items-center">
@@ -77,6 +94,7 @@ function saveSettings() {
 
   settingsStore.settings.filteredTags = auxSettings.value.filteredTags
   settingsStore.settings.hideNsfwImages = auxSettings.value.hideNsfwImages
+  settingsStore.settings.numberPostsPerPage = auxSettings.value.numberPostsPerPage
 
   changes.value = false
 }

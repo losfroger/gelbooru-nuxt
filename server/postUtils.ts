@@ -8,19 +8,22 @@ export async function getPosts(apiKey: string, userId: string, params: GelbooruP
   try {
     console.log(params)
 
+    let auxPostLimits = params?.limit ?? 25
     let auxTags = ''
-    if ((params.limit ?? 25) > 1) {
-      let filteredTags = DefaultFilteredTags
-      if (userSettingsString) {
-        const userSettings: { settings: UserSettings } = JSON.parse(userSettingsString)
-        filteredTags = userSettings.settings.filteredTags
-      }
 
-      auxTags = filteredTags
-        .map((tag) => `-${tag}`)
-        .concat(params.tags?.split(',') ?? [])
-        .join(' ')
+    let filteredTags = DefaultFilteredTags
+
+    if (userSettingsString) {
+      const userSettings: { settings: UserSettings } = JSON.parse(userSettingsString)
+
+      filteredTags = userSettings.settings.filteredTags
+      auxPostLimits = userSettings.settings.numberPostsPerPage ? userSettings.settings.numberPostsPerPage : 25
     }
+
+    auxTags = filteredTags
+      .map((tag) => `-${tag}`)
+      .concat(params.tags?.split(',') ?? [])
+      .join(' ')
 
     console.log('Get posts', auxTags)
     const resGel = await axios_gelbooru.get<GelbooruPostRes>('', {
@@ -29,7 +32,7 @@ export async function getPosts(apiKey: string, userId: string, params: GelbooruP
         q: 'index',
         s: 'post',
         json: 1,
-        limit: params.limit ?? 25,
+        limit: auxPostLimits,
         api_key: apiKey,
         user_id: userId,
         pid: params.pid,

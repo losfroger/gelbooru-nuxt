@@ -5,6 +5,7 @@ import { DefaultFilteredTags } from '~/types/gelbooru'
 export interface UserSettings {
   hideNsfwImages: boolean,
   filteredTags: string[],
+  numberPostsPerPage: number,
 }
 
 let firstLoad = false
@@ -12,6 +13,7 @@ let firstLoad = false
 export const defaultUserSettings: UserSettings = {
   hideNsfwImages: false,
   filteredTags: DefaultFilteredTags,
+  numberPostsPerPage: 50,
 }
 
 export const useSettingsStore = defineStore('settings', () => {
@@ -19,6 +21,7 @@ export const useSettingsStore = defineStore('settings', () => {
   const settings = ref<UserSettings>({
     hideNsfwImages: false,
     filteredTags: DefaultFilteredTags,
+    numberPostsPerPage: 50,
   })
 
   const filteredTagsWithMinus = computed(() => settings.value.filteredTags.map((tag) => `-${tag}`))

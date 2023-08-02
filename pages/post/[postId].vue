@@ -155,14 +155,6 @@
             </v-expand-transition>
           </v-img>
         </div>
-
-        <ClientOnly>
-          <GelbooruPostComments
-            v-if="post?.has_comments_bool"
-            class="tw-z-10 tw-mx-auto tw-mt-3 tw-w-full tw-max-w-2xl"
-            :post-id="$route.params.postId.toString()"
-          />
-        </ClientOnly>
       </div>
       <div>
         <div class="post-sidebar tw-rounded-md tw-bg-neutral-900 tw-p-4 tw-shadow-md">
@@ -335,7 +327,6 @@ const { data: post, error  } = await useFetch<GelbooruPostWithTags>(`/api/post/$
   }
 })
 
-const showComments = ref(false)
 
 const isVideoFile = computed(() => {
   return /.(mp4|mov|avi|mkv|flv)$/.test(post.value?.file_url ?? '')

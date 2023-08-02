@@ -38,7 +38,7 @@
       </div>
     </div>
     <v-form @submit.prevent="submitSearch">
-      <div class="tw-flex tw-flex-row tw-items-center tw-justify-center tw-gap-2 md:tw-gap-1">
+      <div class="tw-flex tw-flex-col tw-items-center tw-justify-center tw-gap-2 md:tw-flex-row md:tw-gap-1">
         <GelbooruTagSelector
           v-model="tags"
           :disabled="!authStore.logged_in_computed"
@@ -46,6 +46,7 @@
           :hint="!authStore.logged_in_computed ? 'Please login to use the search functions' : ''"
           :persistent-hint="!authStore.logged_in_computed"
           density="comfortable"
+          @keyup.enter.prevent="submitSearch"
         />
         <v-btn
           color="primary"

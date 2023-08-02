@@ -58,7 +58,7 @@
         </v-btn>
       </div>
     </v-form>
-    <div class="links-hero tw-mt-4 tw-flex tw-flex-row tw-flex-wrap tw-items-center tw-justify-center tw-gap-4">
+    <div class="links-hero tw-flex tw-flex-row tw-flex-wrap tw-items-center tw-justify-center tw-gap-4">
       <a
         href="https://gelbooru.com/index.php?page=comment&s=list"
         target="_blank"
@@ -84,6 +84,10 @@
         My account
       </a>
     </div>
+    <GelbooruGoToPostId
+      variant="text"
+      class="tw-mx-auto"
+    />
   </div>
 </template>
 

@@ -52,7 +52,7 @@ export default defineEventHandler(async (event): Promise<GelbooruPostWithTags> =
     try {
       const tags = await $fetch('/api/tag', {
         params: {
-          limit: 100,
+          limit: 250,
           names: postDetails.tags,
           orderby: 'name',
           order: 'ASC',

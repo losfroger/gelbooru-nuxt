@@ -5,7 +5,7 @@
     Go to post ID
     <v-menu
       :close-on-content-click="false"
-      location="bottom center"
+      :location="$vuetify.display.mdAndUp ? 'bottom center' : 'top center'"
       activator="parent"
     >
       <v-card min-width="300">
@@ -17,6 +17,7 @@
               color="primary"
               type="number"
               prepend-inner-icon="mdi-key"
+              hide-details="auto"
             />
           </v-card-text>
           <v-card-actions>

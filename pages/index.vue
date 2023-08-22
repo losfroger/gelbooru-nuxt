@@ -1,5 +1,5 @@
 <template>
-  <div class="view-container tw-mt-3 tw-flex tw-flex-col tw-gap-2 md:tw-mt-[15vh]">
+  <div class="view-container tw-mb-0 tw-mt-3 tw-flex tw-flex-1 tw-flex-col tw-gap-2 md:tw-mt-[15vh] ">
     <div class="hero-gelbooru tw-relative tw-flex tw-flex-col tw-items-center">
       <a
         href="https://gelbooru.com/index.php"
@@ -58,36 +58,38 @@
         </v-btn>
       </div>
     </v-form>
-    <div class="links-hero tw-flex tw-flex-row tw-flex-wrap tw-items-center tw-justify-center tw-gap-4">
-      <a
-        href="https://gelbooru.com/index.php?page=comment&s=list"
-        target="_blank"
-      >
-        Comments
-      </a>
-      <a
-        href="https://gelbooru.com/index.php?page=forum&s=list"
-        target="_blank"
-      >
-        Forum
-      </a>
-      <a
-        href="https://gelbooru.com/index.php?page=wiki&s=list"
-        target="_blank"
-      >
-        Wiki
-      </a>
-      <a
-        href="https://gelbooru.com/index.php?page=account&s=home"
-        target="_blank"
-      >
-        My account
-      </a>
+    <div class="tw-mt-auto tw-flex tw-flex-col tw-gap-2 md:tw-mt-2 md:tw-flex-col-reverse">
+      <GelbooruGoToPostId
+        variant="text"
+        class="tw-mx-auto"
+      />
+      <div class="links-hero tw-flex tw-flex-row tw-flex-wrap tw-items-center tw-justify-center tw-gap-4">
+        <a
+          href="https://gelbooru.com/index.php?page=comment&s=list"
+          target="_blank"
+        >
+          Comments
+        </a>
+        <a
+          href="https://gelbooru.com/index.php?page=forum&s=list"
+          target="_blank"
+        >
+          Forum
+        </a>
+        <a
+          href="https://gelbooru.com/index.php?page=wiki&s=list"
+          target="_blank"
+        >
+          Wiki
+        </a>
+        <a
+          href="https://gelbooru.com/index.php?page=account&s=home"
+          target="_blank"
+        >
+          My account
+        </a>
+      </div>
     </div>
-    <GelbooruGoToPostId
-      variant="text"
-      class="tw-mx-auto"
-    />
   </div>
 </template>
 

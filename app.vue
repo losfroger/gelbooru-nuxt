@@ -59,7 +59,7 @@
       </ClientOnly>
       <v-container
         fluid
-        class="tw-flex tw-min-h-[91vh] tw-flex-col tw-items-center tw-pb-6"
+        class="tw-flex tw-min-h-[91dvh] tw-flex-col tw-items-center tw-pb-6"
       >
         <NuxtPage />
       </v-container>

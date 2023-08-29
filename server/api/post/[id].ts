@@ -1,4 +1,4 @@
-import { GelbooruPostReq, GelbooruPostWithTags } from '~/types/gelbooru'
+import { GelbooruPostReq, GelbooruPostWithTags, GelbooruTag } from '~/types/gelbooru'
 import { getPosts } from '~/server/postUtils'
 import { UserCredentials } from '~/types/auth-types'
 
@@ -50,19 +50,31 @@ export default defineEventHandler(async (event): Promise<GelbooruPostWithTags> =
     const postDetails = postsData.post[0]
 
     try {
-      const tags = await $fetch('/api/tag', {
-        params: {
-          limit: 250,
-          names: postDetails.tags,
-          orderby: 'name',
-          order: 'ASC',
-        }
-      })
+      // Divide tags array in 100 sized chunks
+      const chunk_size = 100
+      const divided_tag_array = postDetails.tags_array
+        .map((e, i) => i %  chunk_size === 0 ? postDetails.tags_array.slice(i, i+chunk_size) : null)
+        .filter((e) => e)
+
+      let tags: GelbooruTag[] = []
+      for (const tags_array of divided_tag_array) {
+        const aux_tags = await $fetch('/api/tag', {
+          params: {
+            limit: 100,
+            names: tags_array?.join(' '),
+            orderby: 'name',
+            order: 'ASC',
+          }
+        })
+
+        tags = tags.concat(aux_tags?.tag)
+      }
+
       console.log('Res post details', postsData)
 
-      return { ...postDetails, fetched_tags: tags?.tag }
+      return { ...postDetails, fetched_tags: tags }
     } catch (error) {
-
+      console.error(error)
       return postDetails
     }
 

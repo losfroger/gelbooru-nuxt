@@ -159,7 +159,7 @@
       <div>
         <div class="post-sidebar tw-rounded-md tw-bg-neutral-900 tw-p-4 tw-shadow-md">
           <div
-            v-if="post?.fetched_tags"
+            v-if="post?.fetched_tags && post?.fetched_tags?.length > 0"
             class="tags-wrapper tw-flex tw-flex-wrap tw-gap-4"
           >
             <div
@@ -299,6 +299,10 @@
               />
             </div>
           </div>
+
+          <p class="text-body-2 tw-mt-6 tw-text-center tw-opacity-40">
+            {{ post?.tags_array.length }} tags
+          </p>
         </div>
       </div>
     </div>

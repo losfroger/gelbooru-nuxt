@@ -233,7 +233,7 @@ watch(search, (newVal, oldValue) => {
         })
       }
     })
-  }, 500)
+  }, 300)
 
 })
 

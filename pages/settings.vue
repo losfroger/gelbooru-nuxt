@@ -1,6 +1,7 @@
 <template>
   <div class="tw-flex tw-min-w-[40vw] tw-max-w-xl tw-flex-col tw-gap-8">
     <SettingsMySettingsCard class="settings-card" />
+    <SettingsBackupCard class="settings-card" />
   </div>
 </template>
 

@@ -3,7 +3,7 @@ import { getPosts } from '~/server/postUtils'
 import { UserCredentials } from '~/types/auth-types'
 
 // Retrieve all favorites from user
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async (event): Promise<GelbooruPost[]> => {
   console.log(event.path)
 
   const userCredentialsCookie = getCookie(event, 'user-credentials')

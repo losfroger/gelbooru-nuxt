@@ -6,6 +6,12 @@ export default defineNuxtConfig({
   nitro: {
     compressPublicAssets: true,
   },
+
+  sourcemap: {
+    server: true,
+    client: true
+  },
+
   build: { transpile: ['vuetify'] },
   modules: [
     '@pinia/nuxt',

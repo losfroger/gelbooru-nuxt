@@ -4,6 +4,7 @@
   >
     Go to post ID
     <v-menu
+      v-model="menuOpen"
       :close-on-content-click="false"
       :location="$vuetify.display.mdAndUp ? 'bottom center' : 'top center'"
       activator="parent"
@@ -12,12 +13,15 @@
         <v-form @submit.prevent="goToPostId">
           <v-card-text>
             <v-text-field
+              ref="idTextFieldRef"
               v-model="postId"
+              autofocus
               label="ID"
               color="primary"
               type="number"
               prepend-inner-icon="mdi-key"
               hide-details="auto"
+              :rules="[v => !!v || 'Please introduce an ID']"
             />
           </v-card-text>
           <v-card-actions>
@@ -36,21 +40,34 @@
 
 <script setup lang="ts">
 import { useAppStore } from '@/stores/appStore'
+import { VTextField } from 'vuetify/lib/components/index.mjs'
 
 const appStore = useAppStore()
 const router = useRouter()
 
+const menuOpen = ref(false)
+
+const idTextFieldRef = ref<InstanceType<typeof VTextField> | null>(null)
 const postId = ref('')
+
+// Grab focus when menu is opened
+watch(idTextFieldRef, (newVal) => {
+  if (newVal) {
+    const input: HTMLElement = idTextFieldRef.value?.$el?.querySelector('input')
+
+    if (input) {
+      setTimeout(() => {
+        input.focus()
+      }, 20)
+    }
+  }
+})
+
 
 function goToPostId() {
   // check id is valid
   if (isNaN(parseInt(postId.value))) {
-    appStore.addNotification({
-      color: 'error',
-      title: 'Not a valid ID',
-      icon: 'mdi-close',
-      text: 'Please introduce a valid ID'
-    })
+    return
   }
 
   router.push(`post/${parseInt(postId.value)}`)

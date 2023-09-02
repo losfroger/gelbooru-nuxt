@@ -170,6 +170,11 @@ export interface GelbooruPost {
   */
   is_video: boolean,
   /**
+   * If it's animated
+   * (Not in the original response)
+   */
+  is_animated: boolean,
+  /**
    * If it's a 3D render
    * (Not in the original response)
   */

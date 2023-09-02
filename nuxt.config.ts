@@ -13,6 +13,7 @@ export default defineNuxtConfig({
   },
 
   build: { transpile: ['vuetify'] },
+
   modules: [
     '@pinia/nuxt',
     '@pinia-plugin-persistedstate/nuxt',
@@ -26,6 +27,7 @@ export default defineNuxtConfig({
       )
     },
   ],
+
   pinia: {
     autoImports: [
       // automatically imports `defineStore`
@@ -53,5 +55,11 @@ export default defineNuxtConfig({
     }
   },
 
-  css: ['~/assets/css/global.css']
+  css: ['~/assets/css/global.css'],
+
+  devtools: {
+    timeline: {
+      enabled: true
+    }
+  }
 })

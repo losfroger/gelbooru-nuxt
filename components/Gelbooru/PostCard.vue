@@ -1,23 +1,23 @@
 <template>
   <v-card class="tw-flex tw-w-full tw-flex-row md:tw-flex-col">
     <div class="tw-relative tw-aspect-square tw-w-full tw-overflow-clip tw-shadow-xl md:tw-max-w-[40vw]">
-      <NuxtImg
+      <v-img
         class="tw-absolute tw-top-0 tw-aspect-square tw-h-full tw-w-full tw-object-cover tw-opacity-40 tw-blur-lg"
         :src="propsPostCard.post.preview_url"
         aria-hidden="true"
+        cover
         loading="lazy"
       />
       <NuxtLink
         :to="`/post/${propsPostCard.post.id}`"
       >
-        <NuxtImg
+        <v-img
           :src="propsPostCard.post.preview_url"
           :class="{
             'tw-absolute tw-top-0 tw-aspect-square tw-h-full tw-w-full tw-object-contain tw-shadow-sm tw-transition-all': true,
             'tw-blur-md hover:tw-blur-none': settingStore.settings.hideNsfwImages && isNsfw
           }"
           :alt="`Post image-${propsPostCard.post.id}-${propsPostCard.post.rating}-${propsPostCard.post.tags_array.slice(0, 5)}`"
-          fit="contain"
           loading="lazy"
         />
       </NuxtLink>

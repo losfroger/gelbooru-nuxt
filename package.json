@@ -12,7 +12,6 @@
     "@mdi/font": "^7.2.96",
     "@nuxt/devtools": "0.8.2",
     "@nuxt/eslint-config": "^0.1.1",
-    "@nuxt/image": "^1.0.0-rc.1",
     "@nuxtjs/tailwindcss": "^6.6.5",
     "@pinia-plugin-persistedstate/nuxt": "^1.1.1",
     "@types/file-saver": "^2.0.5",

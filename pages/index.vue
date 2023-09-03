@@ -24,15 +24,14 @@
             group
             leave-absolute
           >
-            <NuxtImg
+            <img
               v-for="(num, id) in postCount?.toString()"
               :key="`${num}-${id}`"
               :src="`/counter/${num}.gif`"
               :alt="num"
-              sizes="sm:40px md:60px"
-              class="tw-h-auto tw-object-contain"
+              class="tw-h-auto tw-w-8 tw-object-contain md:tw-w-14"
               preload
-            />
+            >
           </v-slide-y-reverse-transition>
         </div>
       </div>

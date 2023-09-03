@@ -1,10 +1,12 @@
 <template>
   <v-btn
     v-bind="$attrs"
+    :disabled="!authStore.logged_in_computed"
   >
     Go to post ID
     <v-menu
       v-model="menuOpen"
+      :disabled="!authStore.logged_in_computed"
       :close-on-content-click="false"
       :location="$vuetify.display.mdAndUp ? 'bottom center' : 'top center'"
       activator="parent"
@@ -39,10 +41,10 @@
 </template>
 
 <script setup lang="ts">
-import { useAppStore } from '@/stores/appStore'
+import { useAuthStore } from '~/stores/authStore'
 import { VTextField } from 'vuetify/lib/components/index.mjs'
 
-const appStore = useAppStore()
+const authStore = useAuthStore()
 const router = useRouter()
 
 const menuOpen = ref(false)

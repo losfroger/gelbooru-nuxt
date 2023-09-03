@@ -38,6 +38,10 @@
           </v-row>
         </v-form>
         <p class="tw-mt-8">
+          Your credentials <b>won't</b> get stored anywhere inside the server.
+        </p>
+        <br>
+        <p>
           To access the Gelbooru API we need your access credentials. You can see your credentials in <a
             href="https://gelbooru.com/index.php?page=account&s=options"
             target="_blank"

@@ -1,11 +1,24 @@
 <template>
   <v-app>
-    <AppSiteBar />
     <v-navigation-drawer
       v-model="appStore.toggleMenu"
       expand-on-hover
       :rail="$vuetify.display.lgAndUp"
     >
+      <template #prepend>
+        <div class="tw-hidden tw-h-16 tw-flex-col tw-px-2 md:tw-flex">
+          <nuxt-link
+            to="/"
+            class="tw-my-auto tw-flex tw-flex-col tw-justify-center tw-rounded-sm tw-align-middle tw-transition-colors hover:tw-bg-[#2a2a2a]"
+          >
+            <img
+              src="/gelbooru-logo.svg"
+              class="tw-mx-auto tw-h-auto tw-w-6 tw-object-contain md:tw-w-10"
+            >
+          </nuxt-link>
+        </div>
+        <v-divider />
+      </template>
       <v-list nav>
         <v-list-item
           v-for="(item, i) in itemList"
@@ -41,6 +54,7 @@
         </div>
       </template>
     </v-navigation-drawer>
+    <AppSiteBar />
     <v-main>
       <NuxtLoadingIndicator color="#006FFA" />
       <ClientOnly>

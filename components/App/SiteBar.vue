@@ -1,12 +1,18 @@
 <template>
-  <v-app-bar :title="titlePage">
+  <v-app-bar
+    scroll-behavior="hide"
+    :title="titlePage"
+  >
     <template #prepend>
       <v-btn
         v-if="$vuetify.display.mdAndDown"
         :icon="appStore.toggleMenu ? 'mdi-close' : 'mdi-menu'"
         @click="appStore.toggleMenu = !appStore.toggleMenu"
       />
-      <nuxt-link to="/">
+      <nuxt-link
+        to="/"
+        class="md:tw-hidden"
+      >
         <v-img
           src="/gelbooru-logo.svg"
           contain

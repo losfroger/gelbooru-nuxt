@@ -1,4 +1,5 @@
 import { GelbooruPost } from '~/types/gelbooru'
+import axios_gelbooru from '~/server/axiosGelbooru'
 
 import JSZip from 'jszip'
 import { Readable } from 'stream'
@@ -27,9 +28,9 @@ export default defineEventHandler(async (event) => {
       }
 
       try {
-        const res = await $fetch(`/api/image/full/${post?.id}`, {responseType: 'arrayBuffer'})
+        const res = await axios_gelbooru.get(post.file_url ? post.file_url : post.sample_url, { responseType: 'arraybuffer' })
         const fileType = post.image.split('.').at(-1) ?? 'png'
-        zip.file(`${post?.id}.${fileType}`, res)
+        zip.file(`${post?.id}.${fileType}`, res.data)
 
       } catch (error) {
         console.log(error)

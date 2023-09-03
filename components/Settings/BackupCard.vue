@@ -6,9 +6,9 @@
     </v-card-title>
 
     <v-divider />
-    <v-card-text class="tw-flex tw-flex-col tw-gap-4">
-      <v-row>
-        <v-form @submit.prevent="downloadFavoritesBackup">
+    <v-card-text class="tw-flex tw-flex-col tw-gap-8">
+      <v-form @submit.prevent="downloadFavoritesBackup">
+        <v-row>
           <v-col cols="12">
             <h3>Backup favorites into file</h3>
             <p class="description">
@@ -50,13 +50,13 @@
               Download
             </v-btn>
           </v-col>
-        </v-form>
-      </v-row>
-      <v-row>
-        <v-form
-          v-model="imageZipFormValid"
-          @submit.prevent="downloadImageZip"
-        >
+        </v-row>
+      </v-form>
+      <v-form
+        v-model="imageZipFormValid"
+        @submit.prevent="downloadImageZip"
+      >
+        <v-row>
           <v-col cols="12">
             <h3>
               Download images zip from json backup
@@ -88,8 +88,8 @@
               Download
             </v-btn>
           </v-col>
-        </v-form>
-      </v-row>
+        </v-row>
+      </v-form>
     </v-card-text>
   </v-card>
 </template>

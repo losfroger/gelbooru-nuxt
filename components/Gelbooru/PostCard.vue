@@ -143,6 +143,16 @@
             size="x-small"
           >
             +{{ propsPostCard.post.tags_array.length - 3 }} more
+            <v-tooltip
+              activator="parent"
+              location="bottom"
+              open-delay="800"
+              max-width="300"
+            >
+              <p class="text-caption">
+                {{ propsPostCard.post.tags_array.slice(3).join(', ').replaceAll('_', ' ') }}
+              </p>
+            </v-tooltip>
           </v-chip>
         </div>
       </div>

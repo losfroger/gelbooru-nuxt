@@ -203,6 +203,7 @@
                   color="green"
                   :simple-tag="tag.name"
                   :full-tag="tag"
+                  :artist-tag="tagsByCategory.artist"
                 />
               </div>
             </div>
@@ -225,6 +226,7 @@
                   color="purple"
                   :simple-tag="tag.name"
                   :full-tag="tag"
+                  :artist-tag="tagsByCategory.artist"
                 />
               </div>
             </div>
@@ -247,6 +249,7 @@
                   color="yellow"
                   :simple-tag="tag.name"
                   :full-tag="tag"
+                  :artist-tag="tagsByCategory.artist"
                 />
               </div>
             </div>
@@ -268,6 +271,7 @@
                   :key="tag.id"
                   :simple-tag="tag.name"
                   :full-tag="tag"
+                  :artist-tag="tagsByCategory.artist"
                 />
               </div>
             </div>
@@ -284,6 +288,7 @@
                   :full-tag="tag"
                   color="grey"
                   class="tw-line-through"
+                  :artist-tag="tagsByCategory.artist"
                 />
               </div>
             </div>

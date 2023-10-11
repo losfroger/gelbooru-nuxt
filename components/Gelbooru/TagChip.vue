@@ -16,7 +16,6 @@
       location="bottom"
       activator="parent"
       :open-on-click="false"
-      :close-on-content-click="false"
     >
       <v-list
         v-model:opened="menuOpenedSubgroups"
@@ -61,32 +60,28 @@
             Open in new tab
           </v-list-item-title>
         </v-list-item>
-        <v-list-group
-          key="artists"
-          value="artists"
+        <template
+          v-if="artistTag && artistTag.length > 0"
         >
-          <template #activator="{ props }">
-            <v-list-item
-              v-if="artistTag && artistTag.length > 0"
-              v-bind="props"
-            >
-              <v-list-item-title class="tw-flex tw-flex-row tw-items-center">
-                <v-icon
-                  start
-                  icon="mdi-brush-outline"
-                  size="small"
-                />
-                Search from the same artist
-              </v-list-item-title>
-            </v-list-item>
-          </template>
+          <v-divider />
+          <v-list-item>
+            <v-list-item-title class="tw-flex tw-flex-row tw-items-center">
+              <v-icon
+                start
+                icon="mdi-brush-outline"
+                size="small"
+              />
+              Explore more from the same artist:
+            </v-list-item-title>
+          </v-list-item>
           <v-list-item
             v-for="artist in artistTag"
             :key="artist.id"
             :to="`/search-results?tags=${encodeURIComponent(artist.name)},${encodeURIComponent(propGelbooruTagChip.simpleTag)},sort:score`"
             :title="artist.name"
+            class="tw-pl-12"
           />
-        </v-list-group>
+        </template>
       </v-list>
     </v-menu>
   </v-chip>

@@ -16,8 +16,10 @@
       location="bottom"
       activator="parent"
       :open-on-click="false"
+      :close-on-content-click="false"
     >
       <v-list
+        v-model:opened="menuOpenedSubgroups"
         density="compact"
         @mouseleave="showMenu = false"
       >
@@ -59,6 +61,32 @@
             Open in new tab
           </v-list-item-title>
         </v-list-item>
+        <v-list-group
+          key="artists"
+          value="artists"
+        >
+          <template #activator="{ props }">
+            <v-list-item
+              v-if="artistTag && artistTag.length > 0"
+              v-bind="props"
+            >
+              <v-list-item-title class="tw-flex tw-flex-row tw-items-center">
+                <v-icon
+                  start
+                  icon="mdi-brush-outline"
+                  size="small"
+                />
+                Search from the same artist
+              </v-list-item-title>
+            </v-list-item>
+          </template>
+          <v-list-item
+            v-for="artist in artistTag"
+            :key="artist.id"
+            :to="`/search-results?tags=${encodeURIComponent(artist.name)},${encodeURIComponent(propGelbooruTagChip.simpleTag)},sort:score`"
+            :title="artist.name"
+          />
+        </v-list-group>
       </v-list>
     </v-menu>
   </v-chip>
@@ -76,6 +104,10 @@ const propGelbooruTagChip = defineProps({
   fullTag: {
     type: Object as PropType<GelbooruTag>,
     default: undefined,
+  },
+  artistTag: {
+    type: Object as PropType<GelbooruTag[]>,
+    default: undefined,
   }
 })
 
@@ -84,6 +116,7 @@ const router = useRouter()
 const numberFormatter = Intl.NumberFormat('en', {notation: 'compact'})
 
 const showMenu = ref(false)
+const menuOpenedSubgroups = ref<String[]>([])
 
 function changePage() {
   router.push(`/search-results?tags=${encodeURIComponent(propGelbooruTagChip.simpleTag)},sort:score`)

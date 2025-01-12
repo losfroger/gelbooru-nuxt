@@ -14,6 +14,9 @@ FROM node:16-alpine as Run
 WORKDIR /usr/prod
 COPY --from=Build ["/usr/src/.output", "."]
 
+# Add curl for healthcheck
+RUN apk add --no-cache curl
+
 ENV HOST=0.0.0.0
 ENV PORT=80
 

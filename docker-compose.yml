@@ -11,3 +11,9 @@ services:
       PRODUCTION: 'true'
     ports:
       - 80:80
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://nuxt-app:80/api/health"]
+      interval: 5s
+      retries: 5
+      start_period: 5s
+      timeout: 30s

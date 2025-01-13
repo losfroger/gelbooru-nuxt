@@ -10,7 +10,7 @@ export const useAuthStore = defineStore('auth', () => {
       body: {
         api_key: newApi_key,
         user_id: newUser_id,
-      }
+      },
     })
       .then(() => {
         user_id.value = newUser_id

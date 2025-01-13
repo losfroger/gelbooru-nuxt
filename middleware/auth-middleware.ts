@@ -1,8 +1,8 @@
 import { useAuthStore } from '~/stores/authStore'
-import { UserCredentials } from '~/types/auth-types'
+import type { UserCredentials } from '~/types/auth-types'
 
-export default defineNuxtRouteMiddleware((to, from) => {
-  if (process.server) {
+export default defineNuxtRouteMiddleware((to, _from) => {
+  if (import.meta.server) {
     const user_creds = useCookie<UserCredentials | undefined>('user-credentials')
 
     console.log('Server auth middleware:', !user_creds?.value)
@@ -12,7 +12,7 @@ export default defineNuxtRouteMiddleware((to, from) => {
       return navigateTo('/login')
     }
   }
-  if (process.client) {
+  if (import.meta.client) {
     console.log('Auth client!', to)
     const authStore = useAuthStore()
     if (!authStore.logged_in_computed) {

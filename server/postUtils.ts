@@ -1,8 +1,9 @@
-import { DefaultFilteredTags, GelbooruPost, GelbooruPostReq, GelbooruPostRes } from '~/types/gelbooru'
+import type { GelbooruPost, GelbooruPostReq, GelbooruPostRes } from '~/types/gelbooru'
+import { DefaultFilteredTags } from '~/types/gelbooru'
 
 import axios_gelbooru from '~/server/axiosGelbooru'
 import he from 'he'
-import { UserSettings } from '~/stores/settingsStore'
+import type { UserSettings } from '~/stores/settingsStore'
 
 export async function getPosts(apiKey: string, userId: string, params: GelbooruPostReq, userSettingsString: string | undefined, noTags = false) {
   try {
@@ -40,7 +41,7 @@ export async function getPosts(apiKey: string, userId: string, params: GelbooruP
         pid: params.pid,
         id: params.id,
         tags: auxTags,
-      }
+      },
     })
 
     resGel.data.post.forEach((post) => {
@@ -69,8 +70,8 @@ export function convertPost(post: GelbooruPost) {
   post.has_comments_bool = post.has_comments === 'true'
   post.has_children_bool = post.has_children === 'true'
 
-  post.is_video = videoUrlRegex.test(post.file_url),
-  post.is_animated = post.tags_array.some((tag) => videoTags.includes(tag)),
+  post.is_video = videoUrlRegex.test(post.file_url)
+  post.is_animated = post.tags_array.some((tag) => videoTags.includes(tag))
   post.is_3d = post.tags_array.includes('3d')
   post.is_irl = post.tags_array.includes('photo_(medium)')
   post.is_sound = post.tags_array.includes('sound')

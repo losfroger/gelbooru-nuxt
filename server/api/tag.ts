@@ -1,5 +1,6 @@
 import axios_gelbooru from '~/server/axiosGelbooru'
-import { GelbooruTag, GelbooruTagRes, GelbooruTagReq, NegativeQueryRegex, FuzzyQueryRegex } from '~/types/gelbooru'
+import type { GelbooruTag, GelbooruTagRes, GelbooruTagReq} from '~/types/gelbooru'
+import { NegativeQueryRegex, FuzzyQueryRegex } from '~/types/gelbooru'
 
 import he from 'he'
 
@@ -49,8 +50,8 @@ export default defineEventHandler(async (event) => {
       name: tagQuery.name,
       names: tagQuery.names,
       orderby: tagQuery.orderby ?? 'count',
-      order: tagQuery.order ?? 'DESC'
-    }
+      order: tagQuery.order ?? 'DESC',
+    },
   })
 
   console.debug(tagQuery.name_pattern, resGel.data['@attributes'])
@@ -58,7 +59,7 @@ export default defineEventHandler(async (event) => {
   if (!resGel.data.tag) {
     throw createError({
       statusCode: 400,
-      statusMessage: 'No tags were found with that criteria'
+      statusMessage: 'No tags were found with that criteria',
     })
   }
 

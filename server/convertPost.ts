@@ -1,4 +1,4 @@
-import { GelbooruPost } from '~/types/gelbooru'
+import type { GelbooruPost } from '~/types/gelbooru'
 import he from 'he'
 
 const videoTags = ['animated', 'video']

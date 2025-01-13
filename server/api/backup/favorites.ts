@@ -1,6 +1,6 @@
-import { GelbooruPost, GelbooruPostReq } from '~/types/gelbooru'
+import type { GelbooruPost, GelbooruPostReq } from '~/types/gelbooru'
 import { getPosts } from '~/server/postUtils'
-import { UserCredentials } from '~/types/auth-types'
+import type { UserCredentials } from '~/types/auth-types'
 
 // Retrieve all favorites from user
 export default defineEventHandler(async (event): Promise<GelbooruPost[]> => {
@@ -10,7 +10,7 @@ export default defineEventHandler(async (event): Promise<GelbooruPost[]> => {
   if (!userCredentialsCookie) {
     throw createError({
       statusCode: 403,
-      statusMessage: 'User needs to be logged in'
+      statusMessage: 'User needs to be logged in',
     })
   }
 
@@ -18,7 +18,7 @@ export default defineEventHandler(async (event): Promise<GelbooruPost[]> => {
 
   const query: GelbooruPostReq = {
     tags: `fav:${userCredentials.user_id}`,
-    limit: 100
+    limit: 100,
   }
 
   /*
@@ -29,13 +29,13 @@ export default defineEventHandler(async (event): Promise<GelbooruPost[]> => {
     userCredentials.api_key,
     userCredentials.user_id,
     query,
-    undefined,
+    undefined
   )
 
   if (!firstPostsData) {
     throw createError({
       statusCode: 400,
-      statusMessage: 'No posts were found with that criteria'
+      statusMessage: 'No posts were found with that criteria',
     })
   }
 
@@ -53,14 +53,14 @@ export default defineEventHandler(async (event): Promise<GelbooruPost[]> => {
     const auxQuery: GelbooruPostReq = {
       limit: 100,
       pid: index + 1,
-      tags: query.tags
+      tags: query.tags,
     }
 
     const auxPostsData = await getPosts(
       userCredentials.api_key,
       userCredentials.user_id,
       auxQuery,
-      undefined,
+      undefined
     )
 
     if (auxPostsData?.post) {

@@ -47,12 +47,12 @@ export const useSettingsStore = defineStore('settings', () => {
   return {
     settings,
     filteredTagsWithMinus,
-    resetSettings
+    resetSettings,
   }
 }, {
   persist: {
     storage: persistedState.cookiesWithOptions({
-      maxAge: 50 * 365 * 24 * 60 * 60
+      maxAge: 50 * 365 * 24 * 60 * 60,
     }),
-  }
+  },
 })

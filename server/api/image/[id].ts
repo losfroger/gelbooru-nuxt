@@ -13,7 +13,7 @@ export default defineEventHandler(async (event) => {
         id: event.context.params?.id,
         api_key: event.node.req.headers.apiKey,
         user_id: event.node.req.headers.userId,
-      }
+      },
     })
 
     if (!('post' in resGel.data) || resGel.data.post.length < 1) {

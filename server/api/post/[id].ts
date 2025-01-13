@@ -1,6 +1,6 @@
-import { GelbooruPostReq, GelbooruPostWithTags, GelbooruTag } from '~/types/gelbooru'
+import type { GelbooruPostReq, GelbooruPostWithTags, GelbooruTag } from '~/types/gelbooru'
 import { getPosts } from '~/server/postUtils'
-import { UserCredentials } from '~/types/auth-types'
+import type { UserCredentials } from '~/types/auth-types'
 
 
 export default defineEventHandler(async (event): Promise<GelbooruPostWithTags> => {
@@ -16,7 +16,7 @@ export default defineEventHandler(async (event): Promise<GelbooruPostWithTags> =
     if (!auxId) {
       throw createError({
         statusCode: 400,
-        statusMessage: 'No id provided'
+        statusMessage: 'No id provided',
       })
     }
     query.id = auxId
@@ -26,7 +26,7 @@ export default defineEventHandler(async (event): Promise<GelbooruPostWithTags> =
     if (!auxCookies) {
       throw createError({
         statusCode: 403,
-        statusMessage: 'User needs to be logged in'
+        statusMessage: 'User needs to be logged in',
       })
     }
 
@@ -43,7 +43,7 @@ export default defineEventHandler(async (event): Promise<GelbooruPostWithTags> =
     if (!postsData) {
       throw createError({
         statusCode: 400,
-        statusMessage: 'No posts were found with that criteria'
+        statusMessage: 'No posts were found with that criteria',
       })
     }
 
@@ -64,7 +64,7 @@ export default defineEventHandler(async (event): Promise<GelbooruPostWithTags> =
             names: tags_array?.join(' '),
             orderby: 'name',
             order: 'ASC',
-          }
+          },
         })
 
         tags = tags.concat(aux_tags?.tag)

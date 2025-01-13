@@ -26,7 +26,7 @@ export const useAppStore = defineStore('appStore', () => {
       text: options.text,
       icon: options.icon,
       timeout: options.timeout ?? 5000,
-      color: options.color ?? 'success'
+      color: options.color ?? 'success',
     })
   }
 

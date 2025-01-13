@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .soft-shadow {
+    box-shadow: rgba(0, 0, 0, 0.17) 0px 3px 25px 0px !important;
+  }
+}

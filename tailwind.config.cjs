@@ -23,15 +23,13 @@ module.exports = {
     },
     extend: {
       colors: {
-        primary: '#e9672e',
-        secondary: '#0cb9c5',
-        accent: '#fc4b6c',
-        info: '#03c9d7',
-        success: '#05b187',
-        positive: '#05b187',
-        warning: '#fec90f',
-        error: '#fc4b6c',
-        negative: '#fc4b6c',
+        primary: '#006FFA',
+        secondary: '#BB86FC',
+        accent: '#03DAC5',
+        info: '#2196F3',
+        positive: '#4CAF50',
+        warning: '#FB8C00',
+        negative: '#CF6679',
         background: {
           DEFAULT: '#f2f2f2',
           dark: '#171717',

@@ -27,6 +27,16 @@ export default defineNuxtConfig({
     config: {
       ripple: true,
       dark: 'auto',
+      brand: {
+        primary: '#006FFA',
+        secondary: '#BB86FC',
+        accent: '#03DAC5',
+        dark: '#262626',
+        positive: '#4CAF50',
+        negative: '#CF6679',
+        info: '#2196F3',
+        warning: '#FB8C00',
+      },
     },
     extras: {
       animations: 'all',
@@ -41,6 +51,7 @@ export default defineNuxtConfig({
     download: false,
     families: {
       Barlow: [100, 200, 300, 400, 500, 600, 700, 800, 900],
+      'JetBrains Mono': [400],
     },
   },
 })

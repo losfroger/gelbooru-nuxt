@@ -24,6 +24,14 @@
         />
       </div>
     </div>
+    <div class="tw-mt-4 tw-flex tw-flex-row tw-gap-2">
+      <QBtn
+        label="Login"
+        color="primary"
+        to="/login"
+      />
+      <GelbooruGoToPostId />
+    </div>
   </div>
 </template>
 

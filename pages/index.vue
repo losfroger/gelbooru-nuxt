@@ -1,5 +1,14 @@
 <template>
   <div class="tw-flex tw-flex-col tw-items-center tw-gap-3">
+    <a
+      href="https://gelbooru.com/index.php"
+      target="_blank"
+      class="tw-text-white tw-no-underline tw-transition-colors hover:tw-text-primary"
+    >
+      <h1 class="tw-mb-1 tw-text-center tw-text-5xl tw-font-semibold">
+        Gelbooru
+      </h1>
+    </a>
     <div v-auto-animate class="counter-hero-banner tw-relative tw-flex tw-flex-row">
       <PageCuteCounter
         v-for="(number, idx) in postCount?.toString()"

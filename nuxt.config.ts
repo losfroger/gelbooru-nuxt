@@ -8,12 +8,16 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@nuxtjs/tailwindcss',
     'nuxt-quasar-ui',
+    '@nuxtjs/google-fonts',
   ],
   runtimeConfig: {
     public: {
       VERSION: 'rewrite 0.0.1',
     },
   },
+  css: [
+    '@/assets/css/global.scss',
+  ],
   tailwindcss: {
     cssPath: '@/assets/css/tailwind.css',
   },
@@ -31,5 +35,12 @@ export default defineNuxtConfig({
       'Notify',
       'Dark',
     ],
+  },
+  googleFonts: {
+    preconnect: true,
+    download: false,
+    families: {
+      Barlow: [100, 200, 300, 400, 500, 600, 700, 800, 900],
+    },
   },
 })

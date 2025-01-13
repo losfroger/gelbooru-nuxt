@@ -9,6 +9,7 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     'nuxt-quasar-ui',
     '@nuxtjs/google-fonts',
+    '@formkit/auto-animate/nuxt',
   ],
   runtimeConfig: {
     public: {

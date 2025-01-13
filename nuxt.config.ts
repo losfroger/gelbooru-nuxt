@@ -10,6 +10,7 @@ export default defineNuxtConfig({
     'nuxt-quasar-ui',
     '@nuxtjs/google-fonts',
     '@formkit/auto-animate/nuxt',
+    '@pinia/nuxt',
   ],
   runtimeConfig: {
     public: {
@@ -27,7 +28,7 @@ export default defineNuxtConfig({
     quietSassWarnings: true,
     config: {
       ripple: true,
-      dark: 'auto',
+      dark: true,
       brand: {
         primary: '#006FFA',
         secondary: '#BB86FC',

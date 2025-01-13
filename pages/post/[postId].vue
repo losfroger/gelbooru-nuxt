@@ -1,6 +1,14 @@
 <template>
   <div>
-    <div class="tw-grid tw-grid-cols-[1fr_3fr_1fr] tw-gap-4">
+    <div v-if="status == 'error'">
+      <h1 class="text-h5">
+        There was an error:
+      </h1>
+      <p>
+        {{ error?.message }}
+      </p>
+    </div>
+    <div v-else-if="status == 'success'" class="tw-grid tw-grid-cols-[1fr_3fr_1fr] tw-gap-4">
       <div>
         <QCard flat>
           <QCardSection class="tw-flex tw-flex-col tw-gap-2">
@@ -54,7 +62,7 @@ import type { GelbooruPostWithTags } from '~/types/gelbooru'
 const route = useRoute()
 const postId = route.params.postId
 
-const { data: post, status  } = await useFetch<GelbooruPostWithTags>(`/api/post/${postId}`, {
+const { data: post, status, error  } = await useFetch<GelbooruPostWithTags>(`/api/post/${postId}`, {
   parseResponse: (res) => {
     const aux: GelbooruPostWithTags = JSON.parse(res)
     if (aux.created_at_date) {

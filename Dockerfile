@@ -14,8 +14,9 @@ FROM oven/bun:alpine as run
 WORKDIR /usr/prod
 COPY --from=build ["/usr/src/.output", "."]
 
-# Add curl for healthcheck
+# Add curl and wget for healthcheck
 RUN apk add --no-cache curl
+RUN apk add --no-cache wget
 
 ENV HOST=0.0.0.0
 ENV PORT=80

@@ -1,11 +1,11 @@
 <template>
-  <div class="tw-flex tw-flex-col tw-items-center tw-gap-3">
+  <div class="tw-mt-14 tw-flex tw-flex-col tw-items-center tw-gap-3">
     <a
       href="https://gelbooru.com/index.php"
       target="_blank"
       class="tw-text-white tw-no-underline tw-transition-colors hover:tw-text-primary"
     >
-      <h1 class="tw-mb-1 tw-text-center tw-text-5xl tw-font-semibold">
+      <h1 class="tw-mb-1 tw-text-center tw-text-6xl tw-font-semibold">
         Gelbooru
       </h1>
     </a>
@@ -25,11 +25,6 @@
       </div>
     </div>
     <div class="tw-mt-4 tw-flex tw-flex-row tw-gap-2">
-      <QBtn
-        label="Login"
-        color="primary"
-        to="/login"
-      />
       <GelbooruGoToPostId />
     </div>
   </div>
@@ -44,7 +39,7 @@ const { data: postCount, refresh, status } = useFetch('/api/post/count')
 
 .counter-hero-banner::before {
   content: "";
-  @apply tw-bg-primary tw-h-8 md:tw-h-16 tw-w-screen tw-absolute tw-top-1/2 tw-left-1/2 -tw-translate-x-1/2 -tw-translate-y-1/2
+  @apply tw-bg-primary tw-h-8 md:tw-h-14 tw-w-screen tw-absolute tw-top-1/2 tw-left-1/2 -tw-translate-x-1/2 -tw-translate-y-1/2
   tw-bg-gradient-to-b tw-from-primary tw-to-blue-950;
 }
 

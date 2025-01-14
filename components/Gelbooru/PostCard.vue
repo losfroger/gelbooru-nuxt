@@ -109,6 +109,34 @@
       </div>
       <GelbooruUserLink :user="{creator_id: props.post.creator_id, owner: props.post.owner}" />
       <QSeparator spaced class="tw-opacity-30" />
+      <div class="tw-flex tw-flex-row tw-flex-wrap">
+        <GelbooruRatingChip
+          :rating="props.post.rating"
+          outline
+          size="sm"
+        />
+        <GelbooruSimpleTagChip
+          v-for="(tag, i) in props.post.tags_array.slice(0, 5)"
+          :key="i"
+          :simple-tag="tag"
+          size="sm"
+          color="secondary"
+          outline
+        />
+        <QChip
+          v-if="props.post.tags_array.length > 5"
+          size="sm"
+          :label="`+${props.post.tags_array.length - 5} more`"
+          color="grey"
+          outline
+        >
+          <QTooltip :delay="800" max-width="300px">
+            <p class="text-caption">
+              {{ props.post.tags_array.slice(3).join(', ').replaceAll('_', ' ') }}
+            </p>
+          </QTooltip>
+        </QChip>
+      </div>
     </QCardSection>
   </QCard>
 </template>

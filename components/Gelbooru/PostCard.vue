@@ -12,7 +12,7 @@
           :src="props.post.preview_url"
           fit="contain"
           :ratio="1"
-          class="tw-m-auto tw-blur-md"
+          class="tw-m-auto"
         />
         <div class="icon-shadow tw-absolute tw-left-0 tw-top-0 tw-flex tw-w-full tw-flex-row tw-flex-wrap tw-gap-0.5 tw-p-2">
           <QIcon
@@ -107,7 +107,12 @@
           />
         </div>
       </div>
-      <GelbooruUserLink :user="{creator_id: props.post.creator_id, owner: props.post.owner}" />
+      <div class="tw-flex tw-flex-row">
+        <GelbooruUserLink :user="{creator_id: props.post.creator_id, owner: props.post.owner}" />
+        <ClientOnly>
+          <TimeAgo class="tw-ml-auto tw-font-extralight first-letter:tw-uppercase" :date="new Date(props.post.created_at_utc)" />
+        </ClientOnly>
+      </div>
       <QSeparator spaced class="tw-opacity-30" />
       <div class="tw-flex tw-flex-row tw-flex-wrap">
         <GelbooruRatingChip

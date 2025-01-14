@@ -62,16 +62,7 @@ import type { GelbooruPostWithTags } from '~/types/gelbooru'
 const route = useRoute()
 const postId = route.params.postId
 
-const { data: post, status, error  } = await useFetch<GelbooruPostWithTags>(`/api/post/${postId}`, {
-  parseResponse: (res) => {
-    const aux: GelbooruPostWithTags = JSON.parse(res)
-    if (aux.created_at_date) {
-      aux.created_at_date = new Date(aux.created_at_date)
-    }
-
-    return aux
-  },
-})
+const { data: post, status, error  } = await useFetch<GelbooruPostWithTags>(`/api/post/${postId}`)
 
 </script>
 

@@ -44,7 +44,7 @@ const { data: postCount, refresh, status } = useFetch('/api/post/count')
 
 .counter-hero-banner::before {
   content: "";
-  @apply tw-bg-primary tw-h-16 tw-w-screen tw-absolute tw-top-1/2 tw-left-1/2 -tw-translate-x-1/2 -tw-translate-y-1/2
+  @apply tw-bg-primary tw-h-8 md:tw-h-16 tw-w-screen tw-absolute tw-top-1/2 tw-left-1/2 -tw-translate-x-1/2 -tw-translate-y-1/2
   tw-bg-gradient-to-b tw-from-primary tw-to-blue-950;
 }
 

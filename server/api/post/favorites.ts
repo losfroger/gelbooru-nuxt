@@ -1,8 +1,8 @@
-import type { GelbooruPostReq } from '~/types/gelbooru'
+import type { GelbooruPostReq, GelbooruPostRes } from '~/types/gelbooru'
 import { getPosts } from '~/server/postUtils'
 import type { UserCredentials } from '~/types/auth-types'
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async (event): Promise<GelbooruPostRes> => {
   console.log(event.path)
 
   const query: GelbooruPostReq = getQuery(event)

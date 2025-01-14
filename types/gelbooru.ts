@@ -65,7 +65,7 @@ export interface GelbooruPost {
   /**
    * Rating: if it's nsfw or not
   */
-  rating: string,
+  rating: 'General' | 'general' | 'safe' | 'Safe' | 'questionable' | 'sensitive' | 'Questionable' | 'explicit' | 'Explicit',
   /**
    * Where it comes from
   */

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="favorites?.post && status =='success'" class="tw-grid tw-grid-cols-4 tw-gap-4">
+    <div v-if="favorites?.post && status =='success'" class="tw-grid tw-grid-cols-1 tw-gap-2 sm:tw-grid-cols-2 md:tw-grid-cols-4 md:tw-gap-4 lg:tw-grid-cols-5">
       <GelbooruPostCard
         v-for="post in favorites.post"
         :key="post.id"

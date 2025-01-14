@@ -1,51 +1,46 @@
 <template>
-  <QCard class="tw-flex tw-flex-col" flat>
-    <NuxtLink :to="`/post/${props.post.id}`">
-      <div class="tw-relative tw-flex tw-aspect-square tw-w-full tw-max-w-full tw-flex-col tw-overflow-clip tw-shadow-md">
+  <QCard class="tw-grid tw-grid-cols-[1fr_1fr] md:tw-flex md:tw-flex-col" flat>
+    <NuxtLink :to="`/post/${props.post.id}`" class="tw-w-full">
+      <div class="tw-relative tw-flex tw-h-full tw-w-full tw-max-w-full tw-flex-col tw-overflow-clip tw-shadow-md md:tw-aspect-square">
         <QImg
           :src="props.post.preview_url"
           fit="fill"
           :ratio="1"
-          class="tw-absolute tw-m-auto tw-blur-2xl"
+          class="tw-absolute tw-m-auto tw-h-full tw-blur-2xl"
         />
         <QImg
           :src="props.post.preview_url"
           fit="contain"
           :ratio="1"
-          class="tw-m-auto"
+          class="tw-m-auto tw-h-full"
         />
-        <div class="icon-shadow tw-absolute tw-left-0 tw-top-0 tw-flex tw-w-full tw-flex-row tw-flex-wrap tw-gap-0.5 tw-p-2">
+        <div class="icon-shadow tw-absolute tw-left-0 tw-top-0 tw-flex tw-w-full tw-flex-row tw-flex-wrap tw-gap-0.5 tw-p-2 tw-text-lg">
           <QIcon
             v-if="isGifFile"
-            size="sm"
             color="accent"
             title="Video"
             name="mdi-file-gif-box"
           />
           <QIcon
             v-if="props.post.is_video"
-            size="sm"
             color="accent"
             title="Video"
             name="mdi-play-outline"
           />
           <QIcon
             v-if="props.post.is_sound"
-            size="sm"
             color="accent"
             title="Sound"
             name="mdi-volume-high"
           />
           <QIcon
             v-if="props.post.is_irl"
-            size="sm"
             color="accent"
             title="Photo medium"
             name="mdi-image-outline"
           />
           <QIcon
             v-if="props.post.is_3d"
-            size="sm"
             color="accent"
             title="3D"
             name="mdi-cube-outline"
@@ -55,35 +50,31 @@
           <template v-if="femaleIcon">
             <QIcon
               :name="femaleIcon.icon"
-              size="sm"
               color="secondary"
             />
             <QIcon
               v-if="femaleIcon.multiple"
               name="mdi-plus"
-              size="sm"
               color="secondary"
             />
           </template>
           <template v-if="maleIcon">
             <QIcon
               :name="maleIcon.icon"
-              size="sm"
               color="secondary"
             />
             <QIcon
               v-if="maleIcon.multiple"
               name="mdi-plus"
-              size="sm"
               color="secondary"
             />
           </template>
         </div>
       </div>
     </NuxtLink>
-    <QCardSection class="tw-flex tw-flex-col tw-gap-1">
-      <div class="tw-flex tw-flex-row tw-items-center">
-        <h2 class="text-h5 tw-flex-1">
+    <QCardSection class="tw-flex tw-flex-col tw-gap-1 tw-p-2 md:tw-p-4">
+      <div class="tw-flex tw-flex-col tw-gap-1 md:tw-flex-row md:tw-items-center">
+        <h2 class="tw-flex-1 tw-text-lg md:tw-text-xl">
           Score: <span :title="`${props.post.score}`">{{ formattedScore }}</span>
         </h2>
         <div class="tw-flex tw-flex-row tw-items-center tw-gap-1">
@@ -107,10 +98,10 @@
           />
         </div>
       </div>
-      <div class="tw-flex tw-flex-row">
-        <GelbooruUserLink :user="{creator_id: props.post.creator_id, owner: props.post.owner}" />
+      <div class="tw-flex tw-flex-col md:tw-flex-row">
+        <GelbooruUserLink class="tw-text-xs" :user="{creator_id: props.post.creator_id, owner: props.post.owner}" />
         <ClientOnly>
-          <TimeAgo class="tw-ml-auto tw-font-extralight first-letter:tw-uppercase" :date="new Date(props.post.created_at_utc)" />
+          <TimeAgo class="tw-text-xs tw-font-extralight first-letter:tw-uppercase md:tw-ml-auto md:tw-text-base" :date="new Date(props.post.created_at_utc)" />
         </ClientOnly>
       </div>
       <QSeparator spaced class="tw-opacity-30" />
@@ -119,6 +110,7 @@
           :rating="props.post.rating"
           outline
           size="sm"
+          :dense="$q.screen.lt.md"
         />
         <GelbooruSimpleTagChip
           v-for="(tag, i) in props.post.tags_array.slice(0, 5)"
@@ -127,6 +119,7 @@
           size="sm"
           color="secondary"
           outline
+          :dense="$q.screen.lt.md"
         />
         <QChip
           v-if="props.post.tags_array.length > 5"
@@ -134,6 +127,7 @@
           :label="`+${props.post.tags_array.length - 5} more`"
           color="grey"
           outline
+          :dense="$q.screen.lt.md"
         >
           <QTooltip :delay="800" max-width="300px">
             <p class="text-caption">

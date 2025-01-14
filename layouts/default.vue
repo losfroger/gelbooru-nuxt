@@ -39,7 +39,7 @@
       @mouseenter="miniState = false"
       @mouseleave="miniState = true"
     >
-      <div v-if="$q.screen.gt.sm" class="tw-py-1.5">
+      <div v-if="$q.screen.gt.sm" class="tw-py-3">
         <NuxtLink
           to="/"
           class="tw-my-auto tw-flex tw-flex-col tw-justify-center tw-rounded-sm tw-align-middle tw-transition-colors hover:tw-bg-neutral-700"
@@ -81,7 +81,7 @@
     </QDrawer>
 
     <QPageContainer class="page-container tw-flex tw-max-w-[100vw] tw-flex-col tw-items-center tw-overflow-hidden tw-bg-[#f2f2f2] dark:tw-bg-neutral-900">
-      <QPage padding class="tw-min-h-[90vh] tw-w-full tw-max-w-[1400px] tw-p-4 tw-pb-14 md:tw-p-6">
+      <QPage padding class="tw-min-h-[90vh] tw-w-full tw-max-w-[1600px] tw-p-4 tw-pb-14 md:tw-p-6">
         <NuxtPage />
       </QPage>
     </QPageContainer>

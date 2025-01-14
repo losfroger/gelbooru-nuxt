@@ -1,9 +1,11 @@
 <template>
   <span
+    v-bind="props"
     :title="date.toLocaleString()"
-    class="tw-cursor-help"
+    :class="`tw-cursor-help`"
   >
-    <slot /> {{ formattedRelativeDate }}
+    {{ formattedRelativeDate }}
+    <slot />
   </span>
 </template>
 

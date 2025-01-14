@@ -29,7 +29,7 @@
                 </h1>
                 <QBtn
                   color="accent"
-                  label="Original source"
+                  label="Original"
                   flat
                   dense
                   no-caps

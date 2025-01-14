@@ -1,9 +1,9 @@
 <template>
   <QFooter class="soft-shadow tw-bg-neutral-950 tw-px-4 tw-py-6 tw-text-white">
     <div class="tw-flex tw-flex-col tw-items-center tw-gap-3">
-      <ClientOnly>
+      <!-- <ClientOnly>
         <PageDarkModeToggle label="Dark mode" />
-      </ClientOnly>
+      </ClientOnly> -->
       <QBtn
         icon="mdi-github"
         label="See source code"

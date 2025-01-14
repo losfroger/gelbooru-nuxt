@@ -26,6 +26,7 @@
             Gelbooru
           </QToolbarTitle>
         </div>
+        <UserMenu />
       </QToolbar>
     </QHeader>
 
@@ -70,7 +71,7 @@
           active-class="drawer-item-active"
         >
           <QItemSection avatar>
-            <QIcon name="mdi-heart" />
+            <QIcon name="mdi-heart-outline" />
           </QItemSection>
           <QItemSection>
             Favorites

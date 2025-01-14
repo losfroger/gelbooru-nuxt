@@ -6,3 +6,7 @@ body {
 code {
   font-family: 'JetBrains Mono', serif;
 }
+
+a {
+  @apply tw-text-secondary tw-underline
+}

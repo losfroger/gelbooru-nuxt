@@ -1,7 +1,7 @@
 <template>
   <QLayout
     class="default-layout"
-    view="lHh lpR fff"
+    view="lHh lpR lff"
   >
     <QHeader reveal class="tw-bg-transparent tw-shadow-lg tw-shadow-black/25">
       <QToolbar class="tw-bg-neutral-700 tw-px-6 tw-py-3 dark:tw-bg-neutral-800">

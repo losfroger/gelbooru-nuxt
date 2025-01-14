@@ -60,7 +60,7 @@ export async function getPosts(apiKey: string, userId: string, params: GelbooruP
 const videoTags = ['animated', 'video']
 const videoUrlRegex = /.(mp4|mov|avi|mkv|flv)$/
 export function convertPost(post: GelbooruPost) {
-  post.created_at_date = new Date(post.created_at)
+  post.created_at_utc = new Date(post.created_at).toUTCString()
 
   post.tags = he.decode(post.tags)
   post.tags_array = post.tags.split(' ')

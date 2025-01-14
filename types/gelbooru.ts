@@ -41,9 +41,9 @@ export interface GelbooruPost {
   */
   created_at: string,
   /**
-   * Date when the post was published as date
+   * Date when the post was published as utc string
   */
-  created_at_date?: Date,
+  created_at_utc: string,
   /**
    * Number of up votes
   */

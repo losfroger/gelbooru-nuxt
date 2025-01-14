@@ -16,7 +16,7 @@
         This site is an unofficial third party client for Gelbooru.
       </p>
       <code class="tw-opacity-25">
-        {{ useRuntimeConfig().public.VERSION }}
+        {{ useRuntimeConfig().public.version }}
       </code>
     </div>
   </QFooter>

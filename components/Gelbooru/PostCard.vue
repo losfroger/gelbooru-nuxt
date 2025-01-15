@@ -14,7 +14,7 @@
           :ratio="1"
           class="tw-m-auto tw-h-full"
         />
-        <div class="icon-shadow tw-absolute tw-left-0 tw-top-0 tw-flex tw-w-full tw-flex-row tw-flex-wrap tw-gap-0.5 tw-p-2 tw-text-lg">
+        <div class="icon-shadow tw-absolute tw-left-0 tw-top-0 tw-flex tw-w-full tw-flex-row tw-flex-wrap tw-gap-0.5 tw-p-2 tw-text-lg md:tw-text-2xl">
           <QIcon
             v-if="isGifFile"
             color="accent"
@@ -99,9 +99,9 @@
         </div>
       </div>
       <div class="tw-flex tw-flex-col md:tw-flex-row">
-        <GelbooruUserLink class="tw-text-xs" :user="{creator_id: props.post.creator_id, owner: props.post.owner}" />
+        <GelbooruUserLink class="tw-text-xs md:tw-text-sm" :user="{creator_id: props.post.creator_id, owner: props.post.owner}" />
         <ClientOnly>
-          <TimeAgo class="tw-text-xs tw-font-extralight first-letter:tw-uppercase md:tw-ml-auto md:tw-text-base" :date="new Date(props.post.created_at_utc)" />
+          <TimeAgo class="tw-text-xs tw-font-extralight first-letter:tw-uppercase md:tw-ml-auto md:tw-text-sm" :date="new Date(props.post.created_at_utc)" />
         </ClientOnly>
       </div>
       <QSeparator spaced class="tw-opacity-30" />

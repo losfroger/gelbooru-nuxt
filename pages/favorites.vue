@@ -1,16 +1,13 @@
 <template>
-  <div>
-    <div v-if="favorites?.post && status =='success'" class="tw-grid tw-grid-cols-1 tw-gap-2 sm:tw-grid-cols-2 md:tw-grid-cols-4 md:tw-gap-4 lg:tw-grid-cols-5">
-      <GelbooruPostCard
-        v-for="post in favorites.post"
-        :key="post.id"
-        :post="post"
-      />
+  <div class="tw-flex tw-flex-col tw-items-center">
+    <div v-if="favorites">
+      <GelbooruPostList v-model:page="currentPage" :posts="favorites" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { QPagination } from 'quasar'
 import type { GelbooruPostRes } from '~/types/gelbooru'
 
 
@@ -26,6 +23,15 @@ const { data: favorites, status } = await useFetch<GelbooruPostRes>('/api/post/f
     tags,
   },
 })
+
+const pageCount = computed(() => Math.min(
+  400,
+  // Calculate page count from count divided by limit
+  Math.ceil(
+    (favorites.value?.['@attributes'].count ?? 1) / (favorites.value?.['@attributes'].limit ?? 1)
+  )
+))
+
 
 </script>
 

@@ -144,10 +144,11 @@
                   Artist
                 </h1>
                 <div class="tag-wrapper">
-                  <GelbooruSimpleTagChip
+                  <GelbooruTagChip
                     v-for="tag in tagsByCategory?.artist"
                     :key="tag.id"
                     :simple-tag="tag.name"
+                    :full-tag="tag"
                     outline
                     color="red"
                   />
@@ -160,10 +161,12 @@
                   Character
                 </h1>
                 <div class="tag-wrapper">
-                  <GelbooruSimpleTagChip
+                  <GelbooruTagChip
                     v-for="tag in tagsByCategory?.character"
                     :key="tag.id"
                     :simple-tag="tag.name"
+                    :full-tag="tag"
+                    :artist-tags="tagsByCategory?.artist"
                     outline
                     color="green"
                   />
@@ -176,10 +179,12 @@
                   Copyright
                 </h1>
                 <div class="tag-wrapper">
-                  <GelbooruSimpleTagChip
+                  <GelbooruTagChip
                     v-for="tag in tagsByCategory?.copyright"
                     :key="tag.id"
                     :simple-tag="tag.name"
+                    :full-tag="tag"
+                    :artist-tags="tagsByCategory?.artist"
                     outline
                     color="purple"
                   />
@@ -192,10 +197,12 @@
                   Metadata
                 </h1>
                 <div class="tag-wrapper">
-                  <GelbooruSimpleTagChip
+                  <GelbooruTagChip
                     v-for="tag in tagsByCategory?.metadata"
                     :key="tag.id"
                     :simple-tag="tag.name"
+                    :full-tag="tag"
+                    :artist-tags="tagsByCategory?.artist"
                     outline
                     color="yellow"
                   />
@@ -208,10 +215,12 @@
                   Tag
                 </h1>
                 <div class="tag-wrapper">
-                  <GelbooruSimpleTagChip
+                  <GelbooruTagChip
                     v-for="tag in tagsByCategory?.general"
                     :key="tag.id"
                     :simple-tag="tag.name"
+                    :full-tag="tag"
+                    :artist-tags="tagsByCategory?.artist"
                     outline
                     color="secondary"
                   />
@@ -224,10 +233,12 @@
                   Deprecated
                 </h1>
                 <div class="tag-wrapper">
-                  <GelbooruSimpleTagChip
+                  <GelbooruTagChip
                     v-for="tag in tagsByCategory?.deprecated"
                     :key="tag.id"
                     :simple-tag="tag.name"
+                    :full-tag="tag"
+                    :artist-tags="tagsByCategory?.artist"
                     outline
                     color="grey"
                   />
@@ -235,10 +246,10 @@
               </template>
             </template>
             <template v-else>
-              <QChip
+                <GelbooruSimpleTagChip
                 v-for="tag in post?.tags_array"
                 :key="tag"
-                :label="tag"
+                  :simple-tag="tag"
                 outline
                 color="primary"
                 class="tw-m-0"

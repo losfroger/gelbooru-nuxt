@@ -7,7 +7,6 @@
 </template>
 
 <script setup lang="ts">
-import { QPagination } from 'quasar'
 import type { GelbooruPostRes } from '~/types/gelbooru'
 
 
@@ -24,13 +23,10 @@ const { data: favorites, status } = await useFetch<GelbooruPostRes>('/api/post/f
   },
 })
 
-const pageCount = computed(() => Math.min(
-  400,
-  // Calculate page count from count divided by limit
-  Math.ceil(
-    (favorites.value?.['@attributes'].count ?? 1) / (favorites.value?.['@attributes'].limit ?? 1)
-  )
-))
+watch(currentPage, async () => {
+  await new Promise(r => setTimeout(r, 250))
+  window.scrollTo({ behavior: 'instant', left: 0, top: 0})
+})
 
 
 </script>

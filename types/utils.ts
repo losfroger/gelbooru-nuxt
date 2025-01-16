@@ -1,3 +1,3 @@
 export namespace Utils {
-  export const formatter = Intl.NumberFormat('en', { notation: 'compact' })
+  export const numberFormatter = Intl.NumberFormat('en', { notation: 'compact' })
 }

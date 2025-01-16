@@ -154,7 +154,7 @@ interface GelbooruPostCardProps {
 
 const props = defineProps<GelbooruPostCardProps>()
 
-const formattedScore = computed(() => Utils.formatter.format(props.post.score))
+const formattedScore = computed(() => Utils.numberFormatter.format(props.post.score))
 
 const sfwRatings = ['General', 'general', 'safe', 'Safe']
 const isNsfw = computed(() => !sfwRatings.includes(props.post.rating))

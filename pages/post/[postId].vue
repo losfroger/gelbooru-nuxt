@@ -8,11 +8,11 @@
         {{ error?.message }}
       </p>
     </div>
-    <div v-else-if="status == 'success' && post" class="tw-grid tw-grid-cols-[1fr_3fr_1fr] tw-gap-4">
+    <div v-else-if="status == 'success' && post" class="tw-grid tw-grid-cols-1 tw-gap-8 md:tw-grid-cols-[1fr_3fr_1fr] md:tw-gap-4">
       <div>
         <QCard flat class="post-info-card">
           <QCardSection class="tw-flex tw-flex-col tw-gap-3">
-            <div class="tw-grid tw-grid-cols-1 tw-gap-2 md:tw-grid-cols-2">
+            <div class="tw-grid tw-grid-cols-2 tw-gap-2 md:tw-grid-cols-2">
               <div class="tw-flex tw-flex-col">
                 <h1>
                   Rating
@@ -111,7 +111,7 @@
           </QCardSection>
         </QCard>
       </div>
-      <div>
+      <div class="tw-row-start-1 md:tw-row-start-auto">
         <a
           v-if="isVideoFile"
           class="tw-relative"
@@ -136,9 +136,9 @@
       </div>
       <div>
         <QCard flat class="post-info-card">
-          <QCardSection class="tw-flex tw-flex-col">
+          <QCardSection class="tw-grid tw-grid-cols-2 tw-gap-4 md:tw-grid-cols-1">
             <template v-if="post?.fetched_tags && post?.fetched_tags?.length > 0">
-              <template v-if="tagsByCategory?.artist.length ?? 0 > 0">
+              <div v-if="tagsByCategory?.artist.length ?? 0 > 0">
                 <h1 class="tw-flex-1">
                   <QIcon name="mdi-brush-outline" left />
                   Artist
@@ -153,9 +153,9 @@
                     color="red"
                   />
                 </div>
-              </template>
+              </div>
 
-              <template v-if="tagsByCategory?.character.length ?? 0 > 0">
+              <div v-if="tagsByCategory?.character.length ?? 0 > 0">
                 <h1 class="tw-flex-1">
                   <QIcon name="mdi-account-outline" left />
                   Character
@@ -171,9 +171,9 @@
                     color="green"
                   />
                 </div>
-              </template>
+              </div>
 
-              <template v-if="tagsByCategory?.copyright.length ?? 0 > 0">
+              <div v-if="tagsByCategory?.copyright.length ?? 0 > 0">
                 <h1 class="tw-flex-1">
                   <QIcon name="mdi-copyright" left />
                   Copyright
@@ -189,9 +189,9 @@
                     color="purple"
                   />
                 </div>
-              </template>
+              </div>
 
-              <template v-if="tagsByCategory?.metadata.length ?? 0 > 0">
+              <div v-if="tagsByCategory?.metadata.length ?? 0 > 0">
                 <h1 class="tw-flex-1">
                   <QIcon name="mdi-shape-outline" left />
                   Metadata
@@ -207,9 +207,9 @@
                     color="yellow"
                   />
                 </div>
-              </template>
+              </div>
 
-              <template v-if="tagsByCategory?.general.length ?? 0 > 0">
+              <div v-if="tagsByCategory?.general.length ?? 0 > 0" class="tw-col-span-full">
                 <h1 class="tw-flex-1">
                   <QIcon name="mdi-tag-outline" left />
                   Tag
@@ -225,9 +225,9 @@
                     color="secondary"
                   />
                 </div>
-              </template>
+              </div>
 
-              <template v-if="tagsByCategory?.deprecated.length ?? 0 > 0">
+              <div v-if="tagsByCategory?.deprecated.length ?? 0 > 0" class="tw-col-span-full">
                 <h1 class="tw-flex-1">
                   <QIcon name="mdi-tag-outline" left />
                   Deprecated
@@ -243,19 +243,21 @@
                     color="grey"
                   />
                 </div>
-              </template>
+              </div>
             </template>
             <template v-else>
+              <div class="tag-wrapper tw-col-span-full">
                 <GelbooruSimpleTagChip
-                v-for="tag in post?.tags_array"
-                :key="tag"
+                  v-for="tag in post?.tags_array"
+                  :key="tag"
                   :simple-tag="tag"
-                outline
-                color="primary"
-                class="tw-m-0"
-              />
+                  outline
+                  color="primary"
+                  class="tw-m-0"
+                />
+              </div>
             </template>
-            <p class="text-body-2 tw-mt-6 tw-text-center tw-opacity-40">
+            <p class="text-body-2 tw-col-span-full tw-mt-6 tw-text-center tw-opacity-40">
               {{ post?.tags_array.length }} tags
             </p>
           </QCardSection>

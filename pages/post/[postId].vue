@@ -52,7 +52,11 @@
                   Id: {{ post.id }}
                 </li>
                 <li>
-                  Posted: {{ new Date(post.created_at_utc).toLocaleString(undefined, dateFormat) }} - <TimeAgo class="first-letter:tw-uppercase" :date="new Date(post.created_at_utc)" />
+                  Posted: {{ new Date(post.created_at_utc).toLocaleString(undefined, dateFormat) }} - <TimeAgo
+                    class="first-letter:tw-uppercase"
+                    :date="new Date(post.created_at_utc)"
+                    locale="en"
+                  />
                 </li>
                 <li>
                   Size: {{ post.width }} x {{ post.height }}

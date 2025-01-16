@@ -101,7 +101,11 @@
       <div class="tw-flex tw-flex-col md:tw-flex-row">
         <GelbooruUserLink class="tw-text-xs md:tw-text-sm" :user="{creator_id: props.post.creator_id, owner: props.post.owner}" />
         <ClientOnly>
-          <TimeAgo class="tw-text-xs tw-font-extralight first-letter:tw-uppercase md:tw-ml-auto md:tw-text-sm" :date="new Date(props.post.created_at_utc)" />
+          <TimeAgo
+            class="tw-text-xs tw-font-extralight first-letter:tw-uppercase md:tw-ml-auto md:tw-text-sm"
+            :date="new Date(props.post.created_at_utc)"
+            locale="en"
+          />
         </ClientOnly>
       </div>
       <QSeparator spaced class="tw-opacity-30" />

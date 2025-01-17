@@ -7,12 +7,14 @@
           fit="fill"
           :ratio="1"
           class="tw-absolute tw-m-auto tw-h-full tw-blur-2xl"
+          loading="lazy"
         />
         <QImg
           :src="props.post.preview_url"
           fit="contain"
           :ratio="1"
           class="tw-m-auto tw-h-full"
+          loading="lazy"
         />
         <div class="icon-shadow tw-absolute tw-left-0 tw-top-0 tw-flex tw-w-full tw-flex-row tw-flex-wrap tw-gap-0.5 tw-p-2 tw-text-lg md:tw-text-2xl">
           <QIcon

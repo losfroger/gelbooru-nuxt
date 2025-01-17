@@ -1,12 +1,17 @@
 <template>
-  <QChip v-bind="props">
+  <NuxtLink :to="`/search-results?tags=${props.simpleTag},sort:score`" class="tw-max-w-full">
+    <QChip v-bind="props">
       <div class=" tag-chip tw-line-clamp-2">
-      {{ label }}
+        {{ label }}
       </div>
-  </QChip>
+    </QChip>
+  </NuxtLink>
 </template>
 
 <script setup lang="ts">
+/**
+ * Tag chip that can show the amount of posts with that tag and has a context menu
+ */
 import type { QChipProps } from 'quasar'
 import type { GelbooruTag } from '~/types/gelbooru'
 import { Utils } from '~/types/utils'

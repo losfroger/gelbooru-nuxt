@@ -1,12 +1,17 @@
 <template>
-  <QChip v-bind="props">
+  <NuxtLink :to="`/search-results?tags=${props.simpleTag},sort:score`">
+    <QChip v-bind="props">
       <span class="tw-line-clamp-1 tw-truncate tw-capitalize">
-      {{ simpleTag.replaceAll('_', ' ') }}
-    </span>
-  </QChip>
+        {{ simpleTag.replaceAll('_', ' ') }}
+      </span>
+    </QChip>
+  </NuxtLink>
 </template>
 
 <script setup lang="ts">
+/**
+ * Tag chip that only requires a string
+ */
 import type { QChipProps } from 'quasar'
 
 

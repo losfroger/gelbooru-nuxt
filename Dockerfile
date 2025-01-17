@@ -15,8 +15,7 @@ WORKDIR /usr/prod
 COPY --from=build ["/usr/src/.output", "."]
 
 # Add curl and wget for healthcheck
-RUN apk add --no-cache curl
-RUN apk add --no-cache wget
+RUN apk add --no-cache curl wget
 
 ENV HOST=0.0.0.0
 ENV PORT=80

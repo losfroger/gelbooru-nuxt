@@ -4,16 +4,31 @@
       label="Go to post ID"
       color="secondary"
     >
-      <QMenu>
+      <QMenu
+        transition-show="jump-down"
+        transition-hide="jump-up"
+        anchor="bottom middle"
+        self="top middle"
+      >
         <QCard>
-          <QCardSection>
-            <QInput
-              v-model="postId"
-              type="number"
-              label="ID"
-            />
-            <QBtn label="Go" @click="goToPostId" />
-          </QCardSection>
+          <QForm @submit="goToPostId">
+            <QCardSection>
+              <QInput
+                v-model.number="postId"
+                type="number"
+                label="ID"
+                filled
+              />
+            </QCardSection>
+            <QCardActions>
+              <QBtn
+                label="Go"
+                color="primary"
+                type="submit"
+                flat
+              />
+            </QCardActions>
+          </QForm>
         </QCard>
       </QMenu>
     </QBtn>

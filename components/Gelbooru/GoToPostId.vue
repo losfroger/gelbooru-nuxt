@@ -1,8 +1,8 @@
 <template>
   <div>
     <QBtn
+      v-bind="props.buttonProps"
       label="Go to post ID"
-      color="secondary"
     >
       <QMenu
         transition-show="jump-down"
@@ -18,7 +18,11 @@
                 type="number"
                 label="ID"
                 filled
-              />
+              >
+                <template #prepend>
+                  <QIcon name="mdi-key" />
+                </template>
+              </QInput>
             </QCardSection>
             <QCardActions>
               <QBtn
@@ -36,9 +40,21 @@
 </template>
 
 <script setup lang="ts">
+import type { QBtnProps } from 'quasar'
+
+
+interface GelbooruGoToPostIdProps {
+  buttonProps: QBtnProps
+}
 
 const router = useRouter()
 const postId = ref('')
+
+const props = withDefaults(defineProps<GelbooruGoToPostIdProps>(), {
+  buttonProps: (): QBtnProps => ({
+    color: 'secondary',
+  }),
+})
 
 function goToPostId() {
   if (!postId.value) {

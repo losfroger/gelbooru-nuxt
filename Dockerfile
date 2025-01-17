@@ -1,4 +1,4 @@
-FROM oven/bun:alpine as build
+FROM oven/bun:alpine AS build
 
 WORKDIR /usr/src
 COPY ["package.json", "bun.lockb", "tsconfig.json", "./"]
@@ -9,7 +9,7 @@ COPY [".", "./"]
 RUN bun run build
 
 
-FROM oven/bun:alpine as run
+FROM oven/bun:alpine AS run
 
 WORKDIR /usr/prod
 COPY --from=build ["/usr/src/.output", "."]

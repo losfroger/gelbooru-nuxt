@@ -1,6 +1,6 @@
 <template>
   <QChip v-bind="props">
-    <span class="tw-py-1 tw-capitalize">
+      <span class="tw-line-clamp-1 tw-truncate tw-capitalize">
       {{ simpleTag.replaceAll('_', ' ') }}
     </span>
   </QChip>
@@ -19,5 +19,13 @@ const props = defineProps<GelbooruRatingChipProps>()
 </script>
 
 <style scoped>
+
+.tag-chip {
+  @apply tw-whitespace-pre-line
+}
+
+:deep(.q-chip) {
+  @apply tw-h-auto tw-rounded-full tw-px-2 tw-py-0.5;
+}
 
 </style>

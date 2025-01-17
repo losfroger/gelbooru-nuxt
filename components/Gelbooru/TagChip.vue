@@ -1,8 +1,8 @@
 <template>
   <QChip v-bind="props">
-    <span class="tw-capitalize">
+      <div class=" tag-chip tw-line-clamp-2">
       {{ label }}
-    </span>
+      </div>
   </QChip>
 </template>
 
@@ -25,5 +25,13 @@ const label = computed(() => `${props.simpleTag.replaceAll('_', ' ')}${props.ful
 </script>
 
 <style scoped>
+
+.tag-chip {
+  white-space: pre-line !important;
+}
+
+:deep(.q-chip) {
+  @apply tw-h-auto tw-rounded-full tw-px-3 tw-py-0.5;
+}
 
 </style>

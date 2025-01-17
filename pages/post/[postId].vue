@@ -44,9 +44,9 @@
               <h1>
                 Statistics
               </h1>
-              <ul class="tw-flex tw-flex-col tw-gap-1">
+              <ul class="tw-flex tw-flex-col tw-justify-start tw-gap-1">
                 <li>
-                  <GelbooruUserLink class="tw-w-min" :user="{creator_id: post?.creator_id ?? 0, owner: post?.owner ?? ''}" />
+                  <GelbooruUserLink class="tw-w-fit tw-max-w-40" :user="{creator_id: post?.creator_id ?? 0, owner: post?.owner ?? ''}" />
                 </li>
                 <li>
                   Id: {{ post.id }}
@@ -341,8 +341,13 @@ const tagsByCategory = computed(
 
 .post-info-card {
   @apply tw-flex tw-flex-col tw-gap-3;
+
   h1 {
     @apply tw-text-base tw-font-semibold tw-pb-0.5 tw-border-b-2 tw-border-neutral-50/10 tw-mb-2;
+  }
+
+  :deep(.q-chip) {
+    @apply tw-max-w-full
   }
 }
 

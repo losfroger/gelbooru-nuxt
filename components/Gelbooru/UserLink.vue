@@ -9,11 +9,17 @@
       size="xs"
       class="tw-mr-1"
     />
-    {{ props.user.owner }}
+    <span class="tw-truncate">
+      {{ props.user.owner }}
+    </span>
   </a>
 </template>
 
 <script setup lang="ts">
+/**
+ * Link to a user's profile
+ */
+
 import type { GelbooruUser } from '~/types/gelbooru'
 
 interface GelbooruUserLinkProps {

@@ -9,7 +9,7 @@
         Gelbooru
       </h1>
     </a>
-    <div v-auto-animate class="counter-hero-banner tw-relative tw-flex tw-flex-row">
+    <div v-auto-animate class="counter-hero-banner tw-relative tw-flex tw-min-h-8 tw-flex-row">
       <PageCuteCounter
         v-for="(number, idx) in postCount?.toString()"
         :key="idx"
@@ -24,15 +24,49 @@
         />
       </div>
     </div>
-    <div class="tw-mt-4 tw-flex tw-flex-row tw-gap-2">
-      <GelbooruGoToPostId />
+    <div class="tw-mt-4 tw-flex tw-w-full tw-flex-col tw-items-center tw-gap-2">
+      <QForm
+        class="tw-flex tw-w-full tw-flex-1 tw-flex-row tw-items-center tw-justify-center tw-gap-4"
+        @submit="onSubmitSearch"
+      >
+        <GelbooruSearchBar
+          v-model="searchTags"
+          filled
+          clearable
+          hide-bottom-space
+          class="tw-w-full tw-max-w-4xl"
+        />
+        <QBtn
+          type="submit"
+          label="Search"
+          color="primary"
+          size="lg"
+          class="tw-my-auto"
+        />
+      </QForm>
+      <GelbooruGoToPostId :button-props="{ flat: true, color: 'white' }" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 
+const router = useRouter()
+
 const { data: postCount, refresh, status } = useFetch('/api/post/count')
+
+const searchTags = ref<string[]>([])
+function onSubmitSearch() {
+  const auxTags = searchTags.value.concat('sort:score')
+  console.log(auxTags)
+  router.push({
+    path: '/search-results',
+    query: {
+      tags: `${auxTags.join(',')}`,
+    },
+  })
+}
+
 </script>
 
 <style scoped>

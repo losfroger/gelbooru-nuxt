@@ -12,6 +12,8 @@ export const useAppStore = defineStore('appStore', () => {
   const toggleMenu = ref(false)
   const loading = ref(false)
 
+  const homePostCount = ref<number | undefined>(undefined)
+
   router.beforeEach((to, from, next) => {
     if (to.path !== from.path) {
       loading.value = false
@@ -23,5 +25,6 @@ export const useAppStore = defineStore('appStore', () => {
   return {
     toggleMenu,
     loading,
+    homePostCount,
   }
 })

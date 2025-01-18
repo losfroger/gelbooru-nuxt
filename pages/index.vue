@@ -11,7 +11,7 @@
     </a>
     <div v-auto-animate class="counter-hero-banner tw-relative tw-flex tw-min-h-14 tw-flex-row">
       <PageCuteCounter
-        v-for="(number, idx) in postCount?.toString()"
+        v-for="(number, idx) in postCount.value?.toString()"
         :key="idx"
         :number="number"
       />
@@ -79,9 +79,16 @@
 
 <script setup lang="ts">
 
+const appStore = useAppStore()
 const router = useRouter()
 
-const { data: postCount, refresh, status } = useFetch('/api/post/count')
+const postCount = computed(() => postCountRes ?? appStore.homePostCount)
+
+const { data: postCountRes, refresh, status } = useFetch('/api/post/count', {
+  onResponse: ({ response }) => {
+    appStore.homePostCount = response._data
+  },
+})
 useIntervalFn(refresh, 60_000)
 
 const searchTags = ref<string[]>([])

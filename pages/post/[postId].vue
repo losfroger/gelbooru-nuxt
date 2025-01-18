@@ -116,6 +116,7 @@
           v-if="isVideoFile"
           class="tw-relative"
           :href="post.file_url"
+          target="_blank"
         >
           <QImg
             :src="post?.preview_url"
@@ -128,11 +129,22 @@
         </a>
         <QImg
           v-else
-          :placeholder-src="post?.preview_url"
-          :src="`/api/image/${post?.id}`"
+          :src="loadFullImage ? `/api/image/full/${post?.id}` : `/api/image/${post?.id}`"
           fit="contain"
           class="tw-max-h-[80vh]"
-        />
+        >
+          <div
+            v-if="post?.file_url && post?.sample_url && !loadFullImage"
+            class="absolute-center-on-self tw-bottom-0 tw-left-1/2 tw-bg-black/0"
+          >
+            <QBtn
+              label="Load full image"
+              color="primary"
+              icon="mdi-image-outline"
+              @click="loadFullImage = true"
+            />
+          </div>
+        </QImg>
       </div>
       <div>
         <QCard flat class="post-info-card">
@@ -285,6 +297,8 @@ const dateFormat: Intl.DateTimeFormatOptions = {
 const isVideoFile = computed(() => {
   return /.(mp4|mov|avi|mkv|flv)$/.test(post.value?.file_url ?? '')
 })
+
+const loadFullImage = ref(false)
 
 interface TagsByCategory {
   general: GelbooruTag[],

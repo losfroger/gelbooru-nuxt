@@ -12,6 +12,7 @@
       <GelbooruSearchBarFull
         v-model="tags"
         :search-results-count="favorites['@attributes'].count"
+        class="tw-mx-auto tw-w-full tw-max-w-7xl"
       />
       <GelbooruPostList
         v-model:page="currentPage"

@@ -40,9 +40,11 @@
         />
         <QBtn
           type="submit"
-          label="Search"
+          :label="$q.screen.lt.md ? '' : 'Search'"
           color="primary"
-          size="lg"
+          :size="$q.screen.lt.md ? 'md' : 'lg'"
+          :icon="$q.screen.lt.md ? 'mdi-check' : undefined"
+          :round="$q.screen.lt.md"
           class="tw-my-auto"
         />
       </QForm>

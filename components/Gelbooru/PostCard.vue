@@ -119,7 +119,7 @@
           :dense="$q.screen.lt.md"
         />
         <GelbooruSimpleTagChip
-          v-for="(tag, i) in props.post.tags_array.slice(0, 5)"
+          v-for="(tag, i) in props.post.tags_array.slice(0, 3)"
           :key="i"
           :simple-tag="tag"
           size="sm"
@@ -128,9 +128,9 @@
           :dense="$q.screen.lt.md"
         />
         <QChip
-          v-if="props.post.tags_array.length > 5"
+          v-if="props.post.tags_array.length > 3"
           size="sm"
-          :label="`+${props.post.tags_array.length - 5} more`"
+          :label="`+${props.post.tags_array.length - 3} more`"
           color="grey"
           outline
           :dense="$q.screen.lt.md"

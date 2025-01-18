@@ -99,7 +99,7 @@
 
 
     <QPageContainer class="page-container tw-flex tw-max-w-[100vw] tw-flex-col tw-items-center tw-overflow-hidden tw-bg-[#f2f2f2] dark:tw-bg-neutral-900">
-      <QPage padding class="tw-min-h-[90vh] tw-w-full tw-max-w-[1600px] tw-p-4 tw-pb-14 md:tw-p-6">
+      <QPage padding class="tw-min-h-[90vh] tw-w-full tw-max-w-[2400px] tw-p-4 tw-pb-14 md:tw-p-6">
         <NuxtPage />
       </QPage>
     </QPageContainer>

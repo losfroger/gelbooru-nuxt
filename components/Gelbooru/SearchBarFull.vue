@@ -1,16 +1,17 @@
 <template>
   <div class="tw-flex tw-flex-col tw-gap-1">
-    <div class="tw-flex tw-flex-row tw-gap-4">
+    <div class="tw-flex tw-flex-col tw-gap-4 md:tw-flex-row">
       <QBtn
         flat
         icon="mdi-filter"
-        round
-        class="tw-m-auto"
+        :round="$q.screen.gt.sm"
+        :label="$q.screen.gt.sm ? undefined : 'Filters'"
+        class="tw-mr-auto md:tw-m-auto"
       >
         <QMenu v-model="showFilterMenu" @before-show="onBeforeShowFilterMenu">
-          <QCard>
+          <QCard class="tw-w-[80vw] tw-max-w-md">
             <QCardSection class="tw-flex tw-flex-row">
-              <h1 class="text-h6 tw-min-w-96">
+              <h1 class="text-h6">
                 Filters
               </h1>
               <QBtn
@@ -52,14 +53,16 @@
         />
         <QBtn
           type="submit"
-          label="Search"
           color="primary"
-          size="lg"
+          icon="mdi-check"
+          round
           class="tw-my-auto"
-        />
+        >
+          <QTooltip>Search</QTooltip>
+        </QBtn>
       </QForm>
     </div>
-    <p class="q-field__messages tw-pl-16 tw-text-xs tw-opacity-80">
+    <p class="q-field__messages tw-text-xs tw-opacity-80 md:tw-pl-16">
       {{ searchResultsText }}
     </p>
   </div>

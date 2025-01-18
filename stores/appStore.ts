@@ -8,38 +8,20 @@ export interface NotificationInterface {
 }
 
 export const useAppStore = defineStore('appStore', () => {
+  const router = useRouter()
   const toggleMenu = ref(false)
   const loading = ref(false)
 
-  const notification = ref<NotificationInterface[]>([])
+  router.beforeEach((to, from, next) => {
+    if (to.path !== from.path) {
+      loading.value = false
+    }
 
-  function addNotification(options: {
-    title?: string,
-    text?: string,
-    icon?: string,
-    timeout?: number,
-    color?: string
-  }) {
-    notification.value.push({
-      uuid: Date.now().toString(),
-      title: options.title,
-      text: options.text,
-      icon: options.icon,
-      timeout: options.timeout ?? 5000,
-      color: options.color ?? 'success',
-    })
-  }
-
-  function removeNotification(uuid: string) {
-    notification.value = notification.value.filter((notif) => notif.uuid !== uuid)
-  }
-
+    next()
+  })
 
   return {
     toggleMenu,
     loading,
-    notification,
-    addNotification,
-    removeNotification,
   }
 })

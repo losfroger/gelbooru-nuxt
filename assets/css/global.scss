@@ -4,6 +4,7 @@ body {
 }
 
 code {
+  @apply tw-whitespace-pre-wrap;
   font-family: 'JetBrains Mono', serif;
 }
 

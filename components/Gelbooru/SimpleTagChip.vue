@@ -4,6 +4,7 @@
       <span class="tw-line-clamp-1 tw-truncate tw-capitalize">
         {{ simpleTag.replaceAll('_', ' ') }}
       </span>
+      <GelbooruSimpleContextMenu :simple-tag="props.simpleTag" />
     </QChip>
   </NuxtLink>
 </template>
@@ -12,7 +13,7 @@
 /**
  * Tag chip that only requires a string
  */
-import type { QChipProps } from 'quasar'
+import { QMenu, type QChipProps } from 'quasar'
 
 
 interface GelbooruRatingChipProps extends Omit<QChipProps, 'modelValue' | 'dark' | 'label'> {

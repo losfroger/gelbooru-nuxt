@@ -4,6 +4,7 @@
       <span class="tw-capitalize">
         {{ props.rating.toLocaleLowerCase() }}
       </span>
+      <GelbooruSimpleContextMenu :simple-tag="`rating:${props.rating.toLowerCase()}`" />
     </QChip>
   </NuxtLink>
 </template>

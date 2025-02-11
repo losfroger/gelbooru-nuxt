@@ -52,6 +52,13 @@ watch (() => route.query.tags, (newVal) => {
   }
 }, { immediate: true })
 
+watch (() => route.query?.page, (newVal) => {
+  if (newVal?.toString() !== currentPage.value.toString()) {
+    currentPage.value = parseInt(newVal?.toString() ?? '1')
+  }
+}, { immediate: true })
+
+
 // Reset scroll on tag change
 watch(tags, () => {
   currentPage.value = 1

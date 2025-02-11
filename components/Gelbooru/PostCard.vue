@@ -134,13 +134,33 @@
           color="grey"
           outline
           :dense="$q.screen.lt.md"
+          clickable
+          @click="showMoreTagsDialog = true"
         >
           <QTooltip :delay="800" max-width="300px">
             <p class="text-caption">
-              {{ props.post.tags_array.slice(3).join(', ').replaceAll('_', ' ') }}
+              Click for more
             </p>
           </QTooltip>
         </QChip>
+        <QDialog v-model="showMoreTagsDialog">
+          <QCard class="tw-isolate">
+            <QCardSection class="tw-sticky tw-top-0 tw-z-10 tw-bg-neutral-900 tw-shadow-md">
+              <h1 class="text-h5">
+                Full tags
+              </h1>
+            </QCardSection>
+            <QCardSection>
+              <GelbooruSimpleTagChip
+                v-for="(tag, i) in props.post.tags_array"
+                :key="i"
+                :simple-tag="tag"
+                color="secondary"
+                outline
+              />
+            </QCardSection>
+          </QCard>
+        </QDialog>
       </div>
     </QCardSection>
   </QCard>
@@ -217,6 +237,8 @@ const maleIcon = computed(() => {
 const isGifFile = computed(() => {
   return /.(gif)$/.test(props.post.file_url)
 })
+
+const showMoreTagsDialog = ref(false)
 </script>
 
 <style scoped>

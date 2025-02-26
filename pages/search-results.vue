@@ -13,6 +13,7 @@
         v-model="tags"
         :search-results-count="posts['@attributes'].count"
         class="tw-mx-auto tw-w-full tw-max-w-7xl"
+        @update:model-value="currentPage = 1"
       />
       <GelbooruPostList
         v-model:page="currentPage"
@@ -25,15 +26,13 @@
 <script setup lang="ts">
 import type { GelbooruPostRes } from '~/types/gelbooru'
 
-const route = useRoute()
-const router = useRouter()
 const appStore = useAppStore()
 
 // #region Handle page
 
-const currentPage = ref(parseInt(route.query.page?.toString() ?? '1'))
-const pid = computed(() => currentPage.value - 1)
+const currentPage = useRouteQuery('page', '1', { transform: Number })
 
+const pid = computed(() => currentPage.value - 1)
 watch(currentPage, async () => {
   await new Promise(r => setTimeout(r, 250))
   window.scroll(0, 0)
@@ -43,20 +42,7 @@ watch(currentPage, async () => {
 
 // #region Handle tags
 
-const tags = ref(route.query.tags?.toString() ?? 'sort:score')
-
-// Update internal tag value when the route query changes
-watch (() => route.query.tags, (newVal) => {
-  if (newVal) {
-    tags.value = newVal.toString()
-  }
-}, { immediate: true })
-
-watch (() => route.query?.page, (newVal) => {
-  if (newVal?.toString() !== currentPage.value.toString()) {
-    currentPage.value = parseInt(newVal?.toString() ?? '1')
-  }
-}, { immediate: true })
+const tags = useRouteQuery<string>('tags', 'sort:score')
 
 // Reset scroll on tag change
 watch(tags, () => {
@@ -76,31 +62,10 @@ const { data: posts, status } = await useFetch<GelbooruPostRes>('/api/post', {
 watch(status, (newVal) => {
   if (newVal == 'pending') {
     appStore.loading = true
-  } else {
+  } else if(newVal == 'success') {
     appStore.loading = false
   }
 })
-
-// Update the url query when tags or current page changes
-watch(() => [tags, currentPage], () => {
-  const searchQuery: Record<string, string | undefined> = {
-    page: undefined,
-    tags: undefined,
-  }
-
-  if (currentPage.value && currentPage.value > 1) {
-    searchQuery.page = currentPage.value.toString()
-  }
-
-  if (tags.value) {
-    searchQuery.tags = tags.value.toString()
-  }
-
-  router.push({
-    path: '/search-results',
-    query: searchQuery,
-  })
-}, { deep:true })
 
 
 </script>

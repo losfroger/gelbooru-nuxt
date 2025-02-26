@@ -1,7 +1,7 @@
 FROM oven/bun:alpine AS build
 
 WORKDIR /usr/src
-COPY ["package.json", "bun.lockb", "tsconfig.json", "./"]
+COPY ["package.json", "bun.lock", "tsconfig.json", "./"]
 
 RUN bun install --frozen-lockfile
 

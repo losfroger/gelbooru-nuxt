@@ -8,6 +8,7 @@
         v-for="post in props.posts.post"
         :key="post.id"
         :post="post"
+        :favorites-mode="props.favoritesMode"
       />
     </div>
     <QPagination
@@ -57,7 +58,8 @@ import type { GelbooruPostRes } from '~/types/gelbooru'
 
 
 interface GelbooruPostListProps {
-  posts: GelbooruPostRes
+  posts: GelbooruPostRes,
+  favoritesMode?: boolean,
 }
 
 const props = defineProps<GelbooruPostListProps>()

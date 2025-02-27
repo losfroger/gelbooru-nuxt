@@ -117,6 +117,7 @@
           outline
           size="sm"
           :dense="$q.screen.lt.md"
+          :favorites-mode="props.favoritesMode"
         />
         <GelbooruSimpleTagChip
           v-for="(tag, i) in props.post.tags_array.slice(0, 3)"
@@ -126,6 +127,7 @@
           color="secondary"
           outline
           :dense="$q.screen.lt.md"
+          :favorites-mode="props.favoritesMode"
         />
         <QChip
           v-if="props.post.tags_array.length > 3"
@@ -157,6 +159,7 @@
                 :simple-tag="tag"
                 color="secondary"
                 outline
+                :favorites-mode="props.favoritesMode"
               />
             </QCardSection>
           </QCard>
@@ -171,7 +174,8 @@ import type { GelbooruPost } from '~/types/gelbooru'
 import { Utils } from '~/types/utils'
 
 interface GelbooruPostCardProps {
-  post: GelbooruPost
+  post: GelbooruPost,
+  favoritesMode?: boolean,
 }
 
 const props = defineProps<GelbooruPostCardProps>()

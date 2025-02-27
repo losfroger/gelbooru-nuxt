@@ -18,6 +18,7 @@
       <GelbooruPostList
         v-model:page="currentPage"
         :posts="posts"
+        favorites-mode
       />
     </div>
   </div>

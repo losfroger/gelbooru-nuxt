@@ -101,7 +101,7 @@
         </div>
       </div>
       <div class="tw-flex tw-flex-col md:tw-flex-row">
-        <GelbooruUserLink class="tw-max-w-36 tw-text-xs md:tw-text-sm" :user="{creator_id: props.post.creator_id, owner: props.post.owner}" />
+        <GelbooruUserLink class="tw-max-w-24 tw-text-xs md:tw-text-sm" :user="{creator_id: props.post.creator_id, owner: props.post.owner}" />
         <ClientOnly>
           <TimeAgo
             class="tw-text-xs tw-font-extralight first-letter:tw-uppercase md:tw-ml-auto md:tw-text-sm"

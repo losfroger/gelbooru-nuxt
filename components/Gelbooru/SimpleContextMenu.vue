@@ -4,6 +4,7 @@
       <QItem
         :href="`https://gelbooru.com/index.php?page=wiki&s=list&search=${props.simpleTag}`"
         target="_blank"
+        class="tw-text-white"
       >
         <QItemSection avatar>
           <QIcon name="mdi-book-outline" />
@@ -12,7 +13,11 @@
           Wiki
         </QItemSection>
       </QItem>
-      <QItem v-if="props.favoritesMode" :to="`/search-results?page=1&tags=${props.simpleTag},sort:score`">
+      <QItem
+        v-if="props.favoritesMode"
+        :to="`/search-results?page=1&tags=${props.simpleTag},sort:score`"
+        class="tw-text-white"
+      >
         <QItemSection avatar>
           <QIcon name="mdi-magnify" />
         </QItemSection>
@@ -20,7 +25,11 @@
           Search in gelbooru
         </QItemSection>
       </QItem>
-      <QItem v-else :to="`/favorites?page=1&tags=${props.simpleTag},sort:score`">
+      <QItem
+        v-else
+        :to="`/favorites?page=1&tags=${props.simpleTag},sort:score`"
+        class="tw-text-white"
+      >
         <QItemSection avatar>
           <QIcon name="mdi-star-outline" />
         </QItemSection>
@@ -29,11 +38,11 @@
         </QItemSection>
       </QItem>
       <QItem
-        :to="
-          props.favoritesMode
-            ? `/favorites?page=1&tags=${props.simpleTag},sort:score`
-            : `/search-results?page=1&tags=${props.simpleTag},sort:score`"
+        :to="props.favoritesMode
+          ? `/favorites?page=1&tags=${props.simpleTag},sort:score`
+          : `/search-results?page=1&tags=${props.simpleTag},sort:score`"
         target="_blank"
+        class="tw-text-white"
       >
         <QItemSection avatar>
           <QIcon name="mdi-open-in-new" />
@@ -57,6 +66,4 @@ const props = defineProps<GelbooruSimpleContextMenuProps>()
 
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -51,6 +51,18 @@
           Open in new tab
         </QItemSection>
       </QItem>
+      <QItem
+        class="tw-text-white"
+        clickable
+        @click="emitTest"
+      >
+        <QItemSection avatar>
+          <QIcon name="mdi-tag-plus-outline" />
+        </QItemSection>
+        <QItemSection>
+          Add tag to current search
+        </QItemSection>
+      </QItem>
     </QList>
   </QMenu>
 </template>
@@ -63,6 +75,12 @@ interface GelbooruSimpleContextMenuProps {
 }
 
 const props = defineProps<GelbooruSimpleContextMenuProps>()
+
+const {$event} = useNuxtApp()
+
+function emitTest() {
+  $event.emit('pushed-tag-to-search', {tag: props.simpleTag})
+}
 
 </script>
 

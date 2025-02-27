@@ -80,6 +80,9 @@ const emit = defineEmits<{
   (e: 'update:modelValue', newTags: string): void
 }>()
 
+const { $event } = useNuxtApp()
+
+
 // #region Filter menu
 
 const showFilterMenu = ref(false)
@@ -105,6 +108,12 @@ function onFilterMenuSubmit() {
 
 // Tag parser
 const tags = ref<string[]>([])
+
+$event.on('pushed-tag-to-search', (data) => {
+  console.log(`On test event from search bar: ${data.tag}`)
+  tags.value.push(data.tag)
+  onSearchSubmit()
+})
 
 watch(() => props.modelValue, (newValue, oldValue) => {
   if (newValue !== oldValue) {

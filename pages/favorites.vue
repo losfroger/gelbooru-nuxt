@@ -28,6 +28,7 @@
 import type { GelbooruPostRes } from '~/types/gelbooru'
 
 const appStore = useAppStore()
+const route = useRoute()
 
 // #region Handle page
 
@@ -52,11 +53,18 @@ watch(tags, () => {
 
 // #endregion
 
-const { data: posts, status } = await useFetch<GelbooruPostRes>('/api/post/favorites', {
+watch(() => route.params, () => {
+  if (route.path == '/favorites') {
+    refresh()
+  }
+})
+
+const { data: posts, status, refresh } = await useFetch<GelbooruPostRes>('/api/post/favorites', {
   query: {
     pid,
     tags,
   },
+  watch: false,
 })
 
 // Show loading circle

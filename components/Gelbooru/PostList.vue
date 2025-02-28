@@ -2,7 +2,7 @@
   <div class="tw-flex tw-flex-col tw-items-center">
     <div
       v-auto-animate
-      class="tw-grid tw-grid-cols-1 tw-gap-2 sm:tw-grid-cols-2 md:tw-grid-cols-4 md:tw-gap-4 lg:tw-grid-cols-5 xl:tw-grid-cols-8"
+      class="tw-grid tw-grid-cols-1 tw-gap-2 sm:tw-grid-cols-2 md:tw-grid-cols-4 md:tw-gap-4 lg:tw-grid-cols-5 xl:tw-grid-cols-7"
     >
       <GelbooruPostCard
         v-for="post in props.posts.post"

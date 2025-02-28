@@ -145,25 +145,12 @@
             </p>
           </QTooltip>
         </QChip>
-        <QDialog v-model="showMoreTagsDialog">
-          <QCard class="tw-isolate">
-            <QCardSection class="tw-sticky tw-top-0 tw-z-10 tw-bg-neutral-900 tw-shadow-md">
-              <h1 class="text-h5">
-                Full tags
-              </h1>
-            </QCardSection>
-            <QCardSection>
-              <GelbooruSimpleTagChip
-                v-for="(tag, i) in props.post.tags_array"
-                :key="i"
-                :simple-tag="tag"
-                color="secondary"
-                outline
-                :favorites-mode="props.favoritesMode"
-              />
-            </QCardSection>
-          </QCard>
-        </QDialog>
+        <GelbooruMoreTagsDialog
+          v-model="showMoreTagsDialog"
+          :post-id="post.id"
+          :favorites-mode="props.favoritesMode"
+          :simple-tags="post.tags_array"
+        />
       </div>
     </QCardSection>
   </QCard>

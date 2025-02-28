@@ -1,0 +1,197 @@
+<template>
+  <QDialog :model-value="props.modelValue" @update:model-value="(e) => emits('update:modelValue', e)">
+    <QCard class="tw-isolate tw-w-full">
+      <QCardSection class="tw-sticky tw-top-0 tw-z-10 tw-bg-neutral-900 tw-shadow-md">
+        <h1 class="text-h5">
+          Full tags
+        </h1>
+      </QCardSection>
+      <QCardSection v-auto-animate class="tw-w-full">
+        <div v-if="status == 'pending'" class="tw-flex tw-w-full tw-flex-col tw-py-12">
+          <QCircularProgress
+            indeterminate
+            color="primary"
+            class="tw-m-auto"
+            size="lg"
+            rounded
+          />
+        </div>
+        <template v-else-if="status == 'success' && post?.fetched_tags && post?.fetched_tags?.length > 0">
+          <GelbooruSimpleTagChip
+            v-for="tag in tagsByCategory?.artist"
+            :key="tag.id"
+            :simple-tag="tag.name"
+            :full-tag="tag"
+            outline
+            color="red"
+            icon="mdi-brush-outline"
+          />
+          <GelbooruSimpleTagChip
+            v-for="tag in tagsByCategory?.character"
+            :key="tag.id"
+            :simple-tag="tag.name"
+            :full-tag="tag"
+            :artist-tags="tagsByCategory?.artist"
+            outline
+            color="green"
+            icon="mdi-account-outline"
+          />
+          <GelbooruSimpleTagChip
+            v-for="tag in tagsByCategory?.copyright"
+            :key="tag.id"
+            :simple-tag="tag.name"
+            :full-tag="tag"
+            :artist-tags="tagsByCategory?.artist"
+            outline
+            color="purple"
+            icon="mdi-copyright"
+          />
+          <GelbooruSimpleTagChip
+            v-for="tag in tagsByCategory?.metadata"
+            :key="tag.id"
+            :simple-tag="tag.name"
+            :full-tag="tag"
+            :artist-tags="tagsByCategory?.artist"
+            outline
+            color="yellow"
+            icon="mdi-shape-outline"
+          />
+          <GelbooruSimpleTagChip
+            v-for="tag in tagsByCategory?.general"
+            :key="tag.id"
+            :simple-tag="tag.name"
+            :full-tag="tag"
+            :artist-tags="tagsByCategory?.artist"
+            outline
+            color="secondary"
+          />
+          <GelbooruSimpleTagChip
+            v-for="tag in tagsByCategory?.deprecated"
+            :key="tag.id"
+            :simple-tag="tag.name"
+            :full-tag="tag"
+            :artist-tags="tagsByCategory?.artist"
+            outline
+            color="grey"
+          />
+        </template>
+        <template v-else>
+          <GelbooruSimpleTagChip
+            v-for="(tag, i) in props.simpleTags"
+            :key="i"
+            :simple-tag="tag"
+            color="secondary"
+            outline
+            :favorites-mode="props.favoritesMode"
+          />
+        </template>
+      </QCardSection>
+    </QCard>
+  </QDialog>
+</template>
+
+<script setup lang="ts">
+import { GelbooruTagTypes, type GelbooruPostWithTags, type GelbooruTag } from '~/types/gelbooru'
+
+
+interface GelbooruMoreTagsDialogProps {
+  postId: number,
+  simpleTags: string[],
+  modelValue: boolean,
+  favoritesMode: boolean,
+}
+
+const props = defineProps<GelbooruMoreTagsDialogProps>()
+
+const emits = defineEmits<{
+  'update:modelValue': [newVal: boolean],
+}>()
+
+watch(() => props.postId, (newVal, oldVal) => {
+  if (newVal !== oldVal) {
+    clear()
+    loaded.value = false
+  }
+})
+
+watch(() => props.modelValue, (newVal) => {
+  console.log('Changed modelvalue', newVal)
+  if (newVal) {
+    loadPostdata()
+  }
+})
+
+const loaded = ref(false)
+const { data: post, status, clear, execute  } = await useFetch<GelbooruPostWithTags>(`/api/post/${props.postId}`, {
+  immediate: false,
+  onResponse: () => {
+    loaded.value = true
+  },
+})
+
+function loadPostdata() {
+  try {
+    if (status.value == 'pending' || loaded.value) {
+      return
+    }
+    execute()
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+interface TagsByCategory {
+  general: GelbooruTag[],
+  artist: GelbooruTag[],
+  copyright: GelbooruTag[],
+  character: GelbooruTag[],
+  metadata: GelbooruTag[],
+  deprecated: GelbooruTag[],
+  unknown: GelbooruTag[],
+}
+
+const tagsByCategory = computed(
+  () => post.value?.fetched_tags?.reduce<TagsByCategory>(
+    (accumulator: TagsByCategory, tag) => {
+      switch (tag.type) {
+        //general
+        case GelbooruTagTypes.GENERAL:
+          accumulator.general.push(tag)
+          break
+        //artist
+        case GelbooruTagTypes.ARTIST:
+          accumulator.artist.push(tag)
+          break
+        //copyright
+        case GelbooruTagTypes.COPYRIGHT:
+          accumulator.copyright.push(tag)
+          break
+        //character
+        case GelbooruTagTypes.CHARACTER:
+          accumulator.character.push(tag)
+          break
+        //metadata
+        case GelbooruTagTypes.METADATA:
+          accumulator.metadata.push(tag)
+          break
+        //deprecated
+        case GelbooruTagTypes.DEPRECATED:
+          accumulator.deprecated.push(tag)
+          break
+        //not identified
+        default:
+          accumulator.unknown.push(tag)
+          break
+      }
+      return accumulator
+    },
+  { artist: [], character: [], copyright: [], deprecated: [], general: [], metadata: [], unknown: []} as TagsByCategory
+  )
+)
+
+
+</script>
+
+<style scoped>
+
+</style>

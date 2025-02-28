@@ -51,16 +51,29 @@
           Open in new tab
         </QItemSection>
       </QItem>
+      <QSeparator />
       <QItem
         class="tw-text-white"
         clickable
-        @click="emitTest"
+        @click="emitAddTag"
       >
         <QItemSection avatar>
           <QIcon name="mdi-tag-plus-outline" />
         </QItemSection>
         <QItemSection>
           Add tag to current search
+        </QItemSection>
+      </QItem>
+      <QItem
+        class="tw-text-white"
+        clickable
+        @click="emitAddNegativeTag"
+      >
+        <QItemSection avatar>
+          <QIcon name="mdi-tag-minus-outline" />
+        </QItemSection>
+        <QItemSection>
+          Add as negative tag to current search
         </QItemSection>
       </QItem>
     </QList>
@@ -78,8 +91,12 @@ const props = defineProps<GelbooruSimpleContextMenuProps>()
 
 const {$event} = useNuxtApp()
 
-function emitTest() {
+function emitAddTag() {
   $event.emit('pushed-tag-to-search', {tag: props.simpleTag})
+}
+
+function emitAddNegativeTag() {
+  $event.emit('pushed-tag-to-search', {tag: `-${props.simpleTag}`})
 }
 
 </script>

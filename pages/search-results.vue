@@ -53,7 +53,7 @@ watch(tags, () => {
 // #endregion
 
 watch(() => route.params, () => {
-  if (route.path == '/favorites') {
+  if (route.path == '/search-results') {
     refresh()
   }
 })

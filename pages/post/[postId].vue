@@ -280,7 +280,7 @@
 </template>
 
 <script setup lang="ts">
-import type { GelbooruPostWithTags, GelbooruTag } from '~/types/gelbooru'
+import { GelbooruTagTypes, type GelbooruPostWithTags, type GelbooruTag } from '~/types/gelbooru'
 
 
 const route = useRoute()
@@ -314,28 +314,28 @@ const tagsByCategory = computed(
   () => post.value?.fetched_tags?.reduce<TagsByCategory>(
     (accumulator: TagsByCategory, tag) => {
       switch (tag.type) {
-      //general
-        case 0:
+        //general
+        case GelbooruTagTypes.GENERAL:
           accumulator.general.push(tag)
           break
         //artist
-        case 1:
+        case GelbooruTagTypes.ARTIST:
           accumulator.artist.push(tag)
           break
         //copyright
-        case 3:
+        case GelbooruTagTypes.COPYRIGHT:
           accumulator.copyright.push(tag)
           break
         //character
-        case 4:
+        case GelbooruTagTypes.CHARACTER:
           accumulator.character.push(tag)
           break
         //metadata
-        case 5:
+        case GelbooruTagTypes.METADATA:
           accumulator.metadata.push(tag)
           break
         //deprecated
-        case 6:
+        case GelbooruTagTypes.DEPRECATED:
           accumulator.deprecated.push(tag)
           break
         //not identified

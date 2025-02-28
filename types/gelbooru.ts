@@ -245,6 +245,15 @@ export interface GelbooruTagReq {
 export const NegativeQueryRegex = new RegExp(/^-(.+)/)
 export const FuzzyQueryRegex = new RegExp(/(.+)~+/)
 
+export enum GelbooruTagTypes {
+  GENERAL = 0,
+  ARTIST = 1,
+  COPYRIGHT = 3,
+  CHARACTER = 4,
+  METADATA = 5,
+  DEPRECATED = 6,
+}
+
 export interface GelbooruTag {
   /**
    * Tag id
@@ -261,7 +270,7 @@ export interface GelbooruTag {
   /**
    * Tag type
   */
-  type: number,
+  type: GelbooruTagTypes,
   /**
    * If tag is ambiguous
    */

@@ -1,9 +1,12 @@
 <template>
-  <NuxtLink :to="`/search-results?tags=${props.simpleTag},sort:score`" class="tw-max-w-full">
+  <NuxtLink :to="url" class="tw-max-w-full">
     <QChip v-bind="props">
       <div class=" tag-chip tw-line-clamp-2">
         {{ label }}
       </div>
+      <QTooltip>
+        {{ url }}
+      </QTooltip>
     </QChip>
   </NuxtLink>
 </template>
@@ -26,6 +29,8 @@ interface GelbooruTagChipProps extends Omit<QChipProps, 'modelValue' | 'label'> 
 const props = defineProps<GelbooruTagChipProps>()
 
 const label = computed(() => `${props.simpleTag.replaceAll('_', ' ')}${props.fullTag ? ` - ${Utils.numberFormatter.format(props.fullTag.count)}` : ''}`)
+
+const url = computed(() => `/search-results?tags=${encodeURIComponent(props.simpleTag)},sort:score`)
 
 </script>
 

@@ -1,15 +1,15 @@
 <template>
   <NuxtLink
-    :to=" props.favoritesMode
-      ? `/favorites?tags=${props.simpleTag},sort:score`
-      : `/search-results?tags=${props.simpleTag},sort:score`
-    "
+    :to="url"
   >
     <QChip v-bind="props">
       <span class="tw-line-clamp-1 tw-truncate tw-capitalize">
         {{ simpleTag.replaceAll('_', ' ') }}
       </span>
       <GelbooruSimpleContextMenu :favorites-mode="props.favoritesMode" :simple-tag="props.simpleTag" />
+      <QTooltip>
+        {{ url }}
+      </QTooltip>
     </QChip>
   </NuxtLink>
 </template>
@@ -27,6 +27,11 @@ interface GelbooruRatingChipProps extends Omit<QChipProps, 'modelValue' | 'dark'
 }
 
 const props = defineProps<GelbooruRatingChipProps>()
+
+const url = computed(() => props.favoritesMode
+  ? `/favorites?tags=${encodeURIComponent(props.simpleTag)},sort:score`
+  : `/search-results?tags=${encodeURIComponent(props.simpleTag)},sort:score`
+)
 
 </script>
 

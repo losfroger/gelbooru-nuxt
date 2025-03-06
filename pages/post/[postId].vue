@@ -259,7 +259,7 @@
             </template>
             <template v-else>
               <div class="tag-wrapper tw-col-span-full">
-                <GelbooruSimpleTagChip
+                <GelbooruTagSimpleChip
                   v-for="tag in post?.tags_array"
                   :key="tag"
                   :simple-tag="tag"

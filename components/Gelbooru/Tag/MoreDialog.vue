@@ -17,7 +17,7 @@
           />
         </div>
         <template v-else-if="status == 'success' && post?.fetched_tags && post?.fetched_tags?.length > 0">
-          <GelbooruSimpleTagChip
+          <GelbooruTagSimpleChip
             v-for="tag in tagsByCategory?.artist"
             :key="tag.id"
             :simple-tag="tag.name"
@@ -26,7 +26,7 @@
             color="red"
             icon="mdi-brush-outline"
           />
-          <GelbooruSimpleTagChip
+          <GelbooruTagSimpleChip
             v-for="tag in tagsByCategory?.character"
             :key="tag.id"
             :simple-tag="tag.name"
@@ -36,7 +36,7 @@
             color="green"
             icon="mdi-account-outline"
           />
-          <GelbooruSimpleTagChip
+          <GelbooruTagSimpleChip
             v-for="tag in tagsByCategory?.copyright"
             :key="tag.id"
             :simple-tag="tag.name"
@@ -46,7 +46,7 @@
             color="purple"
             icon="mdi-copyright"
           />
-          <GelbooruSimpleTagChip
+          <GelbooruTagSimpleChip
             v-for="tag in tagsByCategory?.metadata"
             :key="tag.id"
             :simple-tag="tag.name"
@@ -56,7 +56,7 @@
             color="yellow"
             icon="mdi-shape-outline"
           />
-          <GelbooruSimpleTagChip
+          <GelbooruTagSimpleChip
             v-for="tag in tagsByCategory?.general"
             :key="tag.id"
             :simple-tag="tag.name"
@@ -65,7 +65,7 @@
             outline
             color="secondary"
           />
-          <GelbooruSimpleTagChip
+          <GelbooruTagSimpleChip
             v-for="tag in tagsByCategory?.deprecated"
             :key="tag.id"
             :simple-tag="tag.name"
@@ -76,7 +76,7 @@
           />
         </template>
         <template v-else>
-          <GelbooruSimpleTagChip
+          <GelbooruTagSimpleChip
             v-for="(tag, i) in props.simpleTags"
             :key="i"
             :simple-tag="tag"

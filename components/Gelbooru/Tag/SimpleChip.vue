@@ -6,7 +6,7 @@
       <span class="tw-line-clamp-1 tw-truncate tw-capitalize">
         {{ simpleTag.replaceAll('_', ' ') }}
       </span>
-      <GelbooruSimpleContextMenu :favorites-mode="props.favoritesMode" :simple-tag="props.simpleTag" />
+      <GelbooruTagSimpleContextMenu :favorites-mode="props.favoritesMode" :simple-tag="props.simpleTag" />
       <QTooltip>
         {{ url }}
       </QTooltip>

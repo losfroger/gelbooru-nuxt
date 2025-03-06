@@ -119,7 +119,7 @@
           :dense="$q.screen.lt.md"
           :favorites-mode="props.favoritesMode"
         />
-        <GelbooruSimpleTagChip
+        <GelbooruTagSimpleChip
           v-for="(tag, i) in props.post.tags_array.slice(0, 3)"
           :key="i"
           :simple-tag="tag"
@@ -145,7 +145,7 @@
             </p>
           </QTooltip>
         </QChip>
-        <GelbooruMoreTagsDialog
+        <GelbooruTagMoreDialog
           v-model="showMoreTagsDialog"
           :post-id="post.id"
           :favorites-mode="props.favoritesMode"

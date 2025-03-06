@@ -10,7 +10,7 @@
       <span class="tw-capitalize">
         {{ props.rating.toLocaleLowerCase() }}
       </span>
-      <GelbooruSimpleContextMenu
+      <GelbooruTagSimpleContextMenu
         :simple-tag="`rating:${props.rating.toLowerCase()}`"
         :favorites-mode="props.favoritesMode"
       />

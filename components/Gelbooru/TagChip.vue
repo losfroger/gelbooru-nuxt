@@ -4,9 +4,7 @@
       <div class=" tag-chip tw-line-clamp-2">
         {{ label }}
       </div>
-      <QTooltip>
-        {{ url }}
-      </QTooltip>
+      <GelbooruTagContextMenu :simple-tag="props.simpleTag" :artist-tags="props.artistTags" />
     </QChip>
   </NuxtLink>
 </template>

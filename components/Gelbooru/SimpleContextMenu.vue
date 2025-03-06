@@ -2,7 +2,7 @@
   <QMenu context-menu auto-close>
     <QList>
       <QItem
-        :href="`https://gelbooru.com/index.php?page=wiki&s=list&search=${props.simpleTag}`"
+        :href="`https://gelbooru.com/index.php?page=wiki&s=list&search=${encodeURIComponent(props.simpleTag)}`"
         target="_blank"
         class="tw-text-white"
       >
@@ -15,7 +15,7 @@
       </QItem>
       <QItem
         v-if="props.favoritesMode"
-        :to="`/search-results?page=1&tags=${props.simpleTag},sort:score`"
+        :to="`/search-results?page=1&tags=${encodeURIComponent(props.simpleTag)},sort:score`"
         class="tw-text-white"
       >
         <QItemSection avatar>
@@ -27,7 +27,7 @@
       </QItem>
       <QItem
         v-else
-        :to="`/favorites?page=1&tags=${props.simpleTag},sort:score`"
+        :to="`/favorites?page=1&tags=${encodeURIComponent(props.simpleTag)},sort:score`"
         class="tw-text-white"
       >
         <QItemSection avatar>
@@ -38,9 +38,7 @@
         </QItemSection>
       </QItem>
       <QItem
-        :to="props.favoritesMode
-          ? `/favorites?page=1&tags=${props.simpleTag},sort:score`
-          : `/search-results?page=1&tags=${props.simpleTag},sort:score`"
+        :to="url"
         target="_blank"
         class="tw-text-white"
       >
@@ -88,6 +86,11 @@ interface GelbooruSimpleContextMenuProps {
 }
 
 const props = defineProps<GelbooruSimpleContextMenuProps>()
+
+const url = computed(() => props.favoritesMode
+  ? `/favorites?page=1&tags=${encodeURIComponent(props.simpleTag)},sort:score`
+  : `/search-results?page=1&tags=${encodeURIComponent(props.simpleTag)},sort:score`
+)
 
 const {$event} = useNuxtApp()
 

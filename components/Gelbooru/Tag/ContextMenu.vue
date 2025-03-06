@@ -52,7 +52,7 @@
           v-for="artist in props.artistTags"
           :key="artist.id"
           :inset-level="1"
-          :to="`/search-results?page=1&tags=${encodeURIComponent(artist.name)},sort:score`"
+          :to="`/search-results?page=1&tags=${encodeURIComponent(artist.name)},${encodeURIComponent(props.simpleTag)},sort:score`"
           class="tw-text-white"
         >
           <QItemSection>

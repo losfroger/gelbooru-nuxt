@@ -31,7 +31,7 @@
         class="tw-flex tw-w-full tw-flex-1 tw-flex-row tw-items-center tw-justify-center tw-gap-4"
         @submit="onSubmitSearch"
       >
-        <GelbooruSearchBar
+        <GelbooruSearchBarSelect
           v-model="searchTags"
           filled
           clearable

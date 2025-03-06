@@ -31,7 +31,7 @@ const route = useRoute()
 
 // #region Handle page
 
-const currentPage = useRouteQuery('page', '1', { transform: Number })
+const currentPage = useRouteQuery('page', '1', { transform: Number, mode: 'push' })
 
 const pid = computed(() => currentPage.value - 1)
 watch(currentPage, async () => {
@@ -43,7 +43,7 @@ watch(currentPage, async () => {
 
 // #region Handle tags
 
-const tags = useRouteQuery<string>('tags', 'sort:score')
+const tags = useRouteQuery<string>('tags', 'sort:score', { mode: 'push' })
 
 // Reset scroll on tag change
 watch(tags, () => {

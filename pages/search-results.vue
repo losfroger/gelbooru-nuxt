@@ -26,6 +26,10 @@
 <script setup lang="ts">
 import type { GelbooruPostRes } from '~/types/gelbooru'
 
+definePageMeta({
+  middleware: 'auth-middleware',
+})
+
 const appStore = useAppStore()
 const route = useRoute()
 

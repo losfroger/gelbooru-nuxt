@@ -84,6 +84,7 @@
         <QItem
           v-ripple
           clickable
+          :disable="!authStore.logged_in_computed"
           to="/favorites"
           active-class="drawer-item-active"
         >
@@ -111,6 +112,7 @@
 <script setup lang="ts">
 import { QCircularProgress, QToolbarTitle } from 'quasar'
 
+const authStore = useAuthStore()
 const appStore = useAppStore()
 
 const miniState = ref(true)

@@ -36,6 +36,7 @@
           filled
           clearable
           hide-bottom-space
+          :disable="!authStore.logged_in_computed"
           class="tw-w-full tw-max-w-3xl"
         />
         <QBtn
@@ -46,35 +47,41 @@
           :icon="$q.screen.lt.md ? 'mdi-check' : undefined"
           :round="$q.screen.lt.md"
           class="tw-my-auto"
+          :disable="!authStore.logged_in_computed"
         />
       </QForm>
-      <div class="links-hero-wrapper tw-flex tw-flex-row tw-gap-4">
-        <a
-          href="https://gelbooru.com/index.php?page=comment&s=list"
-          target="_blank"
-        >
-          Comments
-        </a>
-        <a
-          href="https://gelbooru.com/index.php?page=forum&s=list"
-          target="_blank"
-        >
-          Forum
-        </a>
-        <a
-          href="https://gelbooru.com/index.php?page=wiki&s=list"
-          target="_blank"
-        >
-          Wiki
-        </a>
-        <a
-          href="https://gelbooru.com/index.php?page=account&s=home"
-          target="_blank"
-        >
-          My account
-        </a>
-      </div>
-      <GelbooruGoToPostId :button-props="{ flat: true, color: 'white' }" />
+      <p v-if="!authStore.logged_in_computed" class="tw-flex-1">
+        Please login first
+      </p>
+      <template v-else>
+        <div class="links-hero-wrapper tw-flex tw-flex-row tw-gap-4">
+          <a
+            href="https://gelbooru.com/index.php?page=comment&s=list"
+            target="_blank"
+          >
+            Comments
+          </a>
+          <a
+            href="https://gelbooru.com/index.php?page=forum&s=list"
+            target="_blank"
+          >
+            Forum
+          </a>
+          <a
+            href="https://gelbooru.com/index.php?page=wiki&s=list"
+            target="_blank"
+          >
+            Wiki
+          </a>
+          <a
+            href="https://gelbooru.com/index.php?page=account&s=home"
+            target="_blank"
+          >
+            My account
+          </a>
+        </div>
+        <GelbooruGoToPostId :button-props="{ flat: true, color: 'white', disable: !authStore.logged_in_computed }" />
+      </template>
     </div>
   </div>
 </template>
@@ -86,6 +93,7 @@ useHead({
 })
 
 const appStore = useAppStore()
+const authStore = useAuthStore()
 const router = useRouter()
 
 const postCount = computed(() => postCountRes ?? appStore.homePostCount)

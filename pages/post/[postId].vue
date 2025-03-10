@@ -282,6 +282,9 @@
 <script setup lang="ts">
 import { GelbooruTagTypes, type GelbooruPostWithTags, type GelbooruTag } from '~/types/gelbooru'
 
+definePageMeta({
+  middleware: 'auth-middleware',
+})
 
 const route = useRoute()
 const postId = route.params.postId

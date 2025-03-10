@@ -7,9 +7,6 @@
         {{ simpleTag.replaceAll('_', ' ') }}
       </span>
       <GelbooruTagSimpleContextMenu :favorites-mode="props.favoritesMode" :simple-tag="props.simpleTag" />
-      <QTooltip>
-        {{ url }}
-      </QTooltip>
     </QChip>
   </NuxtLink>
 </template>

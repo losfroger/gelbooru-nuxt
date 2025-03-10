@@ -20,6 +20,7 @@
           <GelbooruTagSimpleChip
             v-for="tag in tagsByCategory?.artist"
             :key="tag.id"
+            :favorites-mode="props.favoritesMode"
             :simple-tag="tag.name"
             :full-tag="tag"
             outline
@@ -29,6 +30,7 @@
           <GelbooruTagSimpleChip
             v-for="tag in tagsByCategory?.character"
             :key="tag.id"
+            :favorites-mode="props.favoritesMode"
             :simple-tag="tag.name"
             :full-tag="tag"
             :artist-tags="tagsByCategory?.artist"
@@ -39,6 +41,7 @@
           <GelbooruTagSimpleChip
             v-for="tag in tagsByCategory?.copyright"
             :key="tag.id"
+            :favorites-mode="props.favoritesMode"
             :simple-tag="tag.name"
             :full-tag="tag"
             :artist-tags="tagsByCategory?.artist"
@@ -49,6 +52,7 @@
           <GelbooruTagSimpleChip
             v-for="tag in tagsByCategory?.metadata"
             :key="tag.id"
+            :favorites-mode="props.favoritesMode"
             :simple-tag="tag.name"
             :full-tag="tag"
             :artist-tags="tagsByCategory?.artist"
@@ -59,6 +63,7 @@
           <GelbooruTagSimpleChip
             v-for="tag in tagsByCategory?.general"
             :key="tag.id"
+            :favorites-mode="props.favoritesMode"
             :simple-tag="tag.name"
             :full-tag="tag"
             :artist-tags="tagsByCategory?.artist"
@@ -68,6 +73,7 @@
           <GelbooruTagSimpleChip
             v-for="tag in tagsByCategory?.deprecated"
             :key="tag.id"
+            :favorites-mode="props.favoritesMode"
             :simple-tag="tag.name"
             :full-tag="tag"
             :artist-tags="tagsByCategory?.artist"
@@ -79,10 +85,10 @@
           <GelbooruTagSimpleChip
             v-for="(tag, i) in props.simpleTags"
             :key="i"
+            :favorites-mode="props.favoritesMode"
             :simple-tag="tag"
             color="secondary"
             outline
-            :favorites-mode="props.favoritesMode"
           />
         </template>
       </QCardSection>

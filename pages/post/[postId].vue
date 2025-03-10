@@ -349,6 +349,47 @@ const tagsByCategory = computed(
   )
 )
 
+useHead({
+  title: () => {
+    const aux = ['Post details']
+
+    if (tagsByCategory.value?.artist && tagsByCategory.value?.artist.length > 0) {
+      aux.push(
+        tagsByCategory.value?.artist
+          .map((tag) => tag.name)
+          .join(', ')
+      )
+    }
+
+    if (tagsByCategory.value?.character && tagsByCategory.value?.character.length > 0) {
+      aux.push(
+        tagsByCategory.value?.character
+          .map((tag) => tag.name)
+          .join(', ')
+      )
+    }
+
+    if (tagsByCategory.value?.copyright && tagsByCategory.value?.copyright.length > 0) {
+      aux.push(
+        tagsByCategory.value?.copyright
+          .map((tag) => tag.name)
+          .join(', ')
+      )
+    }
+
+    if (tagsByCategory.value?.general && tagsByCategory.value?.general.length > 0) {
+      aux.push(
+        tagsByCategory.value?.general
+          .map((tag) => tag.name)
+          .slice(0, 15)
+          .join(', ')
+      )
+    }
+
+    return aux.join(' | ')
+  },
+})
+
 </script>
 
 <style scoped>

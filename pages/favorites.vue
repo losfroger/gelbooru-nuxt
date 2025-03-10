@@ -76,6 +76,24 @@ watch(status, (newVal) => {
   }
 })
 
+// Page title
+useHead({
+  title: () => {
+    const aux = ['Favorites', `Page ${currentPage.value}`]
+    if (tags.value) {
+      const auxTags = tags.value
+          .split(',')
+          .filter((x) => !x.includes('sort:') && !x.includes('score:'))
+          .join(', ')
+
+      if (auxTags) {
+        aux.push(auxTags)
+      }
+    }
+
+    return aux.join(' | ')
+  },
+})
 
 </script>
 

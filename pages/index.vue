@@ -81,6 +81,10 @@
 
 <script setup lang="ts">
 
+useHead({
+  title: 'Search',
+})
+
 const appStore = useAppStore()
 const router = useRouter()
 

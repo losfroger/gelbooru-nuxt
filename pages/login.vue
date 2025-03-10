@@ -59,6 +59,10 @@
 
 <script setup lang="ts">
 
+useHead({
+  title: 'Login',
+})
+
 const quasar = useQuasar()
 const router = useRouter()
 

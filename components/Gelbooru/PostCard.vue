@@ -116,7 +116,6 @@
           :rating="props.post.rating"
           outline
           size="sm"
-          :dense="$q.screen.lt.md"
           :favorites-mode="props.favoritesMode"
         />
         <GelbooruTagSimpleChip
@@ -135,7 +134,6 @@
           :label="`+${props.post.tags_array.length - 3} more`"
           color="grey"
           outline
-          :dense="$q.screen.lt.md"
           clickable
           @click="showMoreTagsDialog = true"
         >

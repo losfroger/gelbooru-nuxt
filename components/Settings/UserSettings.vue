@@ -27,6 +27,7 @@
           label="Number of posts per page"
           filled
           type="number"
+          :rules="[(v) => v > 0 || 'Please put a number greater than 0', (v) => v < 100 || 'Please put a number greater than 100']"
         />
       </QCardSection>
       <QCardSection class="tw-flex tw-flex-row tw-items-center tw-justify-end tw-gap-4">

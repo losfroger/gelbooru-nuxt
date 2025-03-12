@@ -17,8 +17,9 @@
         <GelbooruSearchBarSelect
           v-model="settingsForm.filteredTags"
           filled
-          clearable
           hide-default-items
+          label="Tag blacklist"
+          icon="mdi-cancel"
           hint="Any post containing a blacklisted tag won't show up in your search results."
         />
         <QInput

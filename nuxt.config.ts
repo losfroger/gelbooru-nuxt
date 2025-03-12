@@ -48,6 +48,7 @@ export default defineNuxtConfig({
     plugins: [
       'Notify',
       'Dark',
+      'Dialog',
     ],
   },
   googleFonts: {

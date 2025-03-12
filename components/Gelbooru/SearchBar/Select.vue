@@ -16,7 +16,7 @@
     @update:model-value="(e) => emit('update:modelValue', e)"
   >
     <template #prepend>
-      <QIcon name="mdi-magnify" />
+      <QIcon :name="props.icon" />
     </template>
     <template #no-option>
       <QItem>
@@ -67,11 +67,13 @@ interface GelbooruSearchBar extends Omit<QSelectProps, 'options' | 'loading' | '
   modelValue: string[],
   placeholder?: string | undefined,
   hideDefaultItems?: boolean,
+  icon?: string,
 }
 
 const props = withDefaults(defineProps<GelbooruSearchBar>(), {
   dark: true,
   label: 'Tags',
+  icon: 'mdi-magnify',
   placeholder: undefined,
   inputDebounce: 500,
   multiple: true,

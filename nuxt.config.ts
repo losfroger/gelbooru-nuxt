@@ -11,6 +11,7 @@ export default defineNuxtConfig({
     '@nuxtjs/google-fonts',
     '@formkit/auto-animate/nuxt',
     '@pinia/nuxt',
+    'pinia-plugin-persistedstate/nuxt',
     '@vueuse/nuxt',
   ],
   runtimeConfig: {
@@ -47,6 +48,7 @@ export default defineNuxtConfig({
     plugins: [
       'Notify',
       'Dark',
+      'Dialog',
     ],
   },
   googleFonts: {

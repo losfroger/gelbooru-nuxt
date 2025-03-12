@@ -13,7 +13,10 @@
           :src="props.post.preview_url"
           fit="contain"
           :ratio="1"
-          class="tw-m-auto tw-h-full"
+          :class="{
+            'tw-m-auto tw-h-full': true,
+            'tw-blur-md tw-transition-all hover:tw-blur-0': isNsfw && settingsStore.settings.hideNsfwImages,
+          }"
           loading="lazy"
         />
         <div class="icon-shadow tw-absolute tw-left-0 tw-top-0 tw-flex tw-w-full tw-flex-row tw-flex-wrap tw-gap-0.5 tw-p-2 tw-text-lg md:tw-text-2xl">
@@ -163,6 +166,7 @@ interface GelbooruPostCardProps {
   favoritesMode?: boolean,
 }
 
+const settingsStore = useSettingsStore()
 const props = defineProps<GelbooruPostCardProps>()
 
 const formattedScore = computed(() => Utils.numberFormatter.format(props.post.score))

@@ -56,46 +56,63 @@
       @mouseenter="miniState = false"
       @mouseleave="miniState = true"
     >
-      <div v-if="$q.screen.gt.sm" class="tw-py-3">
-        <NuxtLink
-          to="/"
-          class="tw-my-auto tw-flex tw-flex-col tw-justify-center tw-rounded-sm tw-align-middle tw-transition-colors hover:tw-bg-neutral-700"
-        >
-          <img
-            src="/gelbooru-logo.svg"
-            class="tw-mx-auto tw-h-auto tw-w-6 tw-object-contain md:tw-w-10"
+      <div class="tw-flex tw-h-full tw-flex-col">
+        <div v-if="$q.screen.gt.sm" class="tw-py-3">
+          <NuxtLink
+            to="/"
+            class="tw-my-auto tw-flex tw-flex-col tw-justify-center tw-rounded-sm tw-align-middle tw-transition-colors hover:tw-bg-neutral-700"
           >
-        </NuxtLink>
+            <img
+              src="/gelbooru-logo.svg"
+              class="tw-mx-auto tw-h-auto tw-w-6 tw-object-contain md:tw-w-10"
+            >
+          </NuxtLink>
+        </div>
+        <QList class="tw-flex-1" padding>
+          <QItem
+            v-ripple
+            clickable
+            to="/"
+            active-class="drawer-item-active"
+          >
+            <QItemSection avatar>
+              <QIcon name="mdi-magnify" />
+            </QItemSection>
+            <QItemSection>
+              Search
+            </QItemSection>
+          </QItem>
+          <QItem
+            v-ripple
+            clickable
+            :disable="!authStore.logged_in_computed"
+            to="/favorites"
+            active-class="drawer-item-active"
+          >
+            <QItemSection avatar>
+              <QIcon name="mdi-heart-outline" />
+            </QItemSection>
+            <QItemSection>
+              Favorites
+            </QItemSection>
+          </QItem>
+        </QList>
+        <QList padding>
+          <QItem
+            v-ripple
+            clickable
+            to="/settings"
+            active-class="drawer-item-active"
+          >
+            <QItemSection avatar>
+              <QIcon name="mdi-cog-outline" />
+            </QItemSection>
+            <QItemSection>
+              Settings
+            </QItemSection>
+          </QItem>
+        </QList>
       </div>
-      <QList padding>
-        <QItem
-          v-ripple
-          clickable
-          to="/"
-          active-class="drawer-item-active"
-        >
-          <QItemSection avatar>
-            <QIcon name="mdi-magnify" />
-          </QItemSection>
-          <QItemSection>
-            Search
-          </QItemSection>
-        </QItem>
-        <QItem
-          v-ripple
-          clickable
-          :disable="!authStore.logged_in_computed"
-          to="/favorites"
-          active-class="drawer-item-active"
-        >
-          <QItemSection avatar>
-            <QIcon name="mdi-heart-outline" />
-          </QItemSection>
-          <QItemSection>
-            Favorites
-          </QItemSection>
-        </QItem>
-      </QList>
     </QDrawer>
 
 

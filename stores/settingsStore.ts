@@ -10,14 +10,14 @@ export interface UserSettings {
 export const defaultUserSettings: UserSettings = {
   hideNsfwImages: false,
   filteredTags: DefaultFilteredTags,
-  numberPostsPerPage: 50,
+  numberPostsPerPage: 24,
 }
 
 export const useSettingsStore = defineStore('settings', () => {
   const settings = ref<UserSettings>({
     hideNsfwImages: false,
     filteredTags: DefaultFilteredTags,
-    numberPostsPerPage: 50,
+    numberPostsPerPage: 24,
   })
 
   const filteredTagsWithMinus = computed(() => settings.value.filteredTags.map((tag) => `-${tag}`))

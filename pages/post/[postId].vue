@@ -27,17 +27,18 @@
                 <h1>
                   Source
                 </h1>
-                <QBtn
+                <GelbooruSourceLink
+                  v-if="post.source"
                   color="accent"
-                  label="Original"
                   flat
                   dense
                   no-caps
-                  icon="mdi-link"
                   class="tw-my-auto"
-                  :href="post.source"
-                  target="_blank"
+                  :source="post.source"
                 />
+                <p v-else>
+                  No source was found
+                </p>
               </div>
             </div>
             <div class="tw-mb-1">

@@ -5,7 +5,7 @@
   >
     <NuxtLoadingIndicator color="#006FFA" class="tw-z-[9999]" />
     <QHeader reveal class="tw-bg-transparent tw-shadow-lg tw-shadow-black/25">
-      <QToolbar class="tw-relative tw-bg-neutral-700 tw-px-6 tw-py-3 dark:tw-bg-neutral-800">
+      <QToolbar class="tw-relative tw-flex tw-flex-row tw-gap-2 tw-bg-neutral-700 tw-px-6 tw-py-3 dark:tw-bg-neutral-800">
         <div v-auto-animate class="tw-flex tw-flex-1 tw-flex-row tw-items-center tw-gap-2">
           <QBtn
             v-if="$q.screen.lt.md"
@@ -27,6 +27,7 @@
             Gelbooru
           </QToolbarTitle>
         </div>
+        <GelbooruQueryGenerator />
         <UserMenu />
         <Transition
           appear

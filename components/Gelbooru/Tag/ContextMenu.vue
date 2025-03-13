@@ -2,17 +2,30 @@
   <QMenu context-menu auto-close>
     <QList>
       <QItem
-        :href="`https://gelbooru.com/index.php?page=wiki&s=list&search=${encodeURIComponent(props.simpleTag)}`"
-        target="_blank"
         class="tw-text-white"
+        clickable
+        @click="addTagToQueryGenerator"
       >
         <QItemSection avatar>
-          <QIcon name="mdi-book-outline" />
+          <QIcon name="mdi-tag-plus-outline" />
         </QItemSection>
         <QItemSection>
-          Wiki
+          Add tag to query
         </QItemSection>
       </QItem>
+      <QItem
+        class="tw-text-white"
+        clickable
+        @click="addNegativeTagToQueryGenerator"
+      >
+        <QItemSection avatar>
+          <QIcon name="mdi-tag-minus-outline" />
+        </QItemSection>
+        <QItemSection>
+          Add as negative tag to query
+        </QItemSection>
+      </QItem>
+      <QSeparator />
       <QItem
         :to="favoritesUrl"
         class="tw-text-white"
@@ -34,6 +47,18 @@
         </QItemSection>
         <QItemSection>
           Open in new tab
+        </QItemSection>
+      </QItem>
+      <QItem
+        :href="`https://gelbooru.com/index.php?page=wiki&s=list&search=${encodeURIComponent(props.simpleTag)}`"
+        target="_blank"
+        class="tw-text-white"
+      >
+        <QItemSection avatar>
+          <QIcon name="mdi-book-outline" />
+        </QItemSection>
+        <QItemSection>
+          Wiki
         </QItemSection>
       </QItem>
       <template v-if="props.artistTags && props.artistTags.length > 0">
@@ -75,8 +100,18 @@ interface GelbooruSimpleContextMenuProps {
 
 const props = defineProps<GelbooruSimpleContextMenuProps>()
 
+const queryGeneratorStore = useQueryGeneratorStore()
+
 const searchUrl = computed(() => `/search-results?page=1&tags=${encodeURIComponent(props.simpleTag)},sort:score`)
 const favoritesUrl = computed(() => `/favorites?page=1&tags=${encodeURIComponent(props.simpleTag)},sort:score`)
+
+function addTagToQueryGenerator() {
+  queryGeneratorStore.pushTag(props.simpleTag)
+}
+
+function addNegativeTagToQueryGenerator() {
+  queryGeneratorStore.pushTag(`-${props.simpleTag}`)
+}
 
 </script>
 

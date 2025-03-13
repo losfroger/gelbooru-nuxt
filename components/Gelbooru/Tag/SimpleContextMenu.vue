@@ -2,17 +2,30 @@
   <QMenu context-menu auto-close>
     <QList>
       <QItem
-        :href="`https://gelbooru.com/index.php?page=wiki&s=list&search=${encodeURIComponent(props.simpleTag)}`"
-        target="_blank"
         class="tw-text-white"
+        clickable
+        @click="addTagToQueryGenerator"
       >
         <QItemSection avatar>
-          <QIcon name="mdi-book-outline" />
+          <QIcon name="mdi-tag-plus-outline" />
         </QItemSection>
         <QItemSection>
-          Wiki
+          Add tag to query
         </QItemSection>
       </QItem>
+      <QItem
+        class="tw-text-white"
+        clickable
+        @click="addNegativeTagToQueryGenerator"
+      >
+        <QItemSection avatar>
+          <QIcon name="mdi-tag-minus-outline" />
+        </QItemSection>
+        <QItemSection>
+          Add as negative tag to query
+        </QItemSection>
+      </QItem>
+      <QSeparator />
       <QItem
         v-if="props.favoritesMode"
         :to="`/search-results?page=1&tags=${encodeURIComponent(props.simpleTag)},sort:score`"
@@ -49,6 +62,18 @@
           Open in new tab
         </QItemSection>
       </QItem>
+      <QItem
+        :href="`https://gelbooru.com/index.php?page=wiki&s=list&search=${encodeURIComponent(props.simpleTag)}`"
+        target="_blank"
+        class="tw-text-white"
+      >
+        <QItemSection avatar>
+          <QIcon name="mdi-book-outline" />
+        </QItemSection>
+        <QItemSection>
+          Wiki
+        </QItemSection>
+      </QItem>
       <QSeparator />
       <QItem
         class="tw-text-white"
@@ -56,7 +81,7 @@
         @click="emitAddTag"
       >
         <QItemSection avatar>
-          <QIcon name="mdi-tag-plus-outline" />
+          <QIcon name="mdi-filter-plus-outline" />
         </QItemSection>
         <QItemSection>
           Add tag to current search
@@ -68,7 +93,7 @@
         @click="emitAddNegativeTag"
       >
         <QItemSection avatar>
-          <QIcon name="mdi-tag-minus-outline" />
+          <QIcon name="mdi-filter-minus-outline" />
         </QItemSection>
         <QItemSection>
           Add as negative tag to current search
@@ -87,6 +112,8 @@ interface GelbooruSimpleContextMenuProps {
 
 const props = defineProps<GelbooruSimpleContextMenuProps>()
 
+const queryGeneratorStore = useQueryGeneratorStore()
+
 const url = computed(() => props.favoritesMode
   ? `/favorites?page=1&tags=${encodeURIComponent(props.simpleTag)},sort:score`
   : `/search-results?page=1&tags=${encodeURIComponent(props.simpleTag)},sort:score`
@@ -100,6 +127,14 @@ function emitAddTag() {
 
 function emitAddNegativeTag() {
   $event.emit('pushed-tag-to-search', {tag: `-${props.simpleTag}`})
+}
+
+function addTagToQueryGenerator() {
+  queryGeneratorStore.pushTag(props.simpleTag)
+}
+
+function addNegativeTagToQueryGenerator() {
+  queryGeneratorStore.pushTag(`-${props.simpleTag}`)
 }
 
 </script>

@@ -6,7 +6,11 @@
       <span class="tw-line-clamp-1 tw-truncate tw-capitalize">
         {{ simpleTag.replaceAll('_', ' ') }}
       </span>
-      <GelbooruTagSimpleContextMenu :favorites-mode="props.favoritesMode" :simple-tag="props.simpleTag" />
+      <GelbooruTagSimpleContextMenu
+        :favorites-mode="props.favoritesMode"
+        :simple-tag="props.simpleTag"
+        :disable-add-to-current-search="props.disableAddToCurrentSearch"
+      />
     </QChip>
   </NuxtLink>
 </template>
@@ -21,6 +25,7 @@ import type { QChipProps } from 'quasar'
 interface GelbooruRatingChipProps extends Omit<QChipProps, 'modelValue' | 'dark' | 'label'> {
   simpleTag: string,
   favoritesMode?: boolean,
+  disableAddToCurrentSearch?: boolean,
 }
 
 const props = defineProps<GelbooruRatingChipProps>()

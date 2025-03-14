@@ -14,6 +14,12 @@
             Will blur NSFW images until hovered over
           </p>
         </div>
+        <div class="q-field--dark">
+          <QToggle v-model="settingsForm.syncQueryBetweenTabs" label="Sync query between tabs" />
+          <p class="q-field__bottom q-field__messages">
+            This will sync your query between all tabs (you might need to reload the tab)
+          </p>
+        </div>
         <GelbooruSearchBarSelect
           v-model="settingsForm.filteredTags"
           filled
@@ -57,6 +63,7 @@ const settingsForm = ref<UserSettings>({
   hideNsfwImages: settingsStore.settings.hideNsfwImages,
   filteredTags: settingsStore.settings.filteredTags,
   numberPostsPerPage: settingsStore.settings.numberPostsPerPage,
+  syncQueryBetweenTabs: settingsStore.settings.syncQueryBetweenTabs,
 })
 
 function onSaveUserSettings() {

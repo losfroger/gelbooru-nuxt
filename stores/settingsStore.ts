@@ -5,12 +5,14 @@ export interface UserSettings {
   hideNsfwImages: boolean,
   filteredTags: string[],
   numberPostsPerPage: number,
+  syncQueryBetweenTabs: boolean,
 }
 
 export const defaultUserSettings: UserSettings = {
   hideNsfwImages: false,
   filteredTags: DefaultFilteredTags,
   numberPostsPerPage: 24,
+  syncQueryBetweenTabs: true,
 }
 
 export const useSettingsStore = defineStore('settings', () => {
@@ -18,6 +20,7 @@ export const useSettingsStore = defineStore('settings', () => {
     hideNsfwImages: false,
     filteredTags: DefaultFilteredTags,
     numberPostsPerPage: 24,
+    syncQueryBetweenTabs: true,
   })
 
   const filteredTagsWithMinus = computed(() => settings.value.filteredTags.map((tag) => `-${tag}`))
@@ -25,6 +28,17 @@ export const useSettingsStore = defineStore('settings', () => {
   function resetSettings() {
     settings.value = defaultUserSettings
   }
+
+  watch(settings, (newVal) => {
+    if (newVal.syncQueryBetweenTabs) {
+      const queryGenStore = useQueryGeneratorStore()
+      queryGenStore.initQueryBroadcastChannel()
+    } else {
+      const queryGenStore = useQueryGeneratorStore()
+      queryGenStore.closeQueryBroadcastChannel()
+      localStorage.removeItem(localStorageQuerySyncKey)
+    }
+  }, { deep: true })
 
   return {
     settings,

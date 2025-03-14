@@ -24,6 +24,7 @@ module.exports = {
         negative: '#CF6679',
         background: {
           DEFAULT: '#f2f2f2',
+          'light-dark': '#262626',
           dark: '#171717',
         },
       },

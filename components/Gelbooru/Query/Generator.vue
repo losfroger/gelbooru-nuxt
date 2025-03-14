@@ -59,20 +59,29 @@
             </p>
           </QCardSection>
           <QSeparator />
-          <QCardSection class="tw-flex tw-flex-row tw-gap-2">
+          <QCardSection class="tw-flex tw-flex-col tw-items-center tw-gap-2">
+            <div class="tw-flex tw-flex-row tw-gap-2">
+              <QBtn
+                flat
+                icon="mdi-magnify"
+                color="primary"
+                label="Search"
+                :to="searchUrl"
+              />
+              <QBtn
+                flat
+                icon="mdi-star-outline"
+                color="secondary"
+                label="Search in favorites"
+                :to="favoritesUrl"
+              />
+            </div>
             <QBtn
               flat
-              icon="mdi-magnify"
-              color="primary"
-              label="Search"
-              :to="searchUrl"
-            />
-            <QBtn
-              flat
-              icon="mdi-star-outline"
-              color="secondary"
-              label="Search in favorites"
-              :to="favoritesUrl"
+              label="Save query"
+              icon="mdi-content-save-outline"
+              color="accent"
+              @click="saveToDb"
             />
           </QCardSection>
         </QCard>
@@ -82,11 +91,44 @@
 </template>
 
 <script setup lang="ts">
+import type { QueryUserDB } from '~/types/queryUserDb'
 
+const quasar = useQuasar()
+
+const queryDbStore = useQueryDBStore()
 const queryGeneratorStore = useQueryGeneratorStore()
 
 const searchUrl = computed(() => `/search-results?page=1&tags=${encodeURIComponent(queryGeneratorStore.queryStash.join(','))},sort:score`)
 const favoritesUrl = computed(() => `/favorites?page=1&tags=${encodeURIComponent(queryGeneratorStore.queryStash.join(','))},sort:score`)
+
+async function saveToDb() {
+
+  quasar.dialog({
+    title: 'Saving query',
+    message: 'Name of your query:',
+    color: 'primary',
+    prompt: {
+      model: '',
+      isValid: (val) => val.length > 0,
+      type: 'text',
+    },
+    cancel: {
+      flat: true,
+      color: 'grey',
+    },
+    persistent: true,
+  }).onOk(async (data: string) => {
+    const queryToSave: QueryUserDB.QueryToSave = {
+      name: data,
+      tags: [...queryGeneratorStore.queryStash],
+    }
+
+    const res = await queryDbStore.pushQuery(queryToSave)
+    console.log('res')
+  })
+
+
+}
 
 
 </script>

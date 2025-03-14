@@ -1,16 +1,16 @@
 <template>
   <div>
-    <ClientOnly>
-      <QCard flat>
-        <QCardSection>
-          <h1 class="text-h5">
-            Saved queries
-          </h1>
-          <p>
-            Queries are saved in your browser, if you delete the saved data you'll lose them.
-          </p>
-        </QCardSection>
-        <QSeparator />
+    <QCard flat>
+      <QCardSection>
+        <h1 class="text-h5">
+          Saved searches
+        </h1>
+        <p>
+          Queries are saved in your browser, if you delete the saved data you'll lose them.
+        </p>
+      </QCardSection>
+      <QSeparator />
+      <ClientOnly>
         <QCardSection>
           <QList v-if="savedSearches.length > 0" separator>
             <GelbooruQuerySavedSearchEntry
@@ -23,17 +23,20 @@
             You have no saved searches
           </p>
         </QCardSection>
-      </QCard>
-    </ClientOnly>
+      </ClientOnly>
+    </QCard>
   </div>
 </template>
 
 <script setup lang="ts">
 import type { QueryUserDB } from '~/types/queryUserDb'
 
+useHead({
+  title: 'Saved searches',
+})
+
 
 const queryDbStore = useQueryDBStore()
-
 const savedSearches = ref<QueryUserDB.SavedQuery[]>([])
 
 onMounted(async () => {

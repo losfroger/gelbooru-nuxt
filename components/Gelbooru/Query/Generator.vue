@@ -13,25 +13,27 @@
         transition-hide="jump-up"
         anchor="bottom right"
         self="top right"
+        max-height="80vh"
       >
-        <QCard v-auto-animate class="tw-min-w-64">
-          <QCardSection class="tw-flex tw-flex-row">
-            <h1 class="text-h5 tw-flex-1">
-              Query
-            </h1>
-            <QBtn
-              label="Clear"
-              flat
-              icon="mdi-backspace-outline"
-              color="negative"
-              :disable="queryGeneratorStore.queryStash.length < 1"
-              @click="queryGeneratorStore.clearQuery()"
-            />
-          </QCardSection>
-          <QSeparator />
+        <QCard v-auto-animate class="tw-isolate tw-min-w-64">
+          <div class="tw-sticky tw-top-0 tw-z-50 tw-bg-background-light-dark tw-shadow-md">
+            <QCardSection class="tw-flex tw-flex-row">
+              <h1 class="text-h5 tw-flex-1">
+                Query
+              </h1>
+              <QBtn
+                label="Clear"
+                flat
+                icon="mdi-backspace-outline"
+                color="negative"
+                :disable="queryGeneratorStore.queryStash.length < 1"
+                @click="queryGeneratorStore.clearQuery()"
+              />
+            </QCardSection>
+            <QSeparator />
+          </div>
           <QList
             v-if="queryGeneratorStore.queryStash.length > 0"
-            class="tw-max-h-[80vh]"
             padding
           >
             <QItem
@@ -58,32 +60,34 @@
               There are no tags in your query, try right clicking a tag and adding it.
             </p>
           </QCardSection>
-          <QSeparator />
-          <QCardSection class="tw-flex tw-flex-col tw-items-center tw-gap-2">
-            <div class="tw-flex tw-flex-row tw-gap-2">
+          <div class="tw-sticky tw-bottom-0 tw-bg-background-light-dark tw-shadow-lg">
+            <QSeparator />
+            <QCardSection class="tw-flex tw-flex-col tw-items-center tw-gap-2">
+              <div class="tw-flex tw-flex-row tw-gap-2">
+                <QBtn
+                  flat
+                  icon="mdi-magnify"
+                  color="primary"
+                  label="Search"
+                  :to="searchUrl"
+                />
+                <QBtn
+                  flat
+                  icon="mdi-star-outline"
+                  color="secondary"
+                  label="Search in favorites"
+                  :to="favoritesUrl"
+                />
+              </div>
               <QBtn
                 flat
-                icon="mdi-magnify"
-                color="primary"
-                label="Search"
-                :to="searchUrl"
+                label="Save query"
+                icon="mdi-content-save-outline"
+                color="accent"
+                @click="saveToDb"
               />
-              <QBtn
-                flat
-                icon="mdi-star-outline"
-                color="secondary"
-                label="Search in favorites"
-                :to="favoritesUrl"
-              />
-            </div>
-            <QBtn
-              flat
-              label="Save query"
-              icon="mdi-content-save-outline"
-              color="accent"
-              @click="saveToDb"
-            />
-          </QCardSection>
+            </QCardSection>
+          </div>
         </QCard>
       </QMenu>
     </QBtn>

@@ -82,7 +82,7 @@ watch(status, (newVal) => {
 // Page title
 useHead({
   title: () => {
-    const aux = ['Favorites', `Page ${currentPage.value}`]
+    const aux = ['Search results', `Page ${currentPage.value}`]
     if (tags.value) {
       const auxTags = tags.value
           .split(',')

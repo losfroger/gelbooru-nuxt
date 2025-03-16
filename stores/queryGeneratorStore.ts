@@ -46,8 +46,7 @@ export const useQueryGeneratorStore = defineStore('queryGeneratorStore', () => {
       quasar.notify({
         message: `${tag} added to query`,
         group: false,
-        color: 'positive',
-        icon: 'mdi-check',
+        type: 'positive',
         position: 'bottom-right',
       })
       syncQueryBroadcastChannel()

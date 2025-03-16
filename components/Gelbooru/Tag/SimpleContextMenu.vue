@@ -74,31 +74,33 @@
           Wiki
         </QItemSection>
       </QItem>
-      <QSeparator />
-      <QItem
-        class="tw-text-white"
-        clickable
-        @click="emitAddTag"
-      >
-        <QItemSection avatar>
-          <QIcon name="mdi-filter-plus-outline" />
-        </QItemSection>
-        <QItemSection>
-          Add tag to current search
-        </QItemSection>
-      </QItem>
-      <QItem
-        class="tw-text-white"
-        clickable
-        @click="emitAddNegativeTag"
-      >
-        <QItemSection avatar>
-          <QIcon name="mdi-filter-minus-outline" />
-        </QItemSection>
-        <QItemSection>
-          Add as negative tag to current search
-        </QItemSection>
-      </QItem>
+      <template v-if="!props.disableAddToCurrentSearch">
+        <QSeparator />
+        <QItem
+          class="tw-text-white"
+          clickable
+          @click="emitAddTag"
+        >
+          <QItemSection avatar>
+            <QIcon name="mdi-filter-plus-outline" />
+          </QItemSection>
+          <QItemSection>
+            Add tag to current search
+          </QItemSection>
+        </QItem>
+        <QItem
+          class="tw-text-white"
+          clickable
+          @click="emitAddNegativeTag"
+        >
+          <QItemSection avatar>
+            <QIcon name="mdi-filter-minus-outline" />
+          </QItemSection>
+          <QItemSection>
+            Add as negative tag to current search
+          </QItemSection>
+        </QItem>
+      </template>
     </QList>
   </QMenu>
 </template>
@@ -108,6 +110,7 @@
 interface GelbooruSimpleContextMenuProps {
   simpleTag: string,
   favoritesMode?: boolean,
+  disableAddToCurrentSearch?: boolean,
 }
 
 const props = defineProps<GelbooruSimpleContextMenuProps>()

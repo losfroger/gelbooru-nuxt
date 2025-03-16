@@ -27,7 +27,9 @@
             Gelbooru
           </QToolbarTitle>
         </div>
-        <GelbooruQueryGenerator />
+        <ClientOnly>
+          <GelbooruQueryGenerator />
+        </ClientOnly>
         <UserMenu />
         <Transition
           appear
@@ -95,6 +97,20 @@
             </QItemSection>
             <QItemSection>
               Favorites
+            </QItemSection>
+          </QItem>
+          <QItem
+            v-ripple
+            clickable
+            :disable="!authStore.logged_in_computed"
+            to="/saved-searches"
+            active-class="drawer-item-active"
+          >
+            <QItemSection avatar>
+              <QIcon name="mdi-tag-heart-outline" />
+            </QItemSection>
+            <QItemSection>
+              Saved searches
             </QItemSection>
           </QItem>
         </QList>

@@ -1,9 +1,14 @@
 import { openDB, type IDBPDatabase } from 'idb'
 import type { QueryUserDB } from '~/types/queryUserDb'
+import { computedAsync } from '@vueuse/core'
 
 export const useQueryDBStore = defineStore('queryDBStore', () => {
 
   const authStore = useAuthStore()
+  /**
+   * Hack to get the `computedAsync` to refresh
+   */
+  const refresh = ref(0)
 
   let db: undefined | IDBPDatabase<QueryUserDB.DB>
   async function initDb() {
@@ -29,10 +34,12 @@ export const useQueryDBStore = defineStore('queryDBStore', () => {
       ...queryToSave,
     }
 
+    refreshSavedQueries()
     return db?.put('saved-queries', queryToSaveWithUserId)
   }
 
   function deleteSavedQuery(id: string) {
+    refreshSavedQueries()
     return db?.delete('saved-queries', id)
   }
 
@@ -45,7 +52,7 @@ export const useQueryDBStore = defineStore('queryDBStore', () => {
     }
   }
 
-  async function getAllSavedQueries() {
+  function getAllSavedQueries() {
     const userId = authStore.user_id ?? ''
 
     console.log('Getting saved queries of user', userId)
@@ -53,7 +60,19 @@ export const useQueryDBStore = defineStore('queryDBStore', () => {
     const store = db?.transaction('saved-queries').objectStore('saved-queries')
     const index = store?.index('by-user')
 
-    return await index?.getAll(userId.toString())
+    return index?.getAll(userId.toString())
+  }
+
+  const userSavedQueries = computedAsync(
+    async () => {
+      const _aux = refresh.value > 0
+      return await getAllSavedQueries()
+    },
+    []
+  )
+
+  function refreshSavedQueries() {
+    refresh.value++
   }
 
   return {
@@ -62,5 +81,7 @@ export const useQueryDBStore = defineStore('queryDBStore', () => {
     deleteSavedQuery,
     getSavedQueryById,
     getAllSavedQueries,
+    userSavedQueries,
+    refreshSavedQueries,
   }
 })

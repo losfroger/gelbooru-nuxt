@@ -57,7 +57,7 @@
           </QList>
           <QCardSection v-else>
             <p>
-              There are no tags in your query, try right clicking a tag and adding it.
+              There are no tags in your query, try right clicking on a tag and adding it.
             </p>
           </QCardSection>
           <div class="tw-sticky tw-bottom-0 tw-bg-background-light-dark tw-shadow-lg">

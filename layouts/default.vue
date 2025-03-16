@@ -107,7 +107,7 @@
             active-class="drawer-item-active"
           >
             <QItemSection avatar>
-              <QIcon name="mdi-tag-multiple-outline" />
+              <QIcon name="mdi-tag-heart-outline" />
             </QItemSection>
             <QItemSection>
               Saved searches

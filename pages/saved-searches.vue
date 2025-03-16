@@ -61,6 +61,11 @@ useHead({
   title: 'Saved searches',
 })
 
+
+definePageMeta({
+  middleware: 'auth-middleware',
+})
+
 const queryDbStore = useQueryDBStore()
 
 onMounted(() => {

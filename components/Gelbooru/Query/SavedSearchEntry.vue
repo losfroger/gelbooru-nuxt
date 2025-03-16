@@ -10,11 +10,15 @@
             color="negative"
             round
             flat
+            @click="onDeleteSavedSearch"
           />
           <QItemLabel>
             <h2 class="text-h6">
               {{ props.savedSearch.name }}
             </h2>
+            <h3 class="text-subtitle2 tw-font-light" :title="createdAtDate.toLocaleString()">
+              {{ formattedCreatedAtDate }}
+            </h3>
           </QItemLabel>
         </div>
         <div class="tw-col-span-full tw-row-start-2 tw-flex tw-flex-row tw-flex-wrap tw-items-center md:tw-col-span-1 md:tw-row-start-auto">
@@ -58,8 +62,34 @@ interface GelbooruQuerySavedSearchEntryProps {
 
 const props = defineProps<GelbooruQuerySavedSearchEntryProps>()
 
+const quasar = useQuasar()
+const queryDbStore = useQueryDBStore()
+
 const searchUrl = computed(() => `/search-results?tags=${encodeURIComponent(props.savedSearch.tags.join(','))},sort:score`)
 const favoritesUrl = computed(() => `/favorites?tags=${encodeURIComponent(props.savedSearch.tags.join(','))},sort:score`)
+
+const createdAtDate = computed(() => new Date(props.savedSearch.createdAt))
+const formattedCreatedAtDate = computed(() => createdAtDate.value.toLocaleString(undefined, {dateStyle: 'short', timeStyle: 'short'}))
+
+
+function onDeleteSavedSearch() {
+  quasar.dialog({
+    title: 'Are you sure?',
+    message: 'Deleting a saved search cannot be undone',
+    color: 'primary',
+    cancel: {
+      flat: true,
+      color: 'grey',
+    },
+  }).onOk(() => {
+    if (!props.savedSearch.id) {
+      console.error('No id in entry')
+      return
+    }
+
+    queryDbStore.deleteSavedQuery(props.savedSearch.id)
+  })
+}
 
 </script>
 

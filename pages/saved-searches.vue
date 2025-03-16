@@ -108,7 +108,7 @@ const table = ref<{cols: QTableProps['columns'], search: string, pagination: QTa
 
 <style>
 .saved-query-list-container {
-  @apply tw-grid tw-grid-cols-1 tw-min-h-60 tw-items-start;
+  @apply tw-grid tw-grid-cols-1 tw-items-start;
 }
 
 </style>

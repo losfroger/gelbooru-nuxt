@@ -28,7 +28,7 @@
           </QToolbarTitle>
         </div>
         <ClientOnly>
-          <GelbooruQueryGenerator />
+          <GelbooruQueryGenerator :button-props="{disable: !authStore.logged_in_computed}" />
         </ClientOnly>
         <UserMenu />
         <Transition

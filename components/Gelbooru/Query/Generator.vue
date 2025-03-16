@@ -1,11 +1,12 @@
 <template>
   <div v-auto-animate class="tw-flex tw-flex-row tw-items-center">
     <QBtn
+      v-bind="props.buttonProps"
       flat
       round
       icon="mdi-tag-search-outline"
     >
-      <QBadge v-if="queryGeneratorStore.queryStash.length > 0" floating>
+      <QBadge v-if="queryGeneratorStore.queryStash.length > 0 && !props.buttonProps.disable" floating>
         {{ queryGeneratorStore.queryStash.length }}
       </QBadge>
       <QMenu
@@ -98,7 +99,14 @@
 </template>
 
 <script setup lang="ts">
+import type {QBtnProps} from 'quasar'
 import type { QueryUserDB } from '~/types/queryUserDb'
+
+interface GelbooruQueryGeneratorProps {
+  buttonProps: QBtnProps
+}
+
+const props =defineProps<GelbooruQueryGeneratorProps>()
 
 const quasar = useQuasar()
 

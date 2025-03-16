@@ -70,6 +70,7 @@
                   color="primary"
                   label="Search"
                   :to="searchUrl"
+                  :disable="queryGeneratorStore.queryStash.length < 1"
                 />
                 <QBtn
                   flat
@@ -77,6 +78,7 @@
                   color="secondary"
                   label="Search in favorites"
                   :to="favoritesUrl"
+                  :disable="queryGeneratorStore.queryStash.length < 1"
                 />
               </div>
               <QBtn
@@ -84,6 +86,7 @@
                 label="Save query"
                 icon="mdi-content-save-outline"
                 color="accent"
+                :disable="queryGeneratorStore.queryStash.length < 1"
                 @click="saveToDb"
               />
             </QCardSection>

@@ -109,7 +109,6 @@ const searchUrl = computed(() => `/search-results?page=1&tags=${encodeURICompone
 const favoritesUrl = computed(() => `/favorites?page=1&tags=${encodeURIComponent(queryGeneratorStore.queryStash.join(','))},sort:score`)
 
 async function saveToDb() {
-
   quasar.dialog({
     title: 'Saving query',
     message: 'Name of your query:',
@@ -130,11 +129,12 @@ async function saveToDb() {
       tags: [...queryGeneratorStore.queryStash],
     }
 
-    const res = await queryDbStore.pushQuery(queryToSave)
-    console.log('res')
+    const _res = await queryDbStore.pushQuery(queryToSave)
+    quasar.notify({
+      message: 'Saved correctly',
+      type: 'positive',
+    })
   })
-
-
 }
 
 

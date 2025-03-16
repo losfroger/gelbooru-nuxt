@@ -32,11 +32,11 @@ export const useQueryDBStore = defineStore('queryDBStore', () => {
     return db?.put('saved-queries', queryToSaveWithUserId)
   }
 
-  function deleteSavedQuery(id: number) {
+  function deleteSavedQuery(id: string) {
     return db?.delete('saved-queries', id)
   }
 
-  async function getSavedQueryById(id: number) {
+  async function getSavedQueryById(id: string) {
     const aux = await db?.get('saved-queries', id)
     if (aux?.user == authStore.user_id) {
       return aux

@@ -16,7 +16,7 @@ export namespace QueryUserDB {
 
   export interface DB extends DBSchema {
     'saved-queries': {
-      key: number,
+      key: string,
       value: SavedQuery
       indexes: {
         'by-name': string,

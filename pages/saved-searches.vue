@@ -22,7 +22,7 @@
       </QCardSection>
       <QSeparator />
       <ClientOnly>
-        <QCardSection>
+        <QCardSection class="tw-flex tw-min-h-60 tw-flex-col">
           <template v-if="queryDbStore.userSavedQueries && queryDbStore.userSavedQueries.length > 0">
             <QTable
               v-model:pagination="table.pagination"
@@ -44,7 +44,7 @@
               </template>
             </QTable>
           </template>
-          <p v-else>
+          <p v-else class="text-body1 tw-my-auto tw-text-center">
             You have no saved searches
           </p>
         </QCardSection>
@@ -108,7 +108,7 @@ const table = ref<{cols: QTableProps['columns'], search: string, pagination: QTa
 
 <style>
 .saved-query-list-container {
-  @apply tw-grid tw-grid-cols-1
+  @apply tw-grid tw-grid-cols-1 tw-min-h-60 tw-items-start;
 }
 
 </style>

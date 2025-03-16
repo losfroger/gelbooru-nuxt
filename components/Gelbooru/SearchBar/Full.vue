@@ -1,45 +1,58 @@
 <template>
   <div class="tw-flex tw-flex-col tw-gap-1">
     <div class="tw-flex tw-flex-col tw-gap-4 md:tw-flex-row">
-      <QBtn
-        flat
-        icon="mdi-filter"
-        :round="$q.screen.gt.sm"
-        :label="$q.screen.gt.sm ? undefined : 'Filters'"
-        class="tw-mr-auto md:tw-m-auto"
-      >
-        <QMenu v-model="showFilterMenu" @before-show="onBeforeShowFilterMenu">
-          <QCard class="tw-w-[80vw] tw-max-w-md">
-            <QCardSection class="tw-flex tw-flex-row">
-              <h1 class="text-h6">
-                Filters
-              </h1>
-              <QBtn
-                flat
-                class="tw-ml-auto"
-                color="accent"
-                icon="mdi-help-circle-outline"
-              />
-            </QCardSection>
-            <QSeparator class="tw-opacity-40" />
-            <QForm @submit="onFilterMenuSubmit">
-              <QCardSection class="tw-flex tw-flex-col tw-gap-4">
-                <div class="tw-flex tw-flex-col tw-gap-8">
-                  <GelbooruSortByFilterSelect v-model="auxSortByTag" class="tw-flex-1" />
-                  <GelbooruScoreFilterSelect v-model="auxScoreFilterTag" class="tw-flex-1" />
-                </div>
+      <div class="tw-flex tw-flex-row tw-flex-wrap tw-items-center tw-gap-4">
+        <QBtn
+          flat
+          icon="mdi-filter"
+          :round="$q.screen.gt.sm"
+          :label="$q.screen.gt.sm ? undefined : 'Filters'"
+        >
+          <QMenu v-model="showFilterMenu" @before-show="onBeforeShowFilterMenu">
+            <QCard class="tw-w-[80vw] tw-max-w-md">
+              <QCardSection class="tw-flex tw-flex-row">
+                <h1 class="text-h6">
+                  Filters
+                </h1>
                 <QBtn
                   flat
-                  label="Apply"
-                  color="primary"
                   class="tw-ml-auto"
-                  type="submit"
+                  color="accent"
+                  icon="mdi-help-circle-outline"
                 />
               </QCardSection>
-            </QForm>
-          </QCard>
-        </QMenu>
-      </QBtn>
+              <QSeparator class="tw-opacity-40" />
+              <QForm @submit="onFilterMenuSubmit">
+                <QCardSection class="tw-flex tw-flex-col tw-gap-4">
+                  <div class="tw-flex tw-flex-col tw-gap-8">
+                    <GelbooruSortByFilterSelect v-model="auxSortByTag" class="tw-flex-1" />
+                    <GelbooruScoreFilterSelect v-model="auxScoreFilterTag" class="tw-flex-1" />
+                  </div>
+                  <QBtn
+                    flat
+                    label="Apply"
+                    color="primary"
+                    class="tw-ml-auto"
+                    type="submit"
+                  />
+                </QCardSection>
+              </QForm>
+            </QCard>
+          </QMenu>
+        </QBtn>
+        <QBtn
+          icon="mdi-tag-heart"
+          flat
+          :disable="tags.length < 1"
+          :round="$q.screen.gt.sm"
+          :label="$q.screen.gt.sm ? undefined : 'Save current search'"
+          @click="saveCurrentSearchToDb"
+        >
+          <QTooltip>
+            Save current search
+          </QTooltip>
+        </QBtn>
+      </div>
       <QForm
         class="tw-flex tw-w-full tw-flex-1 tw-flex-row tw-items-center tw-justify-center tw-gap-4"
         @submit="onSearchSubmit"
@@ -62,13 +75,15 @@
         </QBtn>
       </QForm>
     </div>
-    <p class="q-field__messages tw-text-xs tw-opacity-80 md:tw-pl-16">
+    <p class="q-field__messages tw-text-xs tw-opacity-80 md:tw-pl-[7.5rem]">
       {{ searchResultsText }}
     </p>
   </div>
 </template>
 
 <script setup lang="ts">
+import type { QueryUserDB } from '~/types/queryUserDb'
+
 
 interface GelbooruSearchBarFullProps {
   modelValue: string,
@@ -81,7 +96,9 @@ const emit = defineEmits<{
 }>()
 
 const { $event } = useNuxtApp()
+const quasar = useQuasar()
 
+const queryDbStore = useQueryDBStore()
 
 // #region Filter menu
 
@@ -148,6 +165,35 @@ function onSearchSubmit() {
 }
 
 const searchResultsText = computed(() => `${(props.searchResultsCount ?? 0)?.toLocaleString()} posts` )
+
+function saveCurrentSearchToDb() {
+  quasar.dialog({
+    title: 'Saving query',
+    message: 'Name of your query:',
+    color: 'primary',
+    prompt: {
+      model: '',
+      isValid: (val) => val.length > 0,
+      type: 'text',
+    },
+    cancel: {
+      flat: true,
+      color: 'grey',
+    },
+    persistent: true,
+  }).onOk(async (data: string) => {
+    const queryToSave: QueryUserDB.QueryToSave = {
+      name: data,
+      tags: [...tags.value],
+    }
+
+    const _res = await queryDbStore.pushQuery(queryToSave)
+    quasar.notify({
+      type: 'positive',
+      message: 'Saved correctly',
+    })
+  })
+}
 
 </script>
 

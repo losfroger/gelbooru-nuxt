@@ -25,6 +25,7 @@ export const useQueryDBStore = defineStore('queryDBStore', () => {
   function pushQuery(queryToSave: QueryUserDB.QueryToSave) {
     const queryToSaveWithUserId: QueryUserDB.SavedQuery = {
       user: authStore.user_id?.toString() ?? '',
+      createdAt: new Date().toISOString(),
       ...queryToSave,
     }
 

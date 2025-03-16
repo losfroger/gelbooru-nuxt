@@ -8,6 +8,7 @@ export namespace QueryUserDB {
 
   export interface SavedQuery {
     id?: string,
+    createdAt: string,
     user: string,
     name: string,
     tags: string[],

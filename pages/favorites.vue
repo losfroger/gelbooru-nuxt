@@ -1,134 +1,86 @@
 <template>
-  <div class="view-container tw-grid tw-grid-cols-1">
-    <div>
-      <GelbooruSearchBar
-        v-model="tags"
-        :search-results="data ? data['@attributes'].count : 0"
+  <div v-auto-animate class="tw-flex tw-flex-col tw-items-center">
+    <div v-if="status == 'pending' && (posts?.post?.length ?? 0) < 1">
+      <QCircularProgress
+        color="primary"
+        indeterminate
+        size="50px"
+        track-color="dark"
       />
-      <div
-        v-if="error"
-        class="tw-flex tw-flex-col tw-items-center tw-gap-4 tw-py-16"
-      >
-        {{ error.statusMessage }}
-        <v-btn
-          prepend-icon="mdi-arrow-left"
-          @click="router.back()"
-        >
-          Back
-        </v-btn>
-      </div>
-      <div
-        v-else-if="data"
-        class="tw-mt-8 tw-grid tw-grid-cols-1 tw-gap-4 sm:tw-grid-cols-2 md:tw-grid-cols-4 lg:tw-grid-cols-5 2xl:tw-grid-cols-8"
-      >
-        <v-slide-y-reverse-transition group>
-          <GelbooruPostCard
-            v-for="post in data.post"
-            :key="post.id"
-            :post="post"
-          />
-        </v-slide-y-reverse-transition>
-      </div>
-      <div v-if="data">
-        <v-pagination
-          v-model="currentPage"
-          class="tw-col-span-full tw-mt-8 md:tw-mx-8"
-          active-color="primary"
-          rounded="circle"
-          :length="pageCount"
-          :show-first-last-page="$vuetify.display.mdAndUp"
-          :size="$vuetify.display.mdAndUp ? 'default' : 40"
-        />
-      </div>
+    </div>
+    <div v-if="posts" class="tw-flex tw-flex-col tw-gap-4">
+      <GelbooruSearchBarFull
+        v-model="tags"
+        :search-results-count="posts['@attributes'].count"
+        class="tw-mx-auto tw-w-full tw-max-w-7xl"
+        @update:model-value="currentPage = 1"
+      />
+      <GelbooruPostList
+        v-model:page="currentPage"
+        :posts="posts"
+        favorites-mode
+      />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { GelbooruPostRes } from '~/types/gelbooru'
-import { useAppStore } from '~/stores/appStore'
-
-const route = useRoute()
-const router = useRouter()
-
-const appStore = useAppStore()
+import type { GelbooruPostRes } from '~/types/gelbooru'
 
 definePageMeta({
-  middleware: 'auth-middleware'
+  middleware: 'auth-middleware',
 })
 
-/*
-  PAGINATION THINGS
-*/
+const appStore = useAppStore()
+const route = useRoute()
+
+// #region Handle page
+
+const currentPage = useRouteQuery('page', '1', { transform: Number, mode: 'push' })
 
 const pid = computed(() => currentPage.value - 1)
-const currentPage = ref(parseInt(route.query.page?.toString() ?? '1'))
-console.log('Starting tags', route.query.tags?.toString())
-const tags = ref(route.query.tags?.toString() ?? 'sort:score')
-
-// Max page count is 400
-const pageCount = computed(() => Math.min(
-  400,
-  // Calculate page count from count divided by limit
-  Math.ceil(
-    (data.value?.['@attributes'].count ?? 1) / (data.value?.['@attributes'].limit ?? 1)
-  )
-))
-
-// Watch router query page
-watch(() => route.query.page, (newVal) => {
-  console.log('Page', newVal?.toString())
-  currentPage.value = parseInt(newVal?.toString() ?? '1')
+watch(currentPage, async () => {
+  await new Promise(r => setTimeout(r, 250))
+  window.scroll(0, 0)
 })
 
-watch(() => route.query.tags, (newVal) => {
-  console.log('Tags', newVal?.toString())
-  tags.value = newVal?.toString() ?? ''
+// #endregion
+
+// #region Handle tags
+
+const tags = useRouteQuery<string>('tags', 'sort:score', { mode: 'push' })
+
+// Reset scroll on tag change
+watch(tags, () => {
+  window.scroll(0,0)
 })
 
-// Reset page when tags change
-watch(tags, (newValue, oldValue) => {
-  if (newValue !== oldValue) {
-    currentPage.value = 1
+// #endregion
+
+watch(() => route.params, () => {
+  if (route.path == '/favorites') {
+    refresh()
   }
 })
 
-// Push on router when tags or current page change
-watch(() => [tags, currentPage], () => {
-  const query: string[] = []
-
-  if (currentPage.value) {
-    query.push(`page=${encodeURIComponent(currentPage.value)}`)
-  }
-
-  if (tags.value) {
-    query.push(`tags=${encodeURIComponent(tags.value)}`)
-  }
-
-  router.push(`/favorites?${query.join('&')}`)
-}, {deep:true})
-
-const firstLoad = ref(false)
-const { data, error } = await useFetch<GelbooruPostRes>('/api/post/favorites', {
+const { data: posts, status, refresh } = await useFetch<GelbooruPostRes>('/api/post/favorites', {
   query: {
     pid,
     tags,
   },
-  onRequest: () => {
-    if (process.client && firstLoad.value) {
-      appStore.loading = true
-    }
-  },
-  onResponse: () => {
-    window.scroll(0, 0)
-    if (process.client) {
-      appStore.loading = false
-    }
+  watch: false,
+})
+
+// Show loading circle
+watch(status, (newVal) => {
+  if (newVal == 'pending') {
+    appStore.loading = true
+  } else if(newVal == 'success') {
+    appStore.loading = false
   }
 })
 
-firstLoad.value = true
-
+// Page title
 useHead({
   title: () => {
     const aux = ['Favorites', `Page ${currentPage.value}`]
@@ -144,7 +96,7 @@ useHead({
     }
 
     return aux.join(' | ')
-  }
+  },
 })
 
 </script>

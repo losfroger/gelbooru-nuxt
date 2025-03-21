@@ -1,0 +1,13 @@
+body {
+  @apply tw-text-neutral-600;
+  font-family: 'Barlow', sans-serif;
+}
+
+code {
+  @apply tw-whitespace-pre-wrap;
+  font-family: 'JetBrains Mono', serif;
+}
+
+a {
+  @apply tw-text-secondary tw-underline
+}

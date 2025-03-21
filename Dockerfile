@@ -1,24 +1,25 @@
-FROM node:16-alpine as Build
+FROM oven/bun:alpine AS build
 
 WORKDIR /usr/src
-COPY ["package.json", "yarn.lock", "tsconfig.json", "./"]
+COPY ["package.json", "bun.lock", "tsconfig.json", "./"]
 
-RUN yarn install
+RUN bun install --frozen-lockfile
 
 COPY [".", "./"]
-RUN yarn run build
+RUN bun run build
 
 
-FROM node:16-alpine as Run
+FROM oven/bun:alpine AS run
 
 WORKDIR /usr/prod
-COPY --from=Build ["/usr/src/.output", "."]
+COPY --from=build ["/usr/src/.output", "."]
 
-# Add curl for healthcheck
-RUN apk add --no-cache curl
+# Add curl and wget for healthcheck
+RUN apk add --no-cache curl wget
 
 ENV HOST=0.0.0.0
 ENV PORT=80
 
+USER bun
 EXPOSE 80
-ENTRYPOINT ["node", "server/index.mjs"]
+ENTRYPOINT ["bun", "run", "server/index.mjs"]

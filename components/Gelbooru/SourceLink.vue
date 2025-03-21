@@ -1,86 +1,76 @@
 <template>
-  <div>
-    <span
-      v-if="typeSource.invalid"
-      class="tw-break-words"
-    >
+  <QBtn
+    v-bind="props"
+    :href="props.source"
+    target="_blank"
+  >
+    <QTooltip v-if="typeSource.tooltip">
+      {{ typeSource.tooltip }}
+    </QTooltip>
+    <div class="tw-flex tw-flex-row tw-gap-2">
+      <QIcon v-if="typeSource.icon">
+        <svg>
+          <use :xlink:href="`/icons/source-icons.svg#${typeSource.icon}`" />
+        </svg>
+      </QIcon>
+      <QIcon v-else name="mdi-link" />
       {{ typeSource.text }}
-    </span>
-    <v-btn
-      v-else
-      v-bind="$attrs"
-      color="accent"
-      :disabled="typeSource.invalid"
-      :href="propsSrcLink.source"
-      target="_blank"
-      variant="tonal"
-    >
-      <div class="tw-flex tw-max-w-full tw-items-center tw-overflow-clip tw-align-middle">
-        <img
-          v-if="typeSource.icon"
-          :src="typeSource.icon"
-          width="16"
-          class="icon tw-mr-2"
-        >
-        <span class="tw-overflow-hidden tw-text-ellipsis tw-whitespace-nowrap tw-text-white">
-          {{ typeSource.text }}
-        </span>
-      </div>
-    </v-btn>
-  </div>
+    </div>
+  </QBtn>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import type { QBtnProps } from 'quasar'
 
 
-const propsSrcLink = defineProps({
-  source: {
-    type: String,
-    default: ''
-  }
+interface GelbooruSourceLinkProps extends Omit<QBtnProps, 'href' | 'target'> {
+  source: string,
+}
+
+const props = withDefaults(defineProps<GelbooruSourceLinkProps>(), {
+  color: 'accent',
 })
 
+
 const typeSource = computed(() => {
-  if (/(twitter)/.test(propsSrcLink.source))
+  if (/(twitter)/.test(props.source))
   {
     return {
-      icon: '/icons/twitter.svg',
-      text: 'Twitter'
+      icon: 'twitter',
+      text: 'Twitter',
     }
   }
-  if (/(pixiv)/.test(propsSrcLink.source))
+  if (/(pixiv)/.test(props.source))
   {
     return {
-      icon: '/icons/pixiv.svg',
-      text: 'Pixiv'
+      icon: 'pixiv',
+      text: 'Pixiv',
     }
   }
-  if (/(patreon)/.test(propsSrcLink.source))
+  if (/(patreon)/.test(props.source))
   {
     return {
-      icon: '/icons/patreon.svg',
-      text: 'Patreon'
+      icon: 'patreon',
+      text: 'Patreon',
     }
   }
-  if (/(instagram)/.test(propsSrcLink.source))
+  if (/(instagram)/.test(props.source))
   {
     return {
-      icon: '/icons/instagram.svg',
-      text: 'Instagram'
+      icon: 'instagram',
+      text: 'Instagram',
     }
   }
 
   try {
-    const url = new URL(propsSrcLink.source)
-
+    const url = new URL(props.source)
     return {
-      text: url.hostname
+      text: 'Original',
+      tooltip: url.hostname,
     }
   } catch (error) {
     return {
-      text: propsSrcLink.source.slice(0, 30),
-      invalid: true,
+      text: 'Original',
     }
   }
 
@@ -89,13 +79,9 @@ const typeSource = computed(() => {
 </script>
 
 <style scoped>
-:deep(.v-btn__content){
-  display: grid;/* or inline-block */
-  max-width: 100%;
-}
-
 
 .icon {
   filter: brightness(0) invert(1);
 }
+
 </style>

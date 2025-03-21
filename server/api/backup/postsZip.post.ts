@@ -1,4 +1,4 @@
-import { GelbooruPost } from '~/types/gelbooru'
+import type { GelbooruPost } from '~/types/gelbooru'
 import axios_gelbooru from '~/server/axiosGelbooru'
 
 import JSZip from 'jszip'
@@ -13,7 +13,7 @@ export default defineEventHandler(async (event) => {
   if (!body || body.length < 1) {
     throw createError({
       statusCode: 400,
-      statusMessage: 'No valid file found'
+      statusMessage: 'No valid file found',
     })
   }
 
@@ -42,13 +42,13 @@ export default defineEventHandler(async (event) => {
     const zipStream = zip.generateNodeStream({
       type: 'nodebuffer',
       compression: 'DEFLATE',
-      compressionOptions: {level: 5}
+      compressionOptions: {level: 5},
     })
     const readZipStream = new Readable().wrap(zipStream)
 
     setHeaders(event, {
       'Content-Disposition': 'attachment; filename="BackupGelbooruImages.zip"',
-      'Content-type': 'application/octet-stream'
+      'Content-type': 'application/octet-stream',
     })
 
     return sendStream(event, readZipStream)
@@ -56,7 +56,7 @@ export default defineEventHandler(async (event) => {
   } catch (error) {
     throw createError({
       statusCode: 400,
-      statusMessage: `There was an error while forming the zip: ${error}`
+      statusMessage: `There was an error while forming the zip: ${error}`,
     })
   }
 })

@@ -1,78 +1,67 @@
 <template>
-  <v-btn
-    v-bind="$attrs"
-    :disabled="!authStore.logged_in_computed"
-  >
-    Go to post ID
-    <v-menu
-      v-model="menuOpen"
-      :disabled="!authStore.logged_in_computed"
-      :close-on-content-click="false"
-      :location="$vuetify.display.mdAndUp ? 'bottom center' : 'top center'"
-      activator="parent"
+  <div>
+    <QBtn
+      v-bind="props.buttonProps"
+      label="Go to post ID"
     >
-      <v-card min-width="300">
-        <v-form @submit.prevent="goToPostId">
-          <v-card-text>
-            <v-text-field
-              ref="idTextFieldRef"
-              v-model="postId"
-              autofocus
-              label="ID"
-              color="primary"
-              type="number"
-              prepend-inner-icon="mdi-key"
-              hide-details="auto"
-              :rules="[v => !!v || 'Please introduce an ID']"
-            />
-          </v-card-text>
-          <v-card-actions>
-            <v-btn
-              type="submit"
-              color="primary"
-            >
-              Go
-            </v-btn>
-          </v-card-actions>
-        </v-form>
-      </v-card>
-    </v-menu>
-  </v-btn>
+      <QMenu
+        transition-show="jump-down"
+        transition-hide="jump-up"
+        anchor="bottom middle"
+        self="top middle"
+      >
+        <QCard>
+          <QForm @submit="goToPostId">
+            <QCardSection>
+              <QInput
+                v-model.number="postId"
+                type="number"
+                label="ID"
+                filled
+              >
+                <template #prepend>
+                  <QIcon name="mdi-key" />
+                </template>
+              </QInput>
+            </QCardSection>
+            <QCardActions>
+              <QBtn
+                label="Go"
+                color="primary"
+                type="submit"
+                flat
+              />
+            </QCardActions>
+          </QForm>
+        </QCard>
+      </QMenu>
+    </QBtn>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { useAuthStore } from '~/stores/authStore'
-import { VTextField } from 'vuetify/lib/components/index.mjs'
+import type { QBtnProps } from 'quasar'
 
-const authStore = useAuthStore()
+
+interface GelbooruGoToPostIdProps {
+  buttonProps: QBtnProps
+}
+
 const router = useRouter()
-
-const menuOpen = ref(false)
-
-const idTextFieldRef = ref<InstanceType<typeof VTextField> | null>(null)
 const postId = ref('')
 
-// Grab focus when menu is opened
-watch(idTextFieldRef, (newVal) => {
-  if (newVal) {
-    const input: HTMLElement = idTextFieldRef.value?.$el?.querySelector('input')
-
-    if (input) {
-      setTimeout(() => {
-        input.focus()
-      }, 20)
-    }
-  }
+const props = withDefaults(defineProps<GelbooruGoToPostIdProps>(), {
+  buttonProps: (): QBtnProps => ({
+    color: 'secondary',
+  }),
 })
 
-
 function goToPostId() {
-  // check id is valid
-  if (isNaN(parseInt(postId.value))) {
+  if (!postId.value) {
     return
   }
 
-  router.push(`post/${parseInt(postId.value)}`)
+  router.push(`/post/${postId.value}`)
 }
 
 </script>

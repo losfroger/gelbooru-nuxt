@@ -1,25 +1,39 @@
 <template>
-  <v-chip
-    :color="color"
-    v-bind="$attrs"
-    :to="`/search-results?tags=rating:${encodeURIComponent(propsGelbooruRatingChip.rating)},sort:score`"
+  <NuxtLink
+    :to="
+      props.favoritesMode
+        ?`/favorites?page=1&tags=rating:${props.rating.toLowerCase()},sort:score`
+        :`/search-results?tags=rating:${props.rating.toLowerCase()},sort:score`
+    "
   >
-    <span class="tw-capitalize">
-      {{ propsGelbooruRatingChip.rating }}
-    </span>
-  </v-chip>
+    <QChip v-bind="props" :color="color">
+      <span class="tw-capitalize">
+        {{ props.rating.toLocaleLowerCase() }}
+      </span>
+      <GelbooruTagSimpleContextMenu
+        :simple-tag="`rating:${props.rating.toLowerCase()}`"
+        :favorites-mode="props.favoritesMode"
+      />
+    </QChip>
+  </NuxtLink>
 </template>
 
 <script setup lang="ts">
-const propsGelbooruRatingChip = defineProps({
-  rating: {
-    type: String,
-    default: ''
-  }
-})
+/**
+ * Chip that changes color based on the rating
+ */
+import type { NamedColor, QChipProps } from 'quasar'
 
-const color = computed(() => {
-  switch (propsGelbooruRatingChip.rating) {
+
+interface GelbooruRatingChipProps extends Omit<QChipProps, 'modelValue' | 'dark' | 'color' | 'label'> {
+  rating: 'safe' | 'Safe' | 'general' | 'General' | 'questionable' | 'sensitive' | 'Questionable' | 'explicit' | 'Explicit',
+  favoritesMode?: boolean,
+}
+
+const props = defineProps<GelbooruRatingChipProps>()
+
+const color = computed((): NamedColor => {
+  switch (props.rating) {
     case 'safe':
     case 'Safe':
     case 'general':
@@ -36,10 +50,9 @@ const color = computed(() => {
       return 'red'
 
     default:
-      return 'gray'
+      return 'grey'
   }
 })
-
 
 </script>
 

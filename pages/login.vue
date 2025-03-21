@@ -1,138 +1,88 @@
 <template>
-  <div class="tw-flex tw-h-[80vh] tw-flex-row tw-items-center">
-    <v-card class="tw-max-w-xl tw-shadow-md">
-      <v-card-title class="tw-flex tw-flex-row tw-items-center tw-gap-4 tw-pt-4">
-        <img
-          src="/gelbooru-logo.svg"
-          class="tw-hidden tw-w-8 lg:tw-block"
-        >
-        Login
-      </v-card-title>
-      <v-divider class="tw-my-4" />
-      <v-card-text>
-        <v-form
-          ref="loginForm"
-          :disabled="loadingForm || authStore.logged_in_computed"
-          @paste="testApiKeyClipboard"
-        >
-          <v-row>
-            <v-col cols="12">
-              <v-text-field
-                v-model="form.user_id"
-                prepend-inner-icon="mdi-account"
-                label="User ID"
-                :rules="[(v) => !!v || 'Please provide your user ID']"
-              />
-            </v-col>
-            <v-col cols="12">
-              <v-text-field
-                v-model="form.api_key"
-                label="API Key"
-                prepend-inner-icon="mdi-key"
-                :type="showPassword ? 'text' : 'password'"
-                :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
-                :rules="[(v) => !!v || 'Please provide your API key']"
-                @click:append-inner="showPassword = !showPassword"
-              />
-            </v-col>
-          </v-row>
-        </v-form>
-        <p class="tw-mt-8">
-          Your credentials <b>won't</b> get stored anywhere inside the server.
-        </p>
-        <br>
-        <p>
-          To access the Gelbooru API we need your access credentials. You can see your credentials in <a
-            href="https://gelbooru.com/index.php?page=account&s=options"
-            target="_blank"
-          >here</a>
-        </p>
-        <br>
-        <p>
-          (You can paste your API credentials inside the textbox)
-        </p>
-        <v-card-actions class="tw-mt-8">
-          <v-spacer />
-          <v-btn
-            color="primary"
+  <div class="tw-flex tw-h-[80dvh] tw-flex-col tw-items-center tw-justify-center">
+    <QCard flat>
+      <QForm @submit="onSubmitLogin" @paste.prevent="onPasteLogin">
+        <QCardSection class="tw-flex tw-flex-col tw-gap-2">
+          <h1 class="text-h5">
+            Login
+          </h1>
+        </QCardSection>
+        <QSeparator />
+        <QCardSection class="tw-flex tw-flex-col tw-gap-2">
+          <QInput
+            v-model="loginForm.user_id"
+            label="User id"
+            filled
+            :disable="loadingForm"
+            :rules="[v => !!v || 'Please enter a user id']"
+          >
+            <template #prepend>
+              <QIcon name="mdi-account-outline" />
+            </template>
+          </QInput>
+          <QInput
+            v-model="loginForm.api_key"
+            label="Api key"
+            type="password"
+            filled
+            :disable="loadingForm"
+            :rules="[v => !!v || 'Please enter an api key']"
+          >
+            <template #prepend>
+              <QIcon name="mdi-lock-outline" />
+            </template>
+          </QInput>
+          <div class="tw-mt-4" />
+          <p>
+            Your credentials won't get stored anywhere inside the server.
+          </p>
+          <p>
+            To access the Gelbooru API it's necessary to have your API access credentials. You can see your credentials in <a href="https://gelbooru.com/index.php?page=account&s=options">here</a>
+          </p>
+          <p>
+            (You can paste your API credentials inside the textbox and it'll fill out the user ID and api key automatically)
+          </p>
+        </QCardSection>
+        <QCardSection class="tw-flex tw-flex-col">
+          <QBtn
             :loading="loadingForm"
-            :disabled="authStore.logged_in_computed"
-            @click="onSubmit"
-          >
-            Access
-          </v-btn>
-        </v-card-actions>
-        <v-expand-transition>
-          <div
-            v-if="authStore.logged_in_computed"
-            class="tw-text-center tw-text-success"
-          >
-            <v-divider class="tw-my-2" />
-            Logged in correctly!
-          </div>
-        </v-expand-transition>
-      </v-card-text>
-    </v-card>
+            label="Access"
+            color="primary"
+            type="submit"
+            class="tw-ml-auto"
+          />
+        </QCardSection>
+      </QForm>
+    </QCard>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useAuthStore } from '~/stores/authStore'
-import { VForm } from 'vuetify/lib/components/VForm/index'
 
 
 definePageMeta({
-  middleware: 'redirect-login-middleware'
+  middleware: 'redirect-login-middleware',
 })
 
-const loginForm = ref<VForm | null>(null)
-const authStore = useAuthStore()
+useHead({
+  title: 'Login',
+})
+
+const quasar = useQuasar()
 const router = useRouter()
 
-const showPassword = ref(false)
+const authStore = useAuthStore()
+
 const loadingForm = ref(false)
-const form = ref({
-  api_key: '',
+const loginForm = ref({
   user_id: '',
+  api_key: '',
 })
 
-async function testApiKeyClipboard(e: ClipboardEvent) {
-  if (e.clipboardData) {
-    const {clipboardData} = e
-    const text = clipboardData.getData('text')
-
-    const reg = new RegExp(/^&api_key=.*&user_id=\d*$/)
-
-    const aux = reg.test(text)
-
-    if (!aux) {
-      return
-    }
-
-    const apiKeyReg = new RegExp(/(?<=^&api_key=)(.*)(?=&user_id)/)
-    const apiKey = apiKeyReg.exec(text)?.[0]
-
-    form.value.api_key = apiKey ?? ''
-
-    const userIdReg = new RegExp(/(?<=&user_id=)(.*)$/)
-    const userId = userIdReg.exec(text)?.[0]
-
-    form.value.user_id = userId ?? ''
-
-    e.preventDefault()
-  }
-}
-
-async function onSubmit() {
-  const validForm = await loginForm.value?.validate()
-  if (!validForm?.valid) {
-    console.log('Not valid!')
-    return
-  }
-
+async function onSubmitLogin() {
   loadingForm.value = true
 
-  authStore.login(form.value.api_key, form.value.user_id)
+  authStore.login(loginForm.value.api_key, loginForm.value.user_id)
   .then(async () => {
     await new Promise(r => setTimeout(r, 1500))
     router.push('/')
@@ -143,8 +93,55 @@ async function onSubmit() {
   })
 }
 
+// To check if it's a valid api key
+const testRegApiAccessCreds = /^&api_key=.*&user_id=\d*$/
+// To extract the api key
+const apiKeyReg = /(?<=^&api_key=)(.*)(?=&user_id)/
+// To extract the user id
+const userIdReg = /(?<=&user_id=)(.*)$/
+async function onPasteLogin(e: ClipboardEvent) {
+  try {
+    if (!e.clipboardData) {
+      quasar.notify({
+        message: 'No clipboard data',
+        color: 'negative',
+      })
+      return
+    }
+
+    const {clipboardData} = e
+    const text = clipboardData.getData('text')
+
+    const testValidApiAccessCreds = testRegApiAccessCreds.test(text)
+    if (!testValidApiAccessCreds) {
+      quasar.notify({
+        message: 'Invalid API access credentials',
+        color: 'negative',
+      })
+      return
+    }
+
+    const apiKey = apiKeyReg.exec(text)?.[0]
+    loginForm.value.api_key = apiKey ?? ''
+
+    const userId = userIdReg.exec(text)?.[0]
+    loginForm.value.user_id = userId ?? ''
+
+
+    e.preventDefault()
+
+  } catch (error) {
+    console.error(error)
+    quasar.notify({
+      caption: 'Error',
+      message: 'Unknown error while trying to parse the API access credentials, see console for more information',
+      color: 'negative',
+    })
+  }
+}
+
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 
 </style>

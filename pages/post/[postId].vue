@@ -1,348 +1,306 @@
 <template>
-  <div class="view-container tw-flex tw-flex-row tw-justify-center">
-    <div v-if="error">
-      <h1>
-        Error {{ error.statusCode }}
+  <div>
+    <div v-if="status == 'error'">
+      <h1 class="text-h5">
+        There was an error:
       </h1>
-      <h2>Error fetching the requested post</h2>
+      <p>
+        {{ error?.message }}
+      </p>
     </div>
-    <div
-      v-else
-      class="tw-grid tw-grid-cols-1 tw-gap-12 md:tw-grid-cols-[1fr_2fr_1fr] md:tw-gap-2 lg:tw-grid-cols-[1fr_3fr_1fr] lg:tw-gap-8"
-    >
+    <div v-else-if="status == 'success' && post" class="tw-grid tw-grid-cols-1 tw-gap-8 md:tw-grid-cols-[1fr_3fr_1fr] md:tw-gap-4">
       <div>
-        <div class="post-sidebar tw-flex tw-flex-wrap tw-gap-4 tw-rounded-md tw-bg-neutral-900 tw-p-4 tw-shadow-md">
-          <div class="dynamic-category-split">
-            <h5>Rating</h5>
-            <GelbooruRatingChip :rating="post?.rating" />
-          </div>
-          <div
-            v-if="post?.source"
-            class="dynamic-category-split"
-          >
-            <h5>
-              Source
-            </h5>
-            <ul>
-              <li
-                v-for="(src, i) in post.source_array"
-                :key="i"
-                class="my-1"
-              >
-                <GelbooruSourceLink
-                  size="small"
-                  :source="src"
+        <QCard flat class="post-info-card">
+          <QCardSection class="tw-flex tw-flex-col tw-gap-3">
+            <div class="tw-grid tw-grid-cols-2 tw-gap-2 md:tw-grid-cols-2">
+              <div class="tw-flex tw-flex-col">
+                <h1>
+                  Rating
+                </h1>
+                <GelbooruRatingChip
+                  :rating="post.rating"
+                  outline
+                  class="tw-my-auto tw-w-min"
                 />
-              </li>
-            </ul>
-          </div>
-          <div class="tw-flex tw-w-full tw-flex-col">
-            <h5>Statistics</h5>
-            <div class="tw-flex tw-flex-col tw-items-start">
-              <div><GelbooruUserLink :user="{creator_id: post?.creator_id ?? 0, owner: post?.owner ?? ''}" /></div>
-              <div>Id: {{ post?.id }}</div>
-              <div>Posted: {{ post?.created_at_date?.toLocaleString() }}</div>
-              <div>Size: {{ post?.width }}x{{ post?.height }}</div>
-              <div>Score: {{ post?.score.toLocaleString() }}</div>
+              </div>
+              <div class="tw-flex tw-flex-col">
+                <h1>
+                  Source
+                </h1>
+                <GelbooruSourceLink
+                  v-if="post.source"
+                  color="accent"
+                  flat
+                  dense
+                  no-caps
+                  class="tw-my-auto"
+                  :source="post.source"
+                />
+                <p v-else>
+                  No source was found
+                </p>
+              </div>
             </div>
-            <div class="tw-my-4 tw-flex tw-flex-col tw-gap-2">
-              <v-btn
-                color="primary"
-                variant="tonal"
-                append-icon="mdi-open-in-new"
-                :href="`https://gelbooru.com/index.php?page=post&s=view&id=${post?.id}`"
-                target="_blank"
-              >
-                View on Gelbooru
-              </v-btn>
-              <v-btn
-                v-if="!isVideoFile"
-                color="secondary"
-                variant="tonal"
-                append-icon="mdi-image-outline"
-                :href="post?.file_url ? `/api/image/full/${post?.id}` : `/api/image/${post?.id}`"
-                target="_blank"
-              >
-                View full image
-              </v-btn>
+            <div class="tw-mb-1">
+              <h1>
+                Statistics
+              </h1>
+              <ul class="tw-flex tw-flex-col tw-justify-start tw-gap-1">
+                <li>
+                  <GelbooruUserLink class="tw-w-fit tw-max-w-40" :user="{creator_id: post?.creator_id ?? 0, owner: post?.owner ?? ''}" />
+                </li>
+                <li>
+                  Id: {{ post.id }}
+                </li>
+                <li>
+                  Posted: {{ new Date(post.created_at_utc).toLocaleString(undefined, dateFormat) }} - <TimeAgo
+                    class="first-letter:tw-uppercase"
+                    :date="new Date(post.created_at_utc)"
+                    locale="en"
+                  />
+                </li>
+                <li>
+                  Size: {{ post.width }} x {{ post.height }}
+                </li>
+                <li>
+                  Score: {{ post.score }}
+                </li>
+              </ul>
             </div>
-            <div class="icons-wrapper tw-mt-4 tw-flex tw-w-full tw-grow tw-flex-row tw-flex-wrap tw-justify-center tw-gap-2 md:tw-justify-evenly ">
-              <v-icon
-                size="18"
-                :color="post?.has_note_bool ? 'accent' : 'grey-darken-1'"
-                :title="post?.has_note_bool ? 'Has notes' : ''"
-                icon="mdi-note-outline"
-              />
-              <v-icon
-                size="18"
-                :color="post?.has_comments_bool ? 'accent' : 'grey-darken-1'"
-                :title="post?.has_comments_bool ? 'Has comments' : ''"
-                icon="mdi-comment-outline"
-              />
-
-              <v-icon
-                size="18"
-                :color="post?.has_children_bool ? 'accent' : 'grey-darken-1'"
-                :title="post?.has_children_bool ? 'has_children' : ''"
-                icon="mdi-file-tree"
-              />
+            <QBtn
+              label="View on Gelbooru"
+              icon="mdi-open-in-new"
+              color="primary"
+              outline
+              :href="`https://gelbooru.com/index.php?page=post&s=view&id=${post?.id}`"
+              target="_blank"
+            />
+            <QBtn
+              label="View full image"
+              icon="mdi-image-outline"
+              color="secondary"
+              outline
+              :href="post?.file_url ? `/api/image/full/${post?.id}` : `/api/image/${post?.id}`"
+              target="_blank"
+            />
+            <div class="tw-mt-3 tw-grid tw-grid-cols-3 tw-items-center tw-justify-center">
+              <div class="tw-flex tw-flex-row tw-justify-center">
+                <QIcon
+                  size="xs"
+                  :color="post.has_note_bool ? 'accent' : 'grey'"
+                  :title="post.has_note_bool ? 'Has notes' : ''"
+                  name="mdi-note-outline"
+                />
+              </div>
+              <div class="tw-flex tw-flex-row tw-justify-center">
+                <QIcon
+                  size="xs"
+                  :color="post.has_comments_bool ? 'accent' : 'grey'"
+                  :title="post.has_comments_bool ? 'Has comments' : ''"
+                  name="mdi-comment-outline"
+                />
+              </div>
+              <div class="tw-flex tw-flex-row tw-justify-center">
+                <QIcon
+                  size="xs"
+                  :color="post.has_children_bool ? 'accent' : 'grey'"
+                  :title="post.has_children_bool ? 'has_children' : ''"
+                  name="mdi-file-tree"
+                />
+              </div>
             </div>
-          </div>
-        </div>
+          </QCardSection>
+        </QCard>
       </div>
-      <div class="tw-isolate tw-row-start-1 tw-flex tw-flex-col tw-overflow-clip md:tw-row-start-auto">
-        <div v-if="isVideoFile">
-          <a
-            :href="post?.file_url"
-            target="_blank"
-            class="tw-block tw-h-min tw-w-full"
+      <div class="tw-row-start-1 md:tw-row-start-auto">
+        <a
+          v-if="isVideoFile"
+          class="tw-relative"
+          :href="post.file_url"
+          target="_blank"
+        >
+          <QImg
+            :src="post?.preview_url"
+            fit="contain"
+            class="tw-max-h-[80vh] tw-blur-sm"
+          />
+          <div class="absolute-center  tw-aspect-square tw-rounded-full tw-bg-neutral-950/40 tw-p-4 tw-text-white tw-backdrop-blur-sm">
+            <QIcon name="mdi-play" size="xl" />
+          </div>
+        </a>
+        <QImg
+          v-else
+          :src="loadFullImage ? `/api/image/full/${post?.id}` : `/api/image/${post?.id}`"
+          fit="contain"
+          class="tw-max-h-[80vh]"
+        >
+          <div
+            v-if="post?.file_url && post?.sample_url && !loadFullImage"
+            class="absolute-center-on-self tw-bottom-0 tw-left-1/2 tw-bg-black/0"
           >
-            <v-img
-              width="100%"
-              :lazy-src="post?.preview_url"
-              :src="post?.preview_url"
-              :class="{
-                'tw-aspect-video tw-h-full tw-max-h-[75vh] tw-drop-shadow-xl tw-transition-all md:tw-max-h-[85vh]': true,
-                'tw-blur-2xl hover:tw-blur-none': settingStore.settings.hideNsfwImages && isNsfw
-              }"
-            >
-              <div class="tw-flex tw-h-full tw-flex-row tw-items-center tw-justify-center">
-                <div class="tw-rounded-full tw-bg-black tw-bg-opacity-40 tw-p-4">
-                  <v-icon
-                    size="x-large"
-                    icon="mdi-play"
-                    color="white"
+            <QBtn
+              label="Load full image"
+              color="primary"
+              icon="mdi-image-outline"
+              @click="loadFullImage = true"
+            />
+          </div>
+        </QImg>
+      </div>
+      <div>
+        <QCard flat class="post-info-card">
+          <QCardSection class="tw-grid tw-grid-cols-2 tw-gap-4 md:tw-grid-cols-1">
+            <template v-if="post?.fetched_tags && post?.fetched_tags?.length > 0">
+              <div v-if="tagsByCategory?.artist.length ?? 0 > 0">
+                <h1 class="tw-flex-1">
+                  <QIcon name="mdi-brush-outline" left />
+                  Artist
+                </h1>
+                <div class="tag-wrapper">
+                  <GelbooruTagChip
+                    v-for="tag in tagsByCategory?.artist"
+                    :key="tag.id"
+                    :simple-tag="tag.name"
+                    :full-tag="tag"
+                    outline
+                    color="red"
                   />
                 </div>
               </div>
-            </v-img>
-          </a>
-        </div>
-        <div
-          v-else
-          class="tw-flex tw-flex-col tw-items-center tw-gap-4"
-        >
-          <v-img
-            width="100%"
-            :lazy-src="post?.preview_url"
-            :src="loadFullImage ? `/api/image/full/${post?.id}` : `/api/image/${post?.id}`"
-            :class="{
-              'tw-relative tw-drop-shadow-xl tw-transition-all': true,
-              'tw-max-h-[70vh] md:tw-max-h-[80vh]': post?.has_comments_bool,
-              'tw-max-h-[75vh] md:tw-max-h-[88vh]': !post?.has_comments_bool,
-              'tw-blur-2xl hover:tw-blur-none': settingStore.settings.hideNsfwImages && isNsfw,
-            }"
-          >
-            <template #placeholder>
-              <div class="d-flex align-center justify-center fill-height">
-                <v-progress-circular
-                  color="accent"
-                  indeterminate
+
+              <div v-if="tagsByCategory?.character.length ?? 0 > 0">
+                <h1 class="tw-flex-1">
+                  <QIcon name="mdi-account-outline" left />
+                  Character
+                </h1>
+                <div class="tag-wrapper">
+                  <GelbooruTagChip
+                    v-for="tag in tagsByCategory?.character"
+                    :key="tag.id"
+                    :simple-tag="tag.name"
+                    :full-tag="tag"
+                    :artist-tags="tagsByCategory?.artist"
+                    outline
+                    color="green"
+                  />
+                </div>
+              </div>
+
+              <div v-if="tagsByCategory?.copyright.length ?? 0 > 0">
+                <h1 class="tw-flex-1">
+                  <QIcon name="mdi-copyright" left />
+                  Copyright
+                </h1>
+                <div class="tag-wrapper">
+                  <GelbooruTagChip
+                    v-for="tag in tagsByCategory?.copyright"
+                    :key="tag.id"
+                    :simple-tag="tag.name"
+                    :full-tag="tag"
+                    :artist-tags="tagsByCategory?.artist"
+                    outline
+                    color="purple"
+                  />
+                </div>
+              </div>
+
+              <div v-if="tagsByCategory?.metadata.length ?? 0 > 0">
+                <h1 class="tw-flex-1">
+                  <QIcon name="mdi-shape-outline" left />
+                  Metadata
+                </h1>
+                <div class="tag-wrapper">
+                  <GelbooruTagChip
+                    v-for="tag in tagsByCategory?.metadata"
+                    :key="tag.id"
+                    :simple-tag="tag.name"
+                    :full-tag="tag"
+                    :artist-tags="tagsByCategory?.artist"
+                    outline
+                    color="yellow"
+                  />
+                </div>
+              </div>
+
+              <div v-if="tagsByCategory?.general.length ?? 0 > 0" class="tw-col-span-full">
+                <h1 class="tw-flex-1">
+                  <QIcon name="mdi-tag-outline" left />
+                  Tag
+                </h1>
+                <div class="tag-wrapper">
+                  <GelbooruTagChip
+                    v-for="tag in tagsByCategory?.general"
+                    :key="tag.id"
+                    :simple-tag="tag.name"
+                    :full-tag="tag"
+                    :artist-tags="tagsByCategory?.artist"
+                    outline
+                    color="secondary"
+                  />
+                </div>
+              </div>
+
+              <div v-if="tagsByCategory?.deprecated.length ?? 0 > 0" class="tw-col-span-full">
+                <h1 class="tw-flex-1">
+                  <QIcon name="mdi-tag-outline" left />
+                  Deprecated
+                </h1>
+                <div class="tag-wrapper">
+                  <GelbooruTagChip
+                    v-for="tag in tagsByCategory?.deprecated"
+                    :key="tag.id"
+                    :simple-tag="tag.name"
+                    :full-tag="tag"
+                    :artist-tags="tagsByCategory?.artist"
+                    outline
+                    color="grey"
+                  />
+                </div>
+              </div>
+            </template>
+            <template v-else>
+              <div class="tag-wrapper tw-col-span-full">
+                <GelbooruTagSimpleChip
+                  v-for="tag in post?.tags_array"
+                  :key="tag"
+                  :simple-tag="tag"
+                  outline
+                  color="primary"
+                  class="tw-m-0"
                 />
               </div>
             </template>
-            <v-expand-transition>
-              <v-btn
-                v-if="post?.file_url && post?.sample_url && !loadFullImage"
-                class="tw-absolute tw-bottom-2 tw-left-1/2 -tw-translate-x-1/2"
-                prepend-icon="mdi-image-refresh-outline"
-                color="secondary"
-                size="small"
-                @click="loadFullImage = true"
-              >
-                Load full image
-              </v-btn>
-            </v-expand-transition>
-          </v-img>
-        </div>
-      </div>
-      <div>
-        <div class="post-sidebar tw-rounded-md tw-bg-neutral-900 tw-p-4 tw-shadow-md">
-          <div
-            v-if="post?.fetched_tags && post?.fetched_tags?.length > 0"
-            class="tags-wrapper tw-flex tw-flex-wrap tw-gap-4"
-          >
-            <div
-              v-if="tagsByCategory && tagsByCategory.artist.length > 0"
-              class="dynamic-category"
-            >
-              <h5>
-                <v-icon
-                  icon="mdi-brush-outline"
-                  start
-                  class="tw-mb-1 tw-opacity-50"
-                />
-                Artist
-              </h5>
-              <div class="tw-flex tw-flex-row tw-flex-wrap tw-gap-3 md:tw-gap-1">
-                <GelbooruTagChip
-                  v-for="tag in tagsByCategory.artist"
-                  :key="tag.id"
-                  :simple-tag="tag.name"
-                  :full-tag="tag"
-                  color="red-darken-3"
-                />
-              </div>
-            </div>
-            <div
-              v-if="tagsByCategory && tagsByCategory.character.length > 0"
-              class="dynamic-category"
-            >
-              <h5>
-                <v-icon
-                  icon="mdi-account-outline"
-                  start
-                  class="tw-mb-1 tw-opacity-50"
-                />
-                Character
-              </h5>
-              <div class="tw-flex tw-flex-row tw-flex-wrap tw-gap-3 md:tw-gap-1">
-                <GelbooruTagChip
-                  v-for="tag in tagsByCategory.character"
-                  :key="tag.id"
-                  color="green"
-                  :simple-tag="tag.name"
-                  :full-tag="tag"
-                  :artist-tag="tagsByCategory.artist"
-                />
-              </div>
-            </div>
-            <div
-              v-if="tagsByCategory && tagsByCategory.copyright.length > 0"
-              class="dynamic-category"
-            >
-              <h5>
-                <v-icon
-                  icon="mdi-copyright"
-                  start
-                  class="tw-mb-1 tw-opacity-50"
-                />
-                Copyright
-              </h5>
-              <div class="tw-flex tw-flex-row tw-flex-wrap tw-gap-3 md:tw-gap-1">
-                <GelbooruTagChip
-                  v-for="tag in tagsByCategory.copyright"
-                  :key="tag.id"
-                  color="purple"
-                  :simple-tag="tag.name"
-                  :full-tag="tag"
-                  :artist-tag="tagsByCategory.artist"
-                />
-              </div>
-            </div>
-            <div
-              v-if="tagsByCategory && tagsByCategory.metadata.length > 0"
-              class="dynamic-category"
-            >
-              <h5>
-                <v-icon
-                  icon="mdi-shape-outline"
-                  start
-                  class="tw-mb-1 tw-opacity-50"
-                />
-                Metadata
-              </h5>
-              <div class="tw-flex tw-flex-row tw-flex-wrap tw-gap-3 md:tw-gap-1">
-                <GelbooruTagChip
-                  v-for="tag in tagsByCategory.metadata"
-                  :key="tag.id"
-                  color="yellow"
-                  :simple-tag="tag.name"
-                  :full-tag="tag"
-                  :artist-tag="tagsByCategory.artist"
-                />
-              </div>
-            </div>
-            <div
-              v-if="tagsByCategory && tagsByCategory.general.length > 0"
-              class="tw-col-span-2 tw-w-full md:tw-col-span-1"
-            >
-              <h5>
-                <v-icon
-                  icon="mdi-tag-outline"
-                  start
-                  class="tw-mb-1 tw-opacity-50"
-                />
-                Tag
-              </h5>
-              <div class="tw-flex tw-flex-row tw-flex-wrap tw-gap-3 md:tw-gap-1">
-                <GelbooruTagChip
-                  v-for="tag in tagsByCategory.general"
-                  :key="tag.id"
-                  :simple-tag="tag.name"
-                  :full-tag="tag"
-                  :artist-tag="tagsByCategory.artist"
-                />
-              </div>
-            </div>
-            <div
-              v-if="tagsByCategory && tagsByCategory.deprecated.length > 0"
-              class="tw-col-span-2 tw-w-full md:tw-col-span-1"
-            >
-              <h5>Deprecated</h5>
-              <div class="tw-flex tw-flex-row tw-flex-wrap tw-gap-3 md:tw-gap-1">
-                <GelbooruTagChip
-                  v-for="tag in tagsByCategory.deprecated"
-                  :key="tag.id"
-                  :simple-tag="tag.name"
-                  :full-tag="tag"
-                  color="grey"
-                  class="tw-line-through"
-                  :artist-tag="tagsByCategory.artist"
-                />
-              </div>
-            </div>
-          </div>
-          <!--Fallback-->
-          <div v-else>
-            <h5>Tags</h5>
-            <div class="tw-flex tw-flex-row tw-flex-wrap tw-gap-3 md:tw-gap-1">
-              <GelbooruTagChip
-                v-for="tag in post?.tags_array"
-                :key="tag"
-                :tag="tag"
-              />
-            </div>
-          </div>
-
-          <p class="text-body-2 tw-mt-6 tw-text-center tw-opacity-40">
-            {{ post?.tags_array.length }} tags
-          </p>
-        </div>
+            <p class="text-body-2 tw-col-span-full tw-mt-6 tw-text-center tw-opacity-40">
+              {{ post?.tags_array.length }} tags
+            </p>
+          </QCardSection>
+        </QCard>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { GelbooruPostWithTags, GelbooruTag } from '~/types/gelbooru'
-import { useSettingsStore } from '~/stores/settingsStore'
-
-const route = useRoute()
-const settingStore = useSettingsStore()
+import { GelbooruTagTypes, type GelbooruPostWithTags, type GelbooruTag } from '~/types/gelbooru'
 
 definePageMeta({
-  middleware: 'auth-middleware'
+  middleware: 'auth-middleware',
 })
 
-const { data: post, error  } = await useFetch<GelbooruPostWithTags>(`/api/post/${route.params.postId}`, {
-  parseResponse: (res) => {
-    const aux: GelbooruPostWithTags = JSON.parse(res)
-    if (aux.created_at_date) {
-      aux.created_at_date = new Date(aux.created_at_date)
-    }
+const route = useRoute()
+const postId = route.params.postId
 
-    return aux
-  }
-})
+const { data: post, status, error  } = await useFetch<GelbooruPostWithTags>(`/api/post/${postId}`)
 
+const dateFormat: Intl.DateTimeFormatOptions = {
+  month: '2-digit',
+  day: '2-digit',
+  year: '2-digit',
+}
 
 const isVideoFile = computed(() => {
   return /.(mp4|mov|avi|mkv|flv)$/.test(post.value?.file_url ?? '')
 })
-
-const sfwRatings = ['General', 'general', 'safe', 'Safe']
-const isNsfw = computed(() => !sfwRatings.includes(post.value?.rating ?? ''))
 
 const loadFullImage = ref(false)
 
@@ -360,28 +318,28 @@ const tagsByCategory = computed(
   () => post.value?.fetched_tags?.reduce<TagsByCategory>(
     (accumulator: TagsByCategory, tag) => {
       switch (tag.type) {
-      //general
-        case 0:
+        //general
+        case GelbooruTagTypes.GENERAL:
           accumulator.general.push(tag)
           break
         //artist
-        case 1:
+        case GelbooruTagTypes.ARTIST:
           accumulator.artist.push(tag)
           break
         //copyright
-        case 3:
+        case GelbooruTagTypes.COPYRIGHT:
           accumulator.copyright.push(tag)
           break
         //character
-        case 4:
+        case GelbooruTagTypes.CHARACTER:
           accumulator.character.push(tag)
           break
         //metadata
-        case 5:
+        case GelbooruTagTypes.METADATA:
           accumulator.metadata.push(tag)
           break
         //deprecated
-        case 6:
+        case GelbooruTagTypes.DEPRECATED:
           accumulator.deprecated.push(tag)
           break
         //not identified
@@ -391,7 +349,7 @@ const tagsByCategory = computed(
       }
       return accumulator
     },
-  { artist: [], character: [], copyright: [], deprecated: [], general: [], metadata: [], unknown: []} as TagsByCategory,
+  { artist: [], character: [], copyright: [], deprecated: [], general: [], metadata: [], unknown: []} as TagsByCategory
   )
 )
 
@@ -433,34 +391,27 @@ useHead({
     }
 
     return aux.join(' | ')
-  }
+  },
 })
-
 
 </script>
 
 <style scoped>
-li {
-  @apply tw-list-none;
-}
-.post-sidebar h5 {
-  @apply tw-w-full tw-mb-4;
+
+.post-info-card {
+  @apply tw-flex tw-flex-col tw-gap-3;
+
+  h1 {
+    @apply tw-text-base tw-font-semibold tw-pb-0.5 tw-border-b-2 tw-border-neutral-50/10 tw-mb-2;
+  }
+
+  :deep(.q-chip) {
+    @apply tw-max-w-full
+  }
 }
 
-.post-sidebar h5::after {
-  @apply tw-bg-neutral-800 tw-rounded-full;
-  content: "";
-  float: left;
-  width: 100%;
-  height: 2px;
-}
-
-.dynamic-category-split {
-  @apply tw-w-1/3 tw-flex-grow;
-}
-
-.dynamic-category {
-  @apply tw-w-1/3 tw-flex-grow md:tw-w-full;
+.tag-wrapper {
+  @apply tw-flex tw-flex-row tw-flex-wrap tw-mb-3
 }
 
 </style>

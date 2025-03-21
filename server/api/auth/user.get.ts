@@ -1,7 +1,7 @@
-import { UserCredentials } from '~/types/auth-types'
+import type { UserCredentials } from '~/types/auth-types'
 
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async (_event) => {
   const aux = useCookie<UserCredentials>('user-credentials')
 
   console.log(aux)

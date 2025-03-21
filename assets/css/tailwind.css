@@ -1,3 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .soft-shadow {
+    box-shadow: rgba(0, 0, 0, 0.17) 0px 3px 25px 0px !important;
+  }
+
+  .absolute-center-on-self {
+    @apply tw-absolute -tw-translate-x-1/2;
+  }
+
+  .absolute-center {
+    @apply tw-absolute tw-left-1/2 tw-top-1/2 -tw-translate-x-1/2 -tw-translate-y-1/2;
+  }
+}

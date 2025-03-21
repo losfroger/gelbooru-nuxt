@@ -41,9 +41,9 @@ export interface GelbooruPost {
   */
   created_at: string,
   /**
-   * Date when the post was published as date
+   * Date when the post was published as utc string
   */
-  created_at_date?: Date,
+  created_at_utc: string,
   /**
    * Number of up votes
   */
@@ -65,7 +65,7 @@ export interface GelbooruPost {
   /**
    * Rating: if it's nsfw or not
   */
-  rating: string,
+  rating: 'General' | 'general' | 'safe' | 'Safe' | 'questionable' | 'sensitive' | 'Questionable' | 'explicit' | 'Explicit',
   /**
    * Where it comes from
   */
@@ -245,6 +245,16 @@ export interface GelbooruTagReq {
 export const NegativeQueryRegex = new RegExp(/^-(.+)/)
 export const FuzzyQueryRegex = new RegExp(/(.+)~+/)
 
+export enum GelbooruTagTypes {
+  UNKNOWN = -1,
+  GENERAL = 0,
+  ARTIST = 1,
+  COPYRIGHT = 3,
+  CHARACTER = 4,
+  METADATA = 5,
+  DEPRECATED = 6,
+}
+
 export interface GelbooruTag {
   /**
    * Tag id
@@ -261,7 +271,7 @@ export interface GelbooruTag {
   /**
    * Tag type
   */
-  type: number,
+  type: GelbooruTagTypes,
   /**
    * If tag is ambiguous
    */

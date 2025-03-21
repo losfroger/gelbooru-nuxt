@@ -1,9 +1,9 @@
-import { GelbooruPost } from '~/types/gelbooru'
+import type { GelbooruPost } from '~/types/gelbooru'
 import he from 'he'
 
 const videoTags = ['animated', 'video']
 export default function convertPost(post: GelbooruPost) {
-  post.created_at_date = new Date(post.created_at)
+  post.created_at_utc = new Date(post.created_at).toUTCString()
 
   post.tags_array = he.decode(post.tags).split(' ')
   post.source_array = post.source.split('|').map((src) => src.trim())

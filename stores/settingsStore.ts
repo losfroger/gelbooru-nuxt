@@ -1,58 +1,54 @@
 import { defineStore } from 'pinia'
-import { useAppStore } from '~/stores/appStore'
 import { DefaultFilteredTags } from '~/types/gelbooru'
 
 export interface UserSettings {
   hideNsfwImages: boolean,
   filteredTags: string[],
   numberPostsPerPage: number,
+  syncQueryBetweenTabs: boolean,
 }
-
-let firstLoad = false
 
 export const defaultUserSettings: UserSettings = {
   hideNsfwImages: false,
   filteredTags: DefaultFilteredTags,
-  numberPostsPerPage: 50,
+  numberPostsPerPage: 24,
+  syncQueryBetweenTabs: true,
 }
 
 export const useSettingsStore = defineStore('settings', () => {
-
   const settings = ref<UserSettings>({
     hideNsfwImages: false,
     filteredTags: DefaultFilteredTags,
-    numberPostsPerPage: 50,
+    numberPostsPerPage: 24,
+    syncQueryBetweenTabs: true,
   })
 
   const filteredTagsWithMinus = computed(() => settings.value.filteredTags.map((tag) => `-${tag}`))
-
-  // When settins change, save them to localstorage
-  watch(settings, onSettingsChange, { deep: true })
-
-  function onSettingsChange() {
-    console.log('Saving settings!', firstLoad)
-
-    if (firstLoad) {
-      const appStore = useAppStore()
-      appStore.addNotification({ text: 'Settings saved!' })
-    }
-
-    firstLoad = true
-  }
 
   function resetSettings() {
     settings.value = defaultUserSettings
   }
 
+  watch(settings, (newVal) => {
+    if (newVal.syncQueryBetweenTabs) {
+      const queryGenStore = useQueryGeneratorStore()
+      queryGenStore.initQueryBroadcastChannel()
+    } else {
+      const queryGenStore = useQueryGeneratorStore()
+      queryGenStore.closeQueryBroadcastChannel()
+      localStorage.removeItem(localStorageQuerySyncKey)
+    }
+  }, { deep: true })
+
   return {
     settings,
     filteredTagsWithMinus,
-    resetSettings
+    resetSettings,
   }
 }, {
   persist: {
-    storage: persistedState.cookiesWithOptions({
-      maxAge: 50 * 365 * 24 * 60 * 60
+    storage: piniaPluginPersistedstate.cookies({
+      maxAge: 50 * 365 * 24 * 60 * 60,
     }),
-  }
+  },
 })

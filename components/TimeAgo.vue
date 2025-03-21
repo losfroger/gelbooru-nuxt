@@ -1,67 +1,69 @@
 <template>
   <span
+    v-bind="props"
     :title="date.toLocaleString()"
-    class="tw-cursor-help"
+    :class="`tw-cursor-help`"
   >
     {{ formattedRelativeDate }}
+    <slot />
   </span>
 </template>
 
 <script setup lang="ts">
-import type { PropType } from 'vue'
-import { computed } from 'vue'
 
-const propsTimeAgo = defineProps({
-  date: {
-    type: Date,
-    default: new Date(),
-  },
-  locale: {
-    type: String,
-    default: 'en',
-  },
-  timeFormatOptions: {
-    type: Object as PropType<Intl.RelativeTimeFormatOptions>,
-    default: (): Intl.RelativeTimeFormatOptions => ({
-      style: 'long',
-      numeric: 'auto',
-    }),
-  },
+interface TimeAgoProps {
+  date: Date,
+  locale?: Intl.LocalesArgument | undefined,
+  timeFormatOptions?: Intl.RelativeTimeFormatOptions,
+}
+
+const props = withDefaults(defineProps<TimeAgoProps>(), {
+  locale: undefined,
+  timeFormatOptions: (): Intl.RelativeTimeFormatOptions => ({
+    style: 'long',
+    numeric: 'auto',
+  }),
 })
 
-const rtf1 = new Intl.RelativeTimeFormat(propsTimeAgo.locale, propsTimeAgo.timeFormatOptions)
+const rtf1 = new Intl.RelativeTimeFormat(props.locale, props.timeFormatOptions)
+
+const minute = 60
+const hour = 60 * 60
+const day = 60 * 60 * 24
+const month = 60 * 60 * 24 * 30
+const year = 60 * 60 * 24 * 30 * 12
 
 const formattedRelativeDate = computed(() => {
-  const auxDifSeconds = Math.abs((propsTimeAgo.date.getTime() - new Date().getTime()) / 1000)
+  const auxDifSeconds = Math.abs((props.date.getTime() - new Date().getTime()) / 1000)
 
   let dif = 0
   let format: Intl.RelativeTimeFormatUnit = 'seconds'
-  // Seconds
-  if (auxDifSeconds < 60) {
-    dif = auxDifSeconds
+  if (auxDifSeconds < minute) {
+    // Seconds
     format = 'seconds'
-  }
-  // Minutes
-  else if (auxDifSeconds < 60 * 60) {
-    dif = auxDifSeconds / 60
+  } else if (auxDifSeconds < hour) {
+    // Minutes
+    dif = auxDifSeconds / minute
     format = 'minutes'
-  }
-  // Hours
-  else if (auxDifSeconds < 60 * 60 * 24) {
-    dif = auxDifSeconds / (60 * 60)
+  } else if (auxDifSeconds < day) {
+    // Hours
+    dif = auxDifSeconds / hour
     format = 'hours'
-  }
-  // Days
-  else if (auxDifSeconds < 60 * 60 * 24 * 365) {
-    dif = auxDifSeconds / (60 * 60 * 24)
+  } else if (auxDifSeconds < month) {
+     // Days
+    dif = auxDifSeconds / day
     format = 'days'
-  }
-  else {
-    dif = auxDifSeconds / (60 * 60 * 24 * 365)
+  } else if (auxDifSeconds < year) {
+    // Months
+    dif = auxDifSeconds / month
+    format = 'months'
+  } else {
+    // Years
+    dif = auxDifSeconds / year
     format = 'years'
   }
 
-  if (propsTimeAgo.date.getTime() < new Date().getTime()) {
+  if (props.date.getTime() < new Date().getTime()) {
     dif *= -1
   }
 

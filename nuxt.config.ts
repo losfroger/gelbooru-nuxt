@@ -1,64 +1,62 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-import vuetify from 'vite-plugin-vuetify'
-
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  nitro: {
-    compressPublicAssets: true,
+  compatibilityDate: '2024-11-01',
+  devtools: {
+    enabled: true,
   },
-
-  sourcemap: {
-    server: true,
-    client: true
-  },
-
-  build: { transpile: ['vuetify'] },
-
   modules: [
-    '@pinia/nuxt',
-    '@pinia-plugin-persistedstate/nuxt',
+    '@nuxt/eslint',
     '@nuxtjs/tailwindcss',
-    '@nuxt/devtools',
-    async (options, nuxt) => {
-      nuxt.hooks.hook('vite:extendConfig', (config) =>
-        // @ts-ignore
-        config.plugins.push(vuetify())
-      )
-    },
+    'nuxt-quasar-ui',
+    '@nuxtjs/google-fonts',
+    '@formkit/auto-animate/nuxt',
+    '@pinia/nuxt',
+    'pinia-plugin-persistedstate/nuxt',
+    '@vueuse/nuxt',
   ],
-
-  pinia: {
-    autoImports: [
-      // automatically imports `defineStore`
-      'defineStore', // import { defineStore } from 'pinia'
-      ['defineStore', 'definePiniaStore'], // import { defineStore as definePiniaStore } from 'pinia'
+  runtimeConfig: {
+    public: {
+      version: '2.0.0',
+    },
+  },
+  css: [
+    '@/assets/css/global.scss',
+  ],
+  tailwindcss: {
+    cssPath: '@/assets/css/tailwind.css',
+  },
+  quasar: {
+    iconSet: 'mdi-v7',
+    quietSassWarnings: true,
+    config: {
+      ripple: true,
+      dark: true,
+      brand: {
+        primary: '#006FFA',
+        secondary: '#BB86FC',
+        accent: '#03DAC5',
+        dark: '#262626',
+        positive: '#4CAF50',
+        negative: '#CF6679',
+        info: '#2196F3',
+        warning: '#FB8C00',
+      },
+    },
+    extras: {
+      animations: 'all',
+    },
+    plugins: [
+      'Notify',
+      'Dark',
+      'Dialog',
     ],
   },
-
-  image: {
-    provider: 'ipx',
-    screens: {
-      xs: 0,
-      sm: 600,
-      md: 960,
-      lg: 1280,
-      xl: 1920,
+  googleFonts: {
+    preconnect: true,
+    download: false,
+    families: {
+      Barlow: [100, 200, 300, 400, 500, 600, 700, 800, 900],
+      'JetBrains Mono': [400],
     },
   },
-
-  app: {
-    head: {
-      link: [
-        { rel: 'icon', type: 'image/svg+xml', href: '/gelbooru-logo.svg' }
-      ]
-    }
-  },
-
-  css: ['~/assets/css/global.css'],
-
-  devtools: {
-    timeline: {
-      enabled: true
-    }
-  }
 })

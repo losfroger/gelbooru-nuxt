@@ -1,37 +1,33 @@
-/* eslint-disable no-undef */
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  prefix: 'tw-',
+  // Hacer que Tailwind pueda usar el dark mode de Quasar
+  darkMode: ['class', '[class~="body--dark"]'],
+  content: ['./public/**/*.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   important: true,
-  corePlugins: {
-    preflight: false
-  },
-  content: [
-    './index.html',
-    './src/**/*.{vue,js,ts,jsx,tsx}'
-  ],
+  prefix: 'tw-',
   theme: {
     screens: {
-      'xs': '0px',
-      'sm': '600px',
-      'md': '960px',
-      'lg': '1264px',
-      'xl': '1904px',
-      '2xl': '2500px',
+      xs: '0px',
+      sm: '599.99px',
+      md: '1023.99px',
+      lg: '1439.99px',
+      xl: '1919.99px',
     },
     extend: {
       colors: {
-        background: '#121212',
-        error: '#CF6679',
-        info: '#2196F3',
         primary: '#006FFA',
         secondary: '#BB86FC',
         accent: '#03DAC5',
-        success: '#4CAF50',
-        surface: '#212121',
+        info: '#2196F3',
+        positive: '#4CAF50',
         warning: '#FB8C00',
-      }
+        negative: '#CF6679',
+        background: {
+          DEFAULT: '#f2f2f2',
+          'light-dark': '#262626',
+          dark: '#171717',
+        },
+      },
     },
   },
-  plugins: [],
 }

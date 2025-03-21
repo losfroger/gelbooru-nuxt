@@ -16,7 +16,7 @@ export default defineNuxtConfig({
   ],
   runtimeConfig: {
     public: {
-      version: 'rewrite 0.0.1',
+      version: '2.0.0',
     },
   },
   css: [

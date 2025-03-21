@@ -11,7 +11,6 @@
 
 (function () {
   'use strict'
-
   const currentUrl = window.location.href
 
   // Exit if not a post page
@@ -32,7 +31,7 @@
   titleEl.innerHTML = '<b>Nuxt</b>'
 
   const linkEl = document.createElement('li')
-  linkEl.innerHTML = `<a href="https://gelbooru-nuxt.vercel.app/post/${postId.at(0) ?? '0'}" target="_blank" rel="noopener noreferrer">Gelbooru Nuxt</a>`
+  linkEl.innerHTML = `<a href="https://gelbooru.froger.dev/post/${postId.at(0) ?? '0'}" target="_blank" rel="noopener noreferrer">Gelbooru Nuxt</a>`
 
   document.getElementById('tag-list').prepend(titleEl, linkEl)
 })()

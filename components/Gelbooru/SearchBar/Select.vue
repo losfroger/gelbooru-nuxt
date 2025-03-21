@@ -237,8 +237,10 @@ async function onFilter (
       signal: abortController.value.signal,
       params: { name_pattern: searchAux },
     })
-    update(() => {
+    update(async () => {
       tagSearchResultItems.value = res.tag
+      await new Promise(r => setTimeout(r, 100))
+      searchBarRef.value?.scrollTo(0)
     })
   } catch (error) {
     console.error(error)

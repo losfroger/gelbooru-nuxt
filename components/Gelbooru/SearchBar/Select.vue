@@ -69,7 +69,6 @@
 /**
  * Search bar for filtering tags, supports negative and fuzzy tags
  */
-
 import  { type QSelectProps, QSelect } from 'quasar'
 import type { GelbooruTag } from '~/types/gelbooru'
 import { Utils } from '~/types/utils'
@@ -194,14 +193,24 @@ const defaultItems = ref<GelbooruTag[]>([
  * Array with the tags returned by the backend when searching
  */
 const tagSearchResultItems = ref<GelbooruTag[]>([])
+
+/**
+ * Flag to know there were no results
+ */
+const noResultsInSearch = ref(false)
+
 /**
  * Combines the default items with the result from the search into a single array to display
  */
-const itemsSearchBar = computed((): GelbooruTag[] =>
-  props.hideDefaultItems
-    ? tagSearchResultItems.value
-    : tagSearchResultItems.value.concat(defaultItems.value)
-)
+const itemsSearchBar = computed((): GelbooruTag[] => {
+  if (noResultsInSearch.value) {
+    return []
+  } else {
+    return props.hideDefaultItems
+      ? tagSearchResultItems.value
+      : tagSearchResultItems.value.concat(defaultItems.value)
+  }
+})
 
 // #endregion
 
@@ -218,13 +227,13 @@ async function onFilter (
   update: (callbackFn: () => void, afterFn?: (ref: QSelect) => void) => void,
   abortFn: () => void
 ) {
+  noResultsInSearch.value = false
   if (searchVal.length < 3) {
     update(() => {
       tagSearchResultItems.value = []
     })
     return
   }
-
   try {
     loading.value = true
     const searchAux = searchVal
@@ -243,6 +252,14 @@ async function onFilter (
       searchBarRef.value?.scrollTo(0)
     })
   } catch (error) {
+    if (Utils.isFetchError(error)) {
+      update(() => {
+        noResultsInSearch.value = true
+        tagSearchResultItems.value = []
+      })
+      return
+    }
+
     console.error(error)
     quasar.notify({
       type: 'negative',

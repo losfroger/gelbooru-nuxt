@@ -1,75 +1,54 @@
-# Nuxt Minimal Starter
+# Gelbooru Nuxt
+Unofficial Gelbooru client using Nuxt, Quasar, Tailwind and Pinia. Using [Gelbooru's official API](https://gelbooru.com/index.php?page=wiki&s=view&id=18780).
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+## ✔ Features
+- 🚀 SSR
+- 🖌 Material design
+- 📱 Mobile friendly
+- ⚙ User customization
 
-## Setup
+## ⚠ Caveats
+- The authentication is not real authentication, the API doesn't have a real way to verify it.
 
-Make sure to install dependencies:
+## 👩‍💻 Setup Dev
+
+Make sure to install the dependencies:
 
 ```bash
-# npm
-npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
 bun install
 ```
 
-## Development Server
+### Development Server
 
-Start the development server on `http://localhost:3000`:
+Start the development server on `http://localhost:3000`
 
 ```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
 bun run dev
 ```
 
-## Production
+## 🚀 Production (Docker)
 
-Build the application for production:
-
+With docker compose:
 ```bash
-# npm
-npm run build
+# build image
+docker compose build
 
-# pnpm
-pnpm build
+# run
+docker compose up -d
 
-# yarn
-yarn build
-
-# bun
-bun run build
+# one line
+docker compose up -d --build
 ```
 
-Locally preview production build:
+## 📷 Screenshots
+### Home page
+![Home page](screenshots-readme/ScreenshotA.png)
 
-```bash
-# npm
-npm run preview
+### Search results page
+![Search results page](screenshots-readme/ScreenshotB.png)
 
-# pnpm
-pnpm preview
+### Post details page
+![Post details page](screenshots-readme/ScreenshotC.png)
 
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+### Saved searches
+![Saced searches page](screenshots-readme/ScreenshotD.png)

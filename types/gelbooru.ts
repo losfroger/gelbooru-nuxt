@@ -246,6 +246,7 @@ export const NegativeQueryRegex = new RegExp(/^-(.+)/)
 export const FuzzyQueryRegex = new RegExp(/(.+)~+/)
 
 export enum GelbooruTagTypes {
+  UNKNOWN = -1,
   GENERAL = 0,
   ARTIST = 1,
   COPYRIGHT = 3,

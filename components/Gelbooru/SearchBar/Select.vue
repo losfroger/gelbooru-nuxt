@@ -14,6 +14,8 @@
     @filter-abort="onFilterAbort"
     @input-value="onInputValue"
     @update:model-value="(e) => emit('update:modelValue', e)"
+    @popup-show="popupShown = true"
+    @popup-hide="popupShown = false"
   >
     <template #prepend>
       <QIcon :name="props.icon" />
@@ -37,6 +39,15 @@
           </QItemLabel>
         </QItemSection>
       </QItem>
+    </template>
+    <template v-if="$q.platform.is.mobile && popupShown" #append>
+      <QBtn
+        v-close-popup
+        outline
+        rounded
+        size="xs"
+        label="Close"
+      />
     </template>
     <template #selected-item="scope">
       <GelbooruSearchBarChipTag
@@ -88,6 +99,8 @@ const quasar = useQuasar()
 
 const searchBarRef = ref<QSelect | null>(null)
 const loading = ref(false)
+
+const popupShown = ref(false)
 
 // #region Search bar options
 

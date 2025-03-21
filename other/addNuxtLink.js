@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         Add gelbooru nuxt link
-// @namespace    http://tampermonkey.net/
-// @version      2023-12-12
+// @namespace    https://gelbooru.com/
+// @version      2025-03-10
 // @description  Add a link to go to the nuxt page of the post.
 // @author       Losfroger
-// @match        https://gelbooru.com
+// @match        https://gelbooru.com/index.php*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=gelbooru.com
 // @grant        none
 // ==/UserScript==

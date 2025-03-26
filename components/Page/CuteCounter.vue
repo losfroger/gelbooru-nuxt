@@ -4,7 +4,7 @@
       :key="props.number"
       :src="`/counter/${props.number}.gif`"
       :alt="number"
-      class="tw-h-auto tw-w-8 md:tw-w-14"
+      class="cute-counter"
     >
   </div>
 </template>
@@ -21,5 +21,9 @@ const props = defineProps<CuteCounterProps>()
 </script>
 
 <style scoped>
+.cute-counter {
+  @apply tw-h-auto tw-w-8 md:tw-w-14;
+  image-rendering: pixelated;
+}
 
 </style>

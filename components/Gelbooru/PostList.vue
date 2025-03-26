@@ -1,6 +1,7 @@
 <template>
   <div class="tw-flex tw-flex-col tw-items-center">
     <div
+      v-if="props.posts.post.length > 0"
       v-auto-animate
       class="tw-grid tw-grid-cols-1 tw-gap-2 sm:tw-grid-cols-2 md:tw-grid-cols-4 md:tw-gap-4 lg:tw-grid-cols-5 xl:tw-grid-cols-7"
     >
@@ -10,6 +11,15 @@
         :post="post"
         :favorites-mode="props.favoritesMode"
       />
+    </div>
+    <div v-else class="tw-flex tw-h-[70vh] tw-max-h-96 tw-flex-col tw-items-center tw-justify-center tw-gap-2">
+      <QIcon name="mdi-robot-confused-outline" size="xl" />
+      <h1 class="text-h4 tw-text-center">
+        No posts were found
+      </h1>
+      <p class="tw-text-center">
+        Maybe try with a different search <b>uwu</b>
+      </p>
     </div>
     <QPagination
       v-model="currentPage"
@@ -27,6 +37,7 @@
       flat
       label="Go to page"
       class="tw-mt-3"
+      :disable="props.posts.post.length < 1"
     >
       <QMenu
         v-model="showGoToPageMenu"

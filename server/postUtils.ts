@@ -5,7 +5,7 @@ import axios_gelbooru from '~/server/axiosGelbooru'
 import he from 'he'
 import type { UserSettings } from '~/stores/settingsStore'
 
-export async function getPosts(apiKey: string, userId: string, params: GelbooruPostReq, userSettingsString: string | undefined, noTags = false) {
+export async function getPosts(apiKey: string, userId: string, params: GelbooruPostReq, userSettingsString: string | undefined, noTags = false): Promise<GelbooruPostRes> {
   try {
     console.log(params)
 
@@ -43,6 +43,13 @@ export async function getPosts(apiKey: string, userId: string, params: GelbooruP
         tags: auxTags,
       },
     })
+
+    if (resGel.data['@attributes'].count < 1) {
+      return {
+        '@attributes': resGel.data['@attributes'],
+        post: [],
+      }
+    }
 
     resGel.data.post.forEach((post) => {
       post = convertPost(post)

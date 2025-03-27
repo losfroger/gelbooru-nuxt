@@ -94,7 +94,10 @@ export class CacheClient {
    */
   async getKeyJson<T>(key: string): Promise<Cache.CachedData<T> | null> {
     try {
-      if (!this.client) {
+      console.debug('Getting key from cache: ', key)
+
+      if (this.client == undefined) {
+        console.debug('No cache client', key)
         return null
       }
 
@@ -103,6 +106,7 @@ export class CacheClient {
         return null
       }
 
+      console.log(key, ' retrieved from cache')
       const json: Cache.CachedData<T> = (JSON.parse(auxString) as Cache.CachedData<T>)
       return json
     } catch (error) {
@@ -128,7 +132,6 @@ export class CacheClient {
         data: body,
       }
       const auxJsonStringify: string = JSON.stringify(auxCachedObjectData)
-      console.log(auxJsonStringify)
 
       let aux: string | undefined
       if (expiry > 0) {
@@ -137,6 +140,7 @@ export class CacheClient {
         aux = await this.client?.set(key, auxJsonStringify)
       }
 
+      console.log(key, ' saved into cache: ', aux == 'OK')
       return aux == 'OK'
     } catch (error) {
       console.error('Error parsing json key:', error)

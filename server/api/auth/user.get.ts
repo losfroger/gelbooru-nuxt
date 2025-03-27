@@ -1,10 +1,21 @@
 import type { UserCredentials } from '~/types/auth-types'
 
 
-export default defineEventHandler(async (_event) => {
-  const aux = useCookie<UserCredentials>('user-credentials')
+export default defineEventHandler(async (event) => {
+  try {
+    const auxUserCredentials = getCookie(event, 'user-credentials')
+    if (!auxUserCredentials) {
+      throw createError({
+        statusCode: 403,
+        statusMessage: 'Forbidden',
+      })
+    }
 
-  console.log(aux)
+    const userCredentials = JSON.parse(auxUserCredentials) as UserCredentials
 
-  return aux.value
+    return userCredentials
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
 })

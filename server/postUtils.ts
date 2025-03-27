@@ -5,7 +5,7 @@ import axios_gelbooru from '~/server/axiosGelbooru'
 import he from 'he'
 import type { UserSettings } from '~/stores/settingsStore'
 
-export async function getPosts(apiKey: string, userId: string, params: GelbooruPostReq, userSettingsString: string | undefined, noTags = false): Promise<GelbooruPostRes> {
+export async function getPosts(apiKey: string, userId: string, params: GelbooruPostReq, userSettingsString: string | undefined, noTags = false): Promise<GelbooruPostRes | undefined> {
   try {
     console.log(params)
 

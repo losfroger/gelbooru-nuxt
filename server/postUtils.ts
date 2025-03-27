@@ -4,8 +4,17 @@ import { DefaultFilteredTags } from '~/types/gelbooru'
 import axios_gelbooru from '~/server/axiosGelbooru'
 import he from 'he'
 import type { UserSettings } from '~/stores/settingsStore'
+import cacheClient from './db/cache'
 
-export async function getPosts(apiKey: string, userId: string, params: GelbooruPostReq, userSettingsString: string | undefined, noTags = false): Promise<GelbooruPostRes | undefined> {
+export async function getPosts(
+  apiKey: string,
+  userId: string,
+  params: GelbooruPostReq,
+  userSettingsString: string | undefined,
+  noTags = false,
+  saveToCache = true,
+  cachePrefix = 'posts:'
+): Promise<GelbooruPostRes | undefined> {
   try {
     console.log(params)
 
@@ -26,6 +35,17 @@ export async function getPosts(apiKey: string, userId: string, params: GelbooruP
         .map((tag) => `-${tag}`)
         .concat(params.tags?.split(',') ?? [])
         .join(' ')
+    }
+
+    const cacheKey = cachePrefix + gelbooruPostReqToCacheKey({
+      limit: auxPostLimits,
+      pid: params.pid,
+      id: params.id,
+      tags: auxTags.replaceAll(' ', '|').replaceAll(':', '+'),
+    })
+    const auxCache = await cacheClient.getKeyJson<GelbooruPostRes>(cacheKey)
+    if (auxCache) {
+      return auxCache.data
     }
 
     console.log('Get posts', auxTags)
@@ -55,6 +75,13 @@ export async function getPosts(apiKey: string, userId: string, params: GelbooruP
       post = convertPost(post)
     })
 
+    const isSortRandom = auxTags.includes('sort:random')
+    const isSortUpdated = auxTags.includes('sort:updated')
+    const isSortId = auxTags.includes('sort:id')
+    // Do not save posts that are constatly updated
+    if (saveToCache && !isSortRandom && !isSortUpdated && !isSortId) {
+      await cacheClient.setKeyJson(cacheKey, resGel.data)
+    }
     return resGel.data
 
   } catch (error) {
@@ -84,4 +111,15 @@ export function convertPost(post: GelbooruPost) {
   post.is_sound = post.tags_array.includes('sound')
 
   return post
+}
+
+
+export function gelbooruPostReqToCacheKey(req: GelbooruPostReq) {
+  const aux: string[] = []
+  aux.push(req.tags ? req.tags : '-')
+  aux.push(req.limit ? req.limit.toString() : '-')
+  aux.push(req.pid ? req.pid.toString() : '-')
+  aux.push(req.id ? req.id.toString() : '-')
+
+  return aux.join(':')
 }

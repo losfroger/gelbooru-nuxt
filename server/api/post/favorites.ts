@@ -24,7 +24,10 @@ export default defineEventHandler(async (event): Promise<GelbooruPostRes> => {
     userCredentials.api_key,
     userCredentials.user_id,
     query,
-    userSettingsCookie
+    userSettingsCookie,
+    undefined,
+    false,
+    'favorites:'
   )
 
   if (!postsData) {

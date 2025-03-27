@@ -1,3 +1,8 @@
+/**
+ * TYPES FOR GELBOORU'S API:
+ * https://gelbooru.com/index.php?page=wiki&s=view&id=18780
+ */
+
 export interface GelbooruAttributes {
   limit: number,
   offset: number,

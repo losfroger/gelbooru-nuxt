@@ -1,6 +1,5 @@
 import Redis, { type RedisOptions } from 'ioredis'
-
-console.log('Before runtime', import.meta.env)
+import type { Cache } from '~/types/cacheTypes'
 
 const defaultOptions: RedisOptions = {
   host: import.meta.env.NUXT_CACHE_HOST ?? '127.0.0.1',
@@ -93,7 +92,7 @@ export class CacheClient {
    * @param key
    * @returns parsed object of type `T` or `null` if not found
    */
-  async getKeyJson<T>(key: string) {
+  async getKeyJson<T>(key: string): Promise<Cache.CachedData<T> | null> {
     try {
       if (!this.client) {
         return null
@@ -104,7 +103,7 @@ export class CacheClient {
         return null
       }
 
-      const json: T = (JSON.parse(auxString) as T)
+      const json: Cache.CachedData<T> = (JSON.parse(auxString) as Cache.CachedData<T>)
       return json
     } catch (error) {
       console.error('Error parsing json key:', error)
@@ -118,13 +117,18 @@ export class CacheClient {
    * @param expiry Expiry in seconds
    * @returns `true` if saved correctly, `false` if not saved, `null` another type of error
    */
-  async setKeyJson(key: string, body: object, expiry: number = defaultCacheExpiry) {
+  async setKeyJson(key: string, body: object, expiry: number = defaultCacheExpiry): Promise<boolean | null> {
     try {
       if (!this.isLoaded) {
         return null
       }
 
-      const auxJsonStringify: string = JSON.stringify(body)
+      const auxCachedObjectData: Cache.CachedData<object> = {
+        timestamp: new Date().toISOString(),
+        data: body,
+      }
+      const auxJsonStringify: string = JSON.stringify(auxCachedObjectData)
+      console.log(auxJsonStringify)
 
       let aux: string | undefined
       if (expiry > 0) {

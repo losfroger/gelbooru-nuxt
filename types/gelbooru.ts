@@ -17,6 +17,25 @@ export interface GelbooruPostRes {
   post: GelbooruPost[],
 }
 
+export interface GelbooruPostReqQuery {
+  /**
+   * Page number, starting on 0
+  */
+  pid?: string,
+  /**
+   * Limit how many posts are retrieved
+  */
+  limit?: string,
+  /**
+   * Tags separated by commas
+   * */
+  tags?: string,
+  /**
+   * Post id, if you want only one
+  */
+  id?: string,
+}
+
 export interface GelbooruPostReq {
   /**
    * Page number, starting on 0
@@ -215,6 +234,35 @@ export const DefaultFilteredTags = [
 export interface GelbooruTagRes {
   '@attributes': GelbooruAttributes,
   tag: GelbooruTag[],
+}
+
+export interface GelbooruTagReqQuery {
+  /**
+  * The tag's id in the database. This is useful to grab a specific tag if you already know this value.
+  */
+  id?: string,
+  /**
+   * How many tags you want to retrieve. There is a default limit of 100 per request.
+  */
+  limit?: string,
+  /**
+   * Grab tags whose ID is greater than this value.
+  */
+  after_id?: string,
+  /**
+   * Find tag information based on this value.
+   */
+  name?: string,
+  /**
+   * Separated by spaces, get multiple results to tags you specify if it exists. (schoolgirl moon cat)
+   */
+  names?: string,
+  /**
+   * A wildcard search for your query using LIKE. Use _ for single character wildcards or % for multi-character wildcards. (%choolgirl% would act as *choolgirl* wildcard search.)
+   */
+  name_pattern?: string,
+  order?: 'ASC' | 'DESC',
+  orderby?: 'date' | 'count' | 'name'
 }
 
 export interface GelbooruTagReq {

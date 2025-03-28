@@ -1,11 +1,12 @@
-import type { GelbooruPostReq, GelbooruPostRes } from '~/types/gelbooru'
-import { getPosts } from '~/server/postUtils'
+import type { GelbooruPostReq, GelbooruPostReqQuery, GelbooruPostRes } from '~/types/gelbooru'
+import { convertGelbooruPostReqQuery_to_GelbooruPostReq, getPosts } from '~/server/postUtils'
 import type { UserCredentials } from '~/types/auth-types'
 
 export default defineEventHandler(async (event): Promise<GelbooruPostRes> => {
   console.log(event.path)
 
-  const query: GelbooruPostReq = getQuery(event)
+  const reqQuery: GelbooruPostReqQuery = getQuery(event)
+  const query = convertGelbooruPostReqQuery_to_GelbooruPostReq(reqQuery)
 
   const userCredentialsCookie = getCookie(event, 'user-credentials')
   if (!userCredentialsCookie) {
@@ -25,9 +26,10 @@ export default defineEventHandler(async (event): Promise<GelbooruPostRes> => {
     userCredentials.user_id,
     query,
     userSettingsCookie,
-    undefined,
-    false,
-    'favorites:'
+    {
+      saveToCache: false,
+      cachePrefix: 'favorites:',
+    }
   )
 
   if (!postsData) {

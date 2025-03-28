@@ -42,8 +42,10 @@ export default defineEventHandler(async (event): Promise<GelbooruPostWithTags> =
       cookies.user_id,
       query,
       undefined,
-      true,
-      false
+      {
+        ignoreParamTags: true,
+        saveToCache: false,
+      }
     )
 
     if (!postsData) {

@@ -1,11 +1,13 @@
 import axios_gelbooru from '~/server/axiosGelbooru'
-import type { GelbooruTag, GelbooruTagRes, GelbooruTagReq} from '~/types/gelbooru'
+import type { GelbooruTag, GelbooruTagRes, GelbooruTagReq, GelbooruTagReqQuery } from '~/types/gelbooru'
 import { NegativeQueryRegex, FuzzyQueryRegex } from '~/types/gelbooru'
 
 import he from 'he'
+import { convertGelbooruTagReqQuery_to_GelbooruTagReq } from '../postUtils'
 
 export default defineEventHandler(async (event) => {
-  const tagQuery: GelbooruTagReq = getQuery(event)
+  const tagQueryReq: GelbooruTagReqQuery = getQuery(event)
+  const tagQuery = convertGelbooruTagReqQuery_to_GelbooruTagReq(tagQueryReq)
 
   let negativeQuery = false
   let fuzzyQuery = false

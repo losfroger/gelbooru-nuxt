@@ -11,7 +11,7 @@
  * indicate different types of searches
  */
 import type { NamedColor, QChipProps } from 'quasar'
-import { FuzzyQueryRegex, NegativeQueryRegex } from '~/types/gelbooru'
+import { Gelbooru } from '~/types/gelbooru'
 
 
 interface GelbooruSearchBarChipTagProps extends Omit<QChipProps, 'label' | 'modelValue' | 'dark' | 'color' | 'onUpdate:modelValue'> {
@@ -31,11 +31,11 @@ const props = withDefaults(defineProps<GelbooruSearchBarChipTagProps>(), {
 
 const color = computed(() => {
   // Is negative
-  if (NegativeQueryRegex.test(props.label)) {
+  if (Gelbooru.NegativeQueryRegex.test(props.label)) {
     return props.negativeTagColor
   }
   // Is fuzzy
-  else if (FuzzyQueryRegex.test(props.label)) {
+  else if (Gelbooru.FuzzyQueryRegex.test(props.label)) {
     return props.fuzzyTagColor
   }
   //Wild card

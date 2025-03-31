@@ -1,19 +1,18 @@
 import axios_gelbooru from '~/server/axiosGelbooru'
-import type { GelbooruTag, GelbooruTagRes, GelbooruTagReq, GelbooruTagReqQuery } from '~/types/gelbooru'
-import { NegativeQueryRegex, FuzzyQueryRegex } from '~/types/gelbooru'
+import { Gelbooru } from '~/types/gelbooru'
 
 import he from 'he'
 import { convertGelbooruTagReqQuery_to_GelbooruTagReq } from '../postUtils'
 
 export default defineEventHandler(async (event) => {
-  const tagQueryReq: GelbooruTagReqQuery = getQuery(event)
+  const tagQueryReq: Gelbooru.TagReqQuery = getQuery(event)
   const tagQuery = convertGelbooruTagReqQuery_to_GelbooruTagReq(tagQueryReq)
 
   let negativeQuery = false
   let fuzzyQuery = false
   if (tagQuery.name_pattern) {
     // Negative query
-    if (NegativeQueryRegex.test(tagQuery.name_pattern)) {
+    if (Gelbooru.NegativeQueryRegex.test(tagQuery.name_pattern)) {
       negativeQuery = true
       console.log('Negative query', tagQuery.name_pattern)
 
@@ -21,7 +20,7 @@ export default defineEventHandler(async (event) => {
     }
 
     // Fuzy query
-    else if (FuzzyQueryRegex.test(tagQuery.name_pattern)) {
+    else if (Gelbooru.FuzzyQueryRegex.test(tagQuery.name_pattern)) {
       fuzzyQuery = true
       console.log('Fuzzy query', tagQuery.name_pattern)
 
@@ -39,7 +38,7 @@ export default defineEventHandler(async (event) => {
     }
   }
 
-  const resGel = await axios_gelbooru.get<GelbooruTagRes>('', {
+  const resGel = await axios_gelbooru.get<Gelbooru.TagRes>('', {
     params: {
       page: 'dapi',
       q: 'index',
@@ -65,7 +64,7 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  resGel.data.tag.forEach((tag: GelbooruTag) => {
+  resGel.data.tag.forEach((tag: Gelbooru.Tag) => {
     tag.name = he.decode(tag.name)
     switch (tag.type) {
       case 0:

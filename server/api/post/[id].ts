@@ -1,10 +1,10 @@
-import type { GelbooruPostReq, GelbooruPostWithTags, GelbooruTag } from '~/types/gelbooru'
+import type { Gelbooru } from '~/types/gelbooru'
 import { getPosts } from '~/server/postUtils'
 import type { UserCredentials } from '~/types/auth-types'
 import cacheClient from '../../db/cache'
 
 
-export default defineEventHandler(async (event): Promise<GelbooruPostWithTags> => {
+export default defineEventHandler(async (event): Promise<Gelbooru.PostWithTags> => {
   try {
 
     // Get id
@@ -16,7 +16,7 @@ export default defineEventHandler(async (event): Promise<GelbooruPostWithTags> =
       })
     }
 
-    const query: GelbooruPostReq = {
+    const query: Gelbooru.PostReq = {
       limit: 1,
       id: auxId,
       pid: 0,
@@ -32,7 +32,7 @@ export default defineEventHandler(async (event): Promise<GelbooruPostWithTags> =
 
     const cookies: UserCredentials = JSON.parse(auxCookies)
 
-    const auxCachePostDetails = await cacheClient.getKeyJson<GelbooruPostWithTags>(`posts:details:${auxId}`)
+    const auxCachePostDetails = await cacheClient.getKeyJson<Gelbooru.PostWithTags>(`posts:details:${auxId}`)
     if (auxCachePostDetails) {
       return auxCachePostDetails.data
     }
@@ -64,7 +64,7 @@ export default defineEventHandler(async (event): Promise<GelbooruPostWithTags> =
         .map((e, i) => i % chunk_size === 0 ? postDetails.tags_array.slice(i, i + chunk_size) : null)
         .filter((e) => e)
 
-      let tags: GelbooruTag[] = []
+      let tags: Gelbooru.Tag[] = []
       for (const tags_array of divided_tag_array) {
         const aux_tags = await $fetch('/api/tag', {
           params: {

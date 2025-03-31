@@ -97,7 +97,7 @@
 </template>
 
 <script setup lang="ts">
-import { GelbooruTagTypes, type GelbooruPostWithTags, type GelbooruTag } from '~/types/gelbooru'
+import { Gelbooru } from '~/types/gelbooru'
 
 
 interface GelbooruMoreTagsDialogProps {
@@ -128,7 +128,7 @@ watch(() => props.modelValue, (newVal) => {
 })
 
 const loaded = ref(false)
-const { data: post, status, clear, execute  } = await useFetch<GelbooruPostWithTags>(`/api/post/${props.postId}`, {
+const { data: post, status, clear, execute  } = await useFetch<Gelbooru.PostWithTags>(`/api/post/${props.postId}`, {
   immediate: false,
   onResponse: () => {
     loaded.value = true
@@ -147,13 +147,13 @@ function loadPostdata() {
 }
 
 interface TagsByCategory {
-  general: GelbooruTag[],
-  artist: GelbooruTag[],
-  copyright: GelbooruTag[],
-  character: GelbooruTag[],
-  metadata: GelbooruTag[],
-  deprecated: GelbooruTag[],
-  unknown: GelbooruTag[],
+  general: Gelbooru.Tag[],
+  artist: Gelbooru.Tag[],
+  copyright: Gelbooru.Tag[],
+  character: Gelbooru.Tag[],
+  metadata: Gelbooru.Tag[],
+  deprecated: Gelbooru.Tag[],
+  unknown: Gelbooru.Tag[],
 }
 
 const tagsByCategory = computed(
@@ -161,27 +161,27 @@ const tagsByCategory = computed(
     (accumulator: TagsByCategory, tag) => {
       switch (tag.type) {
         //general
-        case GelbooruTagTypes.GENERAL:
+        case Gelbooru.TagTypes.GENERAL:
           accumulator.general.push(tag)
           break
         //artist
-        case GelbooruTagTypes.ARTIST:
+        case Gelbooru.TagTypes.ARTIST:
           accumulator.artist.push(tag)
           break
         //copyright
-        case GelbooruTagTypes.COPYRIGHT:
+        case Gelbooru.TagTypes.COPYRIGHT:
           accumulator.copyright.push(tag)
           break
         //character
-        case GelbooruTagTypes.CHARACTER:
+        case Gelbooru.TagTypes.CHARACTER:
           accumulator.character.push(tag)
           break
         //metadata
-        case GelbooruTagTypes.METADATA:
+        case Gelbooru.TagTypes.METADATA:
           accumulator.metadata.push(tag)
           break
         //deprecated
-        case GelbooruTagTypes.DEPRECATED:
+        case Gelbooru.TagTypes.DEPRECATED:
           accumulator.deprecated.push(tag)
           break
         //not identified

@@ -158,11 +158,11 @@
 </template>
 
 <script setup lang="ts">
-import type { GelbooruPost } from '~/types/gelbooru'
+import type { Gelbooru } from '~/types/gelbooru'
 import { Utils } from '~/types/utils'
 
 interface GelbooruPostCardProps {
-  post: GelbooruPost,
+  post: Gelbooru.Post,
   favoritesMode?: boolean,
 }
 

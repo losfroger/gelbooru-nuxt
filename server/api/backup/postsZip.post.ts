@@ -1,4 +1,4 @@
-import type { GelbooruPost } from '~/types/gelbooru'
+import type { Gelbooru } from '~/types/gelbooru'
 import axios_gelbooru from '~/server/axiosGelbooru'
 
 import JSZip from 'jszip'
@@ -19,7 +19,7 @@ export default defineEventHandler(async (event) => {
 
   try {
     const zip = new JSZip()
-    const postList: GelbooruPost[] = JSON.parse(body[0].data.toString())
+    const postList: Gelbooru.Post[] = JSON.parse(body[0].data.toString())
 
     // Download each image from the posts
     for (const post of postList) {
@@ -42,7 +42,7 @@ export default defineEventHandler(async (event) => {
     const zipStream = zip.generateNodeStream({
       type: 'nodebuffer',
       compression: 'DEFLATE',
-      compressionOptions: {level: 5},
+      compressionOptions: { level: 5 },
     })
     const readZipStream = new Readable().wrap(zipStream)
 

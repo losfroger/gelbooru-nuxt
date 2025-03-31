@@ -1,13 +1,13 @@
 import { convertGelbooruPostReqQuery_to_GelbooruPostReq, getPosts, getPostsInCachedChunks } from '~/server/postUtils'
 import type { UserCredentials } from '~/types/auth-types'
-import type { GelbooruPostReq, GelbooruPostReqQuery, GelbooruPostRes } from '~/types/gelbooru'
+import type { Gelbooru } from '~/types/gelbooru'
 
 
 export default defineEventHandler(async (event) => {
   try {
     console.log(event.path)
 
-    const reqQuery: GelbooruPostReqQuery = getQuery(event)
+    const reqQuery: Gelbooru.PostReqQuery = getQuery(event)
     const query = convertGelbooruPostReqQuery_to_GelbooruPostReq(reqQuery)
 
     const userCredentialsCookie = getCookie(event, 'user-credentials')
@@ -21,7 +21,7 @@ export default defineEventHandler(async (event) => {
 
     const userSettingsCookie = getCookie(event, 'settings')
 
-    let postsData: GelbooruPostRes | undefined = undefined
+    let postsData: Gelbooru.PostRes | undefined = undefined
     if (import.meta.env.NUXT_CACHE_ENABLED == 'true') {
       console.log('Getting chunked posts')
       postsData = await getPostsInCachedChunks(

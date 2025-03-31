@@ -1,5 +1,5 @@
 import { useQuasar } from 'quasar'
-import { NegativeQueryRegex } from '~/types/gelbooru'
+import { Gelbooru } from '~/types/gelbooru'
 
 interface QueryChannelMessage {
   type: 'sync'
@@ -18,7 +18,7 @@ export const useQueryGeneratorStore = defineStore('queryGeneratorStore', () => {
 
   function pushTag(tag: string) {
     // Check if there's no positive or negative version of the tag
-    const isNegativeTag = NegativeQueryRegex.test(tag)
+    const isNegativeTag = Gelbooru.NegativeQueryRegex.test(tag)
     if (_queryStash.value.has(isNegativeTag ? `${tag}`.replaceAll('-', '') : `-${tag}`)) {
       quasar.notify({
         message: isNegativeTag ? `${tag} was already added as a positive tag in the query` : `${tag} was already added as a negative tag in the query`,

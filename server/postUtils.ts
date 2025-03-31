@@ -1,5 +1,4 @@
-import type { GelbooruAttributes, GelbooruPost, GelbooruPostReq, GelbooruPostReqQuery, GelbooruPostRes, GelbooruTagReq, GelbooruTagReqQuery } from '~/types/gelbooru'
-import { DefaultFilteredTags } from '~/types/gelbooru'
+import { Gelbooru } from '~/types/gelbooru'
 
 import axios_gelbooru from '~/server/axiosGelbooru'
 import he from 'he'
@@ -27,13 +26,13 @@ const MAX_NUMBER_OF_ELEMENTS = 100
 export async function getQueryMetadata(
   apiKey: string,
   userId: string,
-  params: GelbooruPostReq,
+  params: Gelbooru.PostReq,
   userSettingsString: string | undefined
-): Promise<GelbooruAttributes | undefined> {
+): Promise<Gelbooru.Attributes | undefined> {
   const cacheKeyQueryParams = []
 
   // Generate cacheKey
-  let filteredTags = DefaultFilteredTags
+  let filteredTags = Gelbooru.DefaultFilteredTags
   if (userSettingsString) {
     const userSettings = getUserSettings(userSettingsString)
     filteredTags = userSettings.settings.filteredTags
@@ -49,13 +48,13 @@ export async function getQueryMetadata(
   const cacheKey = 'posts:paginated:' + cacheKeyQueryParams.join(':') + ':metadata'
 
   // Check cache
-  const cachedMetadata = await cacheClient.getKeyJson<GelbooruAttributes>(cacheKey)
+  const cachedMetadata = await cacheClient.getKeyJson<Gelbooru.Attributes>(cacheKey)
   if (cachedMetadata) {
     return cachedMetadata.data
   }
 
   // If not in cache, get from gelbooru API
-  const getPostParams: GelbooruPostReq = {
+  const getPostParams: Gelbooru.PostReq = {
     ...params,
     limit: 1,
   }
@@ -87,10 +86,10 @@ export async function getQueryMetadata(
 export async function getPosts(
   apiKey: string,
   userId: string,
-  params: GelbooruPostReq,
+  params: Gelbooru.PostReq,
   userSettingsString: string | undefined,
   options: GetPostsOptions = DefaultGetPostOptions
-): Promise<GelbooruPostRes | undefined> {
+): Promise<Gelbooru.PostRes | undefined> {
   try {
     console.log(params)
 
@@ -101,7 +100,7 @@ export async function getPosts(
     }
 
     let queryPostNumberLimit = params?.limit ?? 25
-    let filteredTags = DefaultFilteredTags
+    let filteredTags = Gelbooru.DefaultFilteredTags
 
     // Apply user settings
     if (userSettingsString) {
@@ -109,7 +108,7 @@ export async function getPosts(
 
       // Use user's filtered tags unless the option is activated
       filteredTags = getPostOptions.ignoreUserSettingTags
-        ? DefaultFilteredTags
+        ? Gelbooru.DefaultFilteredTags
         : userSettings.settings.filteredTags
 
       // Use user's amount of posts per page unless option is activated
@@ -137,13 +136,13 @@ export async function getPosts(
     })
 
     console.debug('Cache key', cacheKey)
-    const cachedPostData = await cacheClient.getKeyJson<GelbooruPostRes>(cacheKey)
+    const cachedPostData = await cacheClient.getKeyJson<Gelbooru.PostRes>(cacheKey)
     if (cachedPostData) {
       return cachedPostData.data
     }
 
     console.log('Get posts', queryPostTags)
-    const resGel = await axios_gelbooru.get<GelbooruPostRes>('', {
+    const resGel = await axios_gelbooru.get<Gelbooru.PostRes>('', {
       params: {
         page: 'dapi',
         q: 'index',
@@ -193,7 +192,7 @@ export function getUserSettings(userSettingsString: string) {
 
 const videoTags = ['animated', 'video']
 const videoUrlRegex = /.(mp4|mov|avi|mkv|flv)$/
-export function convertPost(post: GelbooruPost) {
+export function convertPost(post: Gelbooru.Post) {
   post.created_at_utc = new Date(post.created_at).toUTCString()
 
   post.tags = he.decode(post.tags)
@@ -216,19 +215,19 @@ export function convertPost(post: GelbooruPost) {
 const rangeOfNumbers = (a: number, b: number) => [...Array(b - a)].map((_, i) => i + a + 1)
 
 interface CachedChunk {
-  [key: number]: GelbooruPostRes,
+  [key: number]: Gelbooru.PostRes,
 }
 
 // TODO: Revisar endnumber que no exceda la cantidad de posts que existen
 export async function getPostsInCachedChunks(
   apiKey: string,
   userId: string,
-  params: GelbooruPostReq,
+  params: Gelbooru.PostReq,
   userSettingsString: string | undefined,
   noTags = false,
   saveToCache = true,
   cachePrefix = 'posts:paginated:'
-): Promise<GelbooruPostRes> {
+): Promise<Gelbooru.PostRes> {
   console.log('Getting post in chunks, params:', params)
 
   let numberPostsPerPage = 25
@@ -260,7 +259,7 @@ export async function getPostsInCachedChunks(
   // Get pids from cache
   const cachedChunks: CachedChunk = {}
   for (const pid of listOfPids) {
-    const auxParams: GelbooruPostReq = {
+    const auxParams: Gelbooru.PostReq = {
       tags: params.tags,
       limit: 100,
       pid,
@@ -308,7 +307,7 @@ export async function getPostsInCachedChunks(
 }
 
 
-export function convertGelbooruPostReqQuery_to_GelbooruPostReq(query: GelbooruPostReqQuery): GelbooruPostReq {
+export function convertGelbooruPostReqQuery_to_GelbooruPostReq(query: Gelbooru.PostReqQuery): Gelbooru.PostReq {
   return {
     id: query.id ? parseInt(query.id) : undefined,
     limit: query.limit ? parseInt(query.limit) : undefined,
@@ -318,7 +317,7 @@ export function convertGelbooruPostReqQuery_to_GelbooruPostReq(query: GelbooruPo
 }
 
 
-export function gelbooruPostReqToCacheKey(req: GelbooruPostReq) {
+export function gelbooruPostReqToCacheKey(req: Gelbooru.PostReq) {
   const aux: string[] = []
   aux.push(req.tags ? req.tags.replaceAll(' ', '|').replaceAll(':', '+') : '-')
   aux.push(req.limit ? req.limit.toString() : '-')
@@ -328,7 +327,7 @@ export function gelbooruPostReqToCacheKey(req: GelbooruPostReq) {
   return aux.join(':')
 }
 
-export function convertGelbooruTagReqQuery_to_GelbooruTagReq(query: GelbooruTagReqQuery): GelbooruTagReq {
+export function convertGelbooruTagReqQuery_to_GelbooruTagReq(query: Gelbooru.TagReqQuery): Gelbooru.TagReq {
   return {
     ...query,
     id: query.id ? parseInt(query.id) : undefined,

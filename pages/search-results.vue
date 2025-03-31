@@ -24,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import type { GelbooruPostRes } from '~/types/gelbooru'
+import type { Gelbooru } from '~/types/gelbooru'
 
 definePageMeta({
   middleware: 'auth-middleware',
@@ -62,7 +62,7 @@ watch(() => route.params, () => {
   }
 })
 
-const { data: posts, status, refresh } = await useFetch<GelbooruPostRes>('/api/post', {
+const { data: posts, status, refresh } = await useFetch<Gelbooru.PostRes>('/api/post', {
   query: {
     pid,
     tags,

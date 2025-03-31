@@ -1,11 +1,11 @@
-import type { GelbooruPostReq, GelbooruPostReqQuery, GelbooruPostRes } from '~/types/gelbooru'
+import type { Gelbooru } from '~/types/gelbooru'
 import { convertGelbooruPostReqQuery_to_GelbooruPostReq, getPosts } from '~/server/postUtils'
 import type { UserCredentials } from '~/types/auth-types'
 
-export default defineEventHandler(async (event): Promise<GelbooruPostRes> => {
+export default defineEventHandler(async (event): Promise<Gelbooru.PostRes> => {
   console.log(event.path)
 
-  const reqQuery: GelbooruPostReqQuery = getQuery(event)
+  const reqQuery: Gelbooru.PostReqQuery = getQuery(event)
   const query = convertGelbooruPostReqQuery_to_GelbooruPostReq(reqQuery)
 
   const userCredentialsCookie = getCookie(event, 'user-credentials')

@@ -27,7 +27,7 @@
         </QItemSection>
       </QItem>
     </template>
-    <template #option="{ itemProps, opt } : { itemProps: any, opt: GelbooruTag }">
+    <template #option="{ itemProps, opt } : { itemProps: any, opt: Gelbooru.Tag }">
       <QItem v-bind="itemProps">
         <QItemSection>
           <QItemLabel>
@@ -70,7 +70,7 @@
  * Search bar for filtering tags, supports negative and fuzzy tags
  */
 import  { type QSelectProps, QSelect } from 'quasar'
-import type { GelbooruTag } from '~/types/gelbooru'
+import type { Gelbooru } from '~/types/gelbooru'
 import { Utils } from '~/types/utils'
 
 interface GelbooruSearchBar extends Omit<QSelectProps, 'options' | 'loading' | 'optionValue' | 'optionLabel' | 'emitValue' | 'onUpdate:modelValue' | 'modelValue' | 'useInput' | 'dark' | 'optionsDark' > {
@@ -106,7 +106,7 @@ const popupShown = ref(false)
 /**
  * List of default options for the searchbar, since ratings don't show up on search
  */
-const defaultItems = ref<GelbooruTag[]>([
+const defaultItems = ref<Gelbooru.Tag[]>([
   {
     id: -1,
     count: -1,
@@ -192,7 +192,7 @@ const defaultItems = ref<GelbooruTag[]>([
 /**
  * Array with the tags returned by the backend when searching
  */
-const tagSearchResultItems = ref<GelbooruTag[]>([])
+const tagSearchResultItems = ref<Gelbooru.Tag[]>([])
 
 /**
  * Flag to know there were no results
@@ -202,7 +202,7 @@ const noResultsInSearch = ref(false)
 /**
  * Combines the default items with the result from the search into a single array to display
  */
-const itemsSearchBar = computed((): GelbooruTag[] => {
+const itemsSearchBar = computed((): Gelbooru.Tag[] => {
   if (noResultsInSearch.value) {
     return []
   } else {

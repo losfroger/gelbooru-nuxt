@@ -20,10 +20,10 @@
  * Link to a user's profile
  */
 
-import type { GelbooruUser } from '~/types/gelbooru'
+import type { Gelbooru } from '~/types/gelbooru'
 
 interface GelbooruUserLinkProps {
-  user: GelbooruUser
+  user: Gelbooru.User
 }
 
 const props = defineProps<GelbooruUserLinkProps>()

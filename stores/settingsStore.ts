@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { DefaultFilteredTags } from '~/types/gelbooru'
+import { Gelbooru } from '~/types/gelbooru'
 
 export interface UserSettings {
   hideNsfwImages: boolean,
@@ -10,7 +10,7 @@ export interface UserSettings {
 
 export const defaultUserSettings: UserSettings = {
   hideNsfwImages: false,
-  filteredTags: DefaultFilteredTags,
+  filteredTags: Gelbooru.DefaultFilteredTags,
   numberPostsPerPage: 24,
   syncQueryBetweenTabs: true,
 }
@@ -18,7 +18,7 @@ export const defaultUserSettings: UserSettings = {
 export const useSettingsStore = defineStore('settings', () => {
   const settings = ref<UserSettings>({
     hideNsfwImages: false,
-    filteredTags: DefaultFilteredTags,
+    filteredTags: Gelbooru.DefaultFilteredTags,
     numberPostsPerPage: 24,
     syncQueryBetweenTabs: true,
   })

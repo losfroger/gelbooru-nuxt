@@ -1,4 +1,4 @@
-import type { GelbooruPostRes } from '~/types/gelbooru'
+import type { Gelbooru } from '~/types/gelbooru'
 
 import axios_gelbooru from '~/server/axiosGelbooru'
 import cacheClient from '~/server/db/cache'
@@ -15,7 +15,7 @@ export default defineEventHandler(async () => {
       return cachedTotal.data.total
     }
 
-    const resGel = await axios_gelbooru.get<GelbooruPostRes>('', {
+    const resGel = await axios_gelbooru.get<Gelbooru.PostRes>('', {
       params: {
         page: 'dapi',
         q: 'index',

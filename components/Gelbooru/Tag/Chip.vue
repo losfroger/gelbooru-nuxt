@@ -14,14 +14,14 @@
  * Tag chip that can show the amount of posts with that tag and has a context menu
  */
 import type { QChipProps } from 'quasar'
-import type { GelbooruTag } from '~/types/gelbooru'
+import type { Gelbooru } from '~/types/gelbooru'
 import { Utils } from '~/types/utils'
 
 
 interface GelbooruTagChipProps extends Omit<QChipProps, 'modelValue' | 'label'> {
   simpleTag: string,
-  fullTag?: GelbooruTag,
-  artistTags?: GelbooruTag[]
+  fullTag?: Gelbooru.Tag,
+  artistTags?: Gelbooru.Tag[]
 }
 
 const props = defineProps<GelbooruTagChipProps>()

@@ -65,11 +65,11 @@
 </template>
 
 <script setup lang="ts">
-import type { GelbooruPostRes } from '~/types/gelbooru'
+import type { Gelbooru } from '~/types/gelbooru'
 
 
 interface GelbooruPostListProps {
-  posts: GelbooruPostRes,
+  posts: Gelbooru.PostRes,
   favoritesMode?: boolean,
 }
 

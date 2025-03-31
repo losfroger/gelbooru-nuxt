@@ -90,12 +90,12 @@
 </template>
 
 <script setup lang="ts">
-import type { GelbooruTag } from '~/types/gelbooru'
+import type { Gelbooru } from '~/types/gelbooru'
 
 
 interface GelbooruSimpleContextMenuProps {
   simpleTag: string,
-  artistTags?: GelbooruTag[]
+  artistTags?: Gelbooru.Tag[]
 }
 
 const props = defineProps<GelbooruSimpleContextMenuProps>()

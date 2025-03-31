@@ -1,9 +1,9 @@
-import type { GelbooruPost, GelbooruPostReq } from '~/types/gelbooru'
+import type { Gelbooru } from '~/types/gelbooru'
 import { getPosts } from '~/server/postUtils'
 import type { UserCredentials } from '~/types/auth-types'
 
 // Retrieve all favorites from user
-export default defineEventHandler(async (event): Promise<GelbooruPost[]> => {
+export default defineEventHandler(async (event): Promise<Gelbooru.Post[]> => {
   console.log(event.path)
 
   const userCredentialsCookie = getCookie(event, 'user-credentials')
@@ -16,7 +16,7 @@ export default defineEventHandler(async (event): Promise<GelbooruPost[]> => {
 
   const userCredentials: UserCredentials = JSON.parse(userCredentialsCookie)
 
-  const query: GelbooruPostReq = {
+  const query: Gelbooru.PostReq = {
     tags: `fav:${userCredentials.user_id}`,
     limit: 100,
   }
@@ -39,7 +39,7 @@ export default defineEventHandler(async (event): Promise<GelbooruPost[]> => {
     })
   }
 
-  let allPosts: GelbooruPost[] = []
+  let allPosts: Gelbooru.Post[] = []
   // Save first request to not remake it
   allPosts = allPosts.concat(firstPostsData.post)
 
@@ -50,7 +50,7 @@ export default defineEventHandler(async (event): Promise<GelbooruPost[]> => {
 
   // Get all remaining posts
   for (let index = 0; index < numRemainingReqs; index++) {
-    const auxQuery: GelbooruPostReq = {
+    const auxQuery: Gelbooru.PostReq = {
       limit: 100,
       pid: index + 1,
       tags: query.tags,

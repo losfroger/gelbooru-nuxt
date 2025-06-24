@@ -10,11 +10,18 @@
       </h1>
     </a>
     <div v-auto-animate class="counter-hero-banner tw-relative tw-flex tw-min-h-14 tw-flex-row">
-      <PageCuteCounter
-        v-for="(number, idx) in postCount.value?.toString()"
-        :key="idx"
-        :number="number"
-      />
+      <template v-if="!authStore.logged_in_computed">
+        <p class="tw-z-0 tw-my-auto tw-font-light tw-italic">
+          You need to be logged in to see the counter
+        </p>
+      </template>
+      <template v-else>
+        <PageCuteCounter
+          v-for="(number, idx) in postCount.value?.toString()"
+          :key="idx"
+          :number="number"
+        />
+      </template>
       <div v-if="status == 'pending'" class="absolute-center tw-rounded-full tw-bg-neutral-950/70 tw-p-2 tw-backdrop-blur-sm">
         <QCircularProgress
           color="accent"

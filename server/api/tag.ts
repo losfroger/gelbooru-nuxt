@@ -1,11 +1,21 @@
 import axios_gelbooru from '~/server/axiosGelbooru'
-import type { GelbooruTag, GelbooruTagRes, GelbooruTagReq} from '~/types/gelbooru'
+import type { GelbooruTag, GelbooruTagRes, GelbooruTagReq } from '~/types/gelbooru'
 import { NegativeQueryRegex, FuzzyQueryRegex } from '~/types/gelbooru'
 
 import he from 'he'
+import type { UserCredentials } from '~/types/auth-types'
 
 export default defineEventHandler(async (event) => {
   const tagQuery: GelbooruTagReq = getQuery(event)
+
+  const userCredentialsCookie = getCookie(event, 'user-credentials') || event.node.req.headers?.user_credentials?.toString()
+  if (!userCredentialsCookie) {
+    throw createError({
+      statusCode: 403,
+      statusMessage: 'User needs to be logged in',
+    })
+  }
+  const userCredentials: UserCredentials = JSON.parse(userCredentialsCookie)
 
   let negativeQuery = false
   let fuzzyQuery = false
@@ -44,8 +54,8 @@ export default defineEventHandler(async (event) => {
       s: 'tag',
       limit: tagQuery.limit ?? 15,
       json: 1,
-      api_key: event.node.req.headers.api_key,
-      user_id: event.node.req.headers.user_id,
+      api_key: userCredentials.api_key,
+      user_id: userCredentials.user_id,
       name_pattern: tagQuery.name_pattern,
       name: tagQuery.name,
       names: tagQuery.names,

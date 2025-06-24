@@ -1,8 +1,19 @@
 import axios_gelbooru from '~/server/axiosGelbooru'
 import convertPost from '~/server/convertPost'
+import type { UserCredentials } from '~/types/auth-types'
 
 export default defineEventHandler(async (event) => {
   try {
+    const userCredentialsCookie = getCookie(event, 'user-credentials') || event.node.req.headers?.user_credentials?.toString()
+    if (!userCredentialsCookie) {
+      throw createError({
+        statusCode: 403,
+        statusMessage: 'User needs to be logged in',
+      })
+    }
+
+    const userCredentials: UserCredentials = JSON.parse(userCredentialsCookie)
+
     const resGel = await axios_gelbooru.get('', {
       params: {
         page: 'dapi',
@@ -11,8 +22,8 @@ export default defineEventHandler(async (event) => {
         json: 1,
         limit: 1,
         id: event.context.params?.id,
-        api_key: event.node.req.headers.apiKey,
-        user_id: event.node.req.headers.userId,
+        api_key: userCredentials.api_key,
+        user_id: userCredentials.user_id,
       },
     })
 

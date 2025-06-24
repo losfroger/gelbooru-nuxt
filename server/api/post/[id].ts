@@ -30,11 +30,11 @@ export default defineEventHandler(async (event): Promise<GelbooruPostWithTags> =
       })
     }
 
-    const cookies: UserCredentials = JSON.parse(auxCookies)
+    const userCredentials: UserCredentials = JSON.parse(auxCookies)
 
     const postsData = await getPosts(
-      cookies.api_key,
-      cookies.user_id,
+      userCredentials.api_key,
+      userCredentials.user_id,
       query,
       undefined,
       true
@@ -53,7 +53,7 @@ export default defineEventHandler(async (event): Promise<GelbooruPostWithTags> =
       // Divide tags array in 100 sized chunks
       const chunk_size = 100
       const divided_tag_array = postDetails.tags_array
-        .map((e, i) => i %  chunk_size === 0 ? postDetails.tags_array.slice(i, i+chunk_size) : null)
+        .map((e, i) => i % chunk_size === 0 ? postDetails.tags_array.slice(i, i + chunk_size) : null)
         .filter((e) => e)
 
       let tags: GelbooruTag[] = []
@@ -64,6 +64,9 @@ export default defineEventHandler(async (event): Promise<GelbooruPostWithTags> =
             names: tags_array?.join(' '),
             orderby: 'name',
             order: 'ASC',
+          },
+          headers: {
+            user_credentials: JSON.stringify(userCredentials),
           },
         })
 
